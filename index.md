@@ -1,8 +1,12 @@
-## Welcome to GitHub Pages
-
-You can use the [editor on GitHub](https://github.com/TerenceZhang29/TerenceZhang29.github.io/edit/main/index.md) to maintain and preview the content for your website in Markdown files.
+## Welcome to My Website
 
 Whenever you commit to this repository, GitHub Pages will run [Jekyll](https://jekyllrb.com/) to rebuild the pages in your site, from the content in your Markdown files.
+
+### About Me
+
+A junior at Cornell University with active involvement in software development and data analysis projects. 
+Double Majoring Computer Sciences and Economics with experience in engineering project teams and business organizations. 
+Please feel free to reach me at hz467@cornell.edu. 
 
 ### Markdown
 
