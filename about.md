@@ -1,4 +1,4 @@
 layout: page
 title: "About"
-permalink: /URL-PATH/
+permalink: /about/
 ## About
