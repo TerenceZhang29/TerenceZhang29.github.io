@@ -33,10 +33,7 @@ footer, header, hgroup, menu, nav, section {
 	Custome class
 */
 
-description {
-	color: #3eb08f;
-	font-size: 2em;
-}
+/*Ends here*/
 
 body {
 	line-height: 1;
@@ -45,6 +42,20 @@ body {
 ol, ul {
 	list-style: none;
 }
+
+ul.double {
+	list-style-type: disc;
+	-webkit-columns: 2;
+	-moz-columns: 2;
+	columns: 2;
+	list-style-position: inside;
+}
+
+	ul.double li {
+		font-size: 1.2em;
+		color: #272727;
+		margin: 0 0 0.5em 0;
+	}
 
 blockquote, q {
 	quotes: none;
@@ -2065,7 +2076,7 @@ input, select, textarea {
 			display: block;
 			height: 100%;
 			left: 0;
-			opacity: 0.5;
+			opacity: 0.2;
 			position: absolute;
 			top: 0;
 			width: 100%;
