@@ -57,6 +57,29 @@ ul.double {
 		margin: 0 0 0.5em 0;
 	}
 
+ul.navi {
+	position: fixed;
+	width: 100%;
+	list-style-type: none;
+  margin: 0;
+  padding: 0.5em 0 0em 2.5em;
+  overflow: hidden;
+	background-color: rgba(51, 51, 51, 0);
+	font-size: 1.2em;
+}
+
+li.navi {
+	float: left;
+}
+
+	li.navi a {
+		display: block;
+  	color: white;
+  	text-align: center;
+  	padding: 14px 16px;
+  	text-decoration: none;
+	}
+
 blockquote, q {
 	quotes: none;
 }
@@ -130,7 +153,7 @@ input, select, textarea {
 		-webkit-transition: color 0.2s ease-in-out, border-color 0.2s ease-in-out;
 		-ms-transition: color 0.2s ease-in-out, border-color 0.2s ease-in-out;
 		transition: color 0.2s ease-in-out, border-color 0.2s ease-in-out;
-		border-bottom: dotted 1px;
+		/* border-bottom: dotted 1px; */
 		color: #49bf9d;
 		text-decoration: none;
 	}
@@ -2219,7 +2242,7 @@ input, select, textarea {
 
 		ul.icons li {
 			display: inline-block;
-			padding: 0 1em 0 0;
+			padding: 4em 1em 0 0;
 		}
 
 			ul.icons li:last-child {
