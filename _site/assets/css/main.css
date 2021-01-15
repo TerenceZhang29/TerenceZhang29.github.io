@@ -32,6 +32,10 @@ footer, header, hgroup, menu, nav, section {
 /*
 	Custome class
 */
+span.highlight {
+	font-size: 1.15em;
+	color: black;
+}
 
 /*Ends here*/
 
