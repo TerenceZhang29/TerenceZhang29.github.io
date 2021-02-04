@@ -2817,8 +2817,9 @@ input, select, textarea {
 			}
 
 		.post > a.image.offical {
-			display: grid;
-			margin-left: auto;
+			overflow: hidden;
+			width: 100%;
+			height: auto;
 		}
 
 		.post > footer {
