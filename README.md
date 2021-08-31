@@ -2,7 +2,7 @@
 
 ### <a href="https://terencezhang29.github.io/">TerenceZhang29.github.io</a>
 
-# Run the page locally:
+### Run the page locally:
 ```
 $ jekyll serve
 ```
