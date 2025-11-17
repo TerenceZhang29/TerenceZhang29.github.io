@@ -81,6 +81,11 @@ span.highlight {
 	color: black;
 }
 
+span.dates {
+	font-size: 0.85em;
+	color: var(--text-secondary);
+}
+
 /*Ends here*/
 
 body {
