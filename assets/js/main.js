@@ -95,7 +95,8 @@
 
 	// Main Sections: Two.
 
-		// Lightbox gallery.
+		// Lightbox gallery - Disabled for direct navigation to company websites
+		/*
 			$window.on('load', function() {
 
 				$('#two').poptrox({
@@ -113,5 +114,6 @@
 				});
 
 			});
+		*/
 
 })(jQuery);

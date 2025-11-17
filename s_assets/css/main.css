@@ -2,10 +2,54 @@
 @import url("https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,700|Raleway:400,800,900");
 
 /*
-	Future Imperfect by HTML5 UP
-	html5up.net | @ajlkn
-	Free for personal and commercial use under the CCA 3.0 license (html5up.net/license)
+	Modern Professional Color Scheme
+	Custom styling for Terence Zhang's Sneaker Collection
 */
+
+:root {
+	/* Primary Colors - Professional Blue Gradient */
+	--primary-color: #4A90E2;
+	--primary-dark: #2E5C8A;
+	--primary-light: #6BA3E8;
+
+	/* Accent Colors */
+	--accent-color: #5C6AC4;
+	--accent-hover: #7C8AE4;
+	--success-color: #43A047;
+
+	/* Neutral Colors - Modern Grays */
+	--text-primary: #2C3E50;
+	--text-secondary: #546E7A;
+	--text-light: #78909C;
+	--bg-primary: #FFFFFF;
+	--bg-secondary: #F8F9FA;
+	--bg-tertiary: #ECEFF1;
+
+	/* Border Colors */
+	--border-light: #E0E0E0;
+	--border-medium: #BDBDBD;
+
+	/* Shadows */
+	--shadow-sm: 0 2px 4px rgba(0, 0, 0, 0.05);
+	--shadow-md: 0 4px 6px rgba(0, 0, 0, 0.07);
+	--shadow-lg: 0 10px 15px rgba(0, 0, 0, 0.1);
+	--shadow-hover: 0 8px 16px rgba(0, 0, 0, 0.15);
+
+	/* Typography */
+	--font-primary: "Source Sans Pro", Helvetica, sans-serif;
+	--font-size-base: 16pt;
+	--line-height-base: 1.75em;
+
+	/* Transitions */
+	--transition-fast: 0.2s ease-in-out;
+	--transition-normal: 0.3s ease-in-out;
+	--transition-slow: 0.5s ease-in-out;
+
+	/* Border Radius */
+	--radius-sm: 4px;
+	--radius-md: 8px;
+	--radius-lg: 12px;
+}
 
 html, body, div, span, applet, object,
 iframe, h1, h2, h3, h4, h5, h6, p, blockquote,
