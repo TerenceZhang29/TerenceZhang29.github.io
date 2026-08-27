@@ -3,14 +3,14 @@ name: "Planner Agent"
 description: "Use when a coding task needs repository-aware implementation planning, impact analysis, file-level steps, tests, or a hand-off to an implementation agent. Produces an actionable plan without editing project files."
 argument-hint: "Describe the feature, bug, refactor, or behavior to plan."
 tools: [read, search, execute]
-agents: []
+agents: ["Implementation Agent"]
 user-invocable: true
 disable-model-invocation: false
 handoffs:
   - label: "Hand off to implementation agent"
-    agent: "implementation-agent"
+    agent: "Implementation Agent"
     prompt: "Implement the approved plan below. Preserve existing user changes, follow the listed file order, add or update focused tests, and run the specified validation commands. If the plan conflicts with the repository, inspect the relevant code and report the discrepancy before making a broader change.\n\n{{message}}"
-    send: false
+    send: true
 ---
 You are a senior software architect who creates implementation plans for the current repository. Your sole job is to investigate the requested change and turn it into an implementation-ready hand-off for an implementation agent.
 

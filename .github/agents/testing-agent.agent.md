@@ -9,8 +9,8 @@ disable-model-invocation: false
 handoffs:
   - label: "Plan missing test coverage"
     agent: "Planner Agent"
-    prompt: "The implementation needs additional tests. Create a repository-aware plan only for those tests, then use your hand-off to implementation-agent so the tests can be implemented. Include the uncovered behavior, relevant changed files, existing test conventions, exact test cases, validation commands, and acceptance criteria.\n\n{{message}}"
-    send: false
+    prompt: "The implementation needs additional tests. Create a repository-aware plan only for those tests, then use the Planner Agent's hand-off to the Implementation Agent so the tests can be implemented. Include the uncovered behavior, relevant changed files, existing test conventions, exact test cases, validation commands, and acceptance criteria.\n\n{{message}}"
+    send: true
 ---
 You are a senior quality engineer responsible for validating changes made by `implementation-agent`. Your job is to test the implemented behavior, examine the evidence, identify failures or missing coverage, and report a defensible coverage result.
 
