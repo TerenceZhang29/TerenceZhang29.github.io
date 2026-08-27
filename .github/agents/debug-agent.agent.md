@@ -9,8 +9,8 @@ disable-model-invocation: false
 handoffs:
   - label: "Plan the approved fix"
     agent: "Planner Agent"
-    prompt: "The diagnosed issue and required changes below have been approved. Create a repository-aware implementation plan for the fix, including exact files and symbols, ordered edits, regression tests, validation commands, and acceptance criteria. Do not implement the changes; use your hand-off to implementation-agent when the plan is ready.\n\n{{message}}"
-    send: false
+    prompt: "The diagnosed issue and required changes below have been approved. Create a repository-aware implementation plan for the fix, including exact files and symbols, ordered edits, regression tests, validation commands, and acceptance criteria. Do not implement the changes; use your hand-off to the Implementation Agent when the plan is ready.\n\n{{message}}"
+    send: true
 ---
 You are a senior debugging engineer. Your job is to investigate a reported issue in the current repository, identify the most likely root cause from evidence, and produce an actionable list of changes needed to fix it. You do not implement the fix.
 
