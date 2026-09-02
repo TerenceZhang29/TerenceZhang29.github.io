@@ -1,94 +1,478 @@
 <!DOCTYPE html>
-<html lang="en" class="portfolio-root">
+<html lang="en" class="no-js">
 
 <head>
-	<title>Terence Zhang - Software Engineer | Cornell University</title>
+	<title>Terence Zhang — Software Engineer | terenceOS</title>
 	<link rel="icon" type="image/svg+xml" href="favicon.svg" />
 	<meta charset="utf-8" />
-	<meta name="viewport" content="width=device-width, initial-scale=1" />
+	<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
 	<meta name="description" content="Terence Zhang is an AI research engineer and software engineer building intelligent tools and distributed systems." />
+	<meta name="theme-color" content="#080B0F" />
 	<link rel="preconnect" href="https://fonts.googleapis.com" />
 	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-	<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&family=Manrope:wght@600;700&display=swap" rel="stylesheet" />
-	<link rel="stylesheet" href="assets/css/main.css" />
+	<link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700&family=Geist+Mono:wght@400;500&family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
+	<link rel="stylesheet" href="assets/css/os.css" />
+	<script>document.documentElement.classList.remove('no-js');</script>
 </head>
 
-<body class="portfolio-page">
-	<header class="site-header" id="top">
-		<a class="wordmark" href="#top">TZ<span>.</span></a>
-		<nav aria-label="Primary navigation">
-			<a href="#experience">Experience</a>
-			<a href="#projects">Projects</a>
-			<a href="#about">About</a>
-			<a href="#contact">Contact</a>
-		</nav>
-		<a class="header-resume" href="/files/Terence_Zhang_Resume.pdf" download>Resume <span aria-hidden="true">↗</span></a>
-	</header>
+<body>
+	<a class="visually-hidden" href="#about">Skip to about</a>
 
-	<main>
-		<section class="hero" id="about" aria-labelledby="hero-title">
-			<div class="hero-copy">
-				<p class="eyebrow">AI research engineer · software engineer</p>
-				<h1 id="hero-title">Building useful<br /><em>intelligence.</em></h1>
-				<p class="hero-summary">AI Research Engineer @ Vicino AI: Enterprise AI Marketing Platform</p>
-				<p class="hero-summary">Senior SDE @ Bili: version control infrastructure for AI agent collaboration</p>
-				<p class="hero-summary">SDE II @ Amazon: billion-scale distributed systems for digital asset management</p>
-				<div class="hero-actions">
-					<a class="button primary" href="#experience">See my experience <span aria-hidden="true">↓</span></a>
-					<a class="text-link" href="/files/Terence_Zhang_Resume.pdf" download>Download resume <span aria-hidden="true">↗</span></a>
+	<!-- Icon set: one sprite, referenced by <use>. No emoji in the interface. -->
+	<svg class="visually-hidden" aria-hidden="true" focusable="false">
+		<defs>
+			<symbol id="i-home" viewBox="0 0 24 24"><path d="M3 10.5 12 3l9 7.5" /><path d="M5.5 9.5V20h13V9.5" /><path d="M9.5 20v-6h5v6" /></symbol>
+			<symbol id="i-user" viewBox="0 0 24 24"><circle cx="12" cy="8" r="3.6" /><path d="M4.5 20c1-3.8 4-5.8 7.5-5.8s6.5 2 7.5 5.8" /></symbol>
+			<symbol id="i-folder" viewBox="0 0 24 24"><path d="M3 6.5h6l2 2.5h10V19a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1z" /></symbol>
+			<symbol id="i-briefcase" viewBox="0 0 24 24"><rect x="3" y="7.5" width="18" height="12.5" rx="1.5" /><path d="M9 7.5V5.5a1.5 1.5 0 0 1 1.5-1.5h3A1.5 1.5 0 0 1 15 5.5v2" /><path d="M3 12.5h18" /></symbol>
+			<symbol id="i-layers" viewBox="0 0 24 24"><path d="m12 3 8.5 4.5L12 12 3.5 7.5z" /><path d="m4 12.5 8 4.2 8-4.2" /><path d="m4 16.8 8 4.2 8-4.2" /></symbol>
+			<symbol id="i-mail" viewBox="0 0 24 24"><rect x="3" y="5.5" width="18" height="13" rx="1.5" /><path d="m3.6 7 8.4 6 8.4-6" /></symbol>
+			<symbol id="i-terminal" viewBox="0 0 24 24"><rect x="2.5" y="4.5" width="19" height="15" rx="1.5" /><path d="m7 10 3 2.5L7 15" /><path d="M12.5 15.5h5" /></symbol>
+			<symbol id="i-file" viewBox="0 0 24 24"><path d="M6 3h7.5L19 8.5V21H6z" /><path d="M13.5 3v5.5H19" /><path d="M9 13h7M9 16.5h7" /></symbol>
+			<symbol id="i-pdf" viewBox="0 0 24 24"><path d="M6 3h7.5L19 8.5V21H6z" /><path d="M13.5 3v5.5H19" /><path d="M9 12.5v5" /><path d="M9 12.5h2a1.4 1.4 0 0 1 0 2.8H9" /><path d="M13.5 17.5v-5h2.2" /><path d="M13.5 15h1.8" /></symbol>
+			<symbol id="i-box" viewBox="0 0 24 24"><path d="M12 3.5 20 8v8l-8 4.5L4 16V8z" /><path d="M4 8l8 4.5L20 8" /><path d="M12 12.5v8" /></symbol>
+			<symbol id="i-external" viewBox="0 0 24 24"><path d="M14 4h6v6" /><path d="m20 4-8.5 8.5" /><path d="M19 14.5V19a1 1 0 0 1-1 1H6a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1h4.5" /></symbol>
+			<symbol id="i-github" viewBox="0 0 24 24"><path d="M9.2 20.4c-4 1.2-4-2.2-5.6-2.6m11.2 5.2v-3.2a2.8 2.8 0 0 0-.8-2.2c2.6-.3 5.4-1.3 5.4-5.9a4.6 4.6 0 0 0-1.2-3.2 4.3 4.3 0 0 0-.1-3.2s-1-.3-3.3 1.2a11.3 11.3 0 0 0-6 0C6.5 5 5.5 5.3 5.5 5.3a4.3 4.3 0 0 0-.1 3.2 4.6 4.6 0 0 0-1.2 3.2c0 4.6 2.8 5.6 5.4 5.9a2.8 2.8 0 0 0-.8 2.1V23" transform="translate(0 -1.4)" /></symbol>
+			<symbol id="i-linkedin" viewBox="0 0 24 24"><rect x="3.5" y="3.5" width="17" height="17" rx="2" /><path d="M8 10.5V16" /><circle cx="8" cy="7.8" r="0.6" /><path d="M11.5 16v-3.2a2 2 0 0 1 4 0V16" /><path d="M11.5 10.5V16" /></symbol>
+			<symbol id="i-wifi" viewBox="0 0 24 24"><path d="M2.5 8.5a15 15 0 0 1 19 0" /><path d="M5.8 12.3a10 10 0 0 1 12.4 0" /><path d="M9 16a5 5 0 0 1 6 0" /><circle cx="12" cy="19.4" r="0.8" /></symbol>
+			<symbol id="i-badge" viewBox="0 0 24 24"><rect x="3.5" y="4" width="17" height="16" rx="2" /><circle cx="9.5" cy="10.5" r="2.2" /><path d="M6 17c.6-1.9 1.9-2.9 3.5-2.9s2.9 1 3.5 2.9" /><path d="M15.5 9.5h3M15.5 13h3" /></symbol>
+			<symbol id="i-search" viewBox="0 0 24 24"><circle cx="11" cy="11" r="6.5" /><path d="m15.8 15.8 4.2 4.2" /></symbol>
+			<symbol id="i-arrow-right" viewBox="0 0 24 24"><path d="M4.5 12h15" /><path d="m13.5 6 6 6-6 6" /></symbol>
+			<symbol id="i-chevron" viewBox="0 0 24 24"><path d="m9.5 5.5 7 6.5-7 6.5" /></symbol>
+			<symbol id="i-max" viewBox="0 0 24 24"><rect x="4.5" y="4.5" width="15" height="15" rx="2" /></symbol>
+			<symbol id="i-x" viewBox="0 0 24 24"><path d="m6 6 12 12M18 6 6 18" /></symbol>
+			<symbol id="i-help" viewBox="0 0 24 24"><circle cx="12" cy="12" r="8.5" /><path d="M9.8 9.6a2.3 2.3 0 0 1 4.4.8c0 1.6-2.2 2-2.2 3.4" /><circle cx="12" cy="16.8" r="0.6" /></symbol>
+		</defs>
+	</svg>
+
+	<div class="os">
+		<header class="systembar">
+			<a class="systembar__brand" href="#top"><span class="dot"></span><b>terenceOS</b><span>v2026.1</span></a>
+
+			<nav class="menubar" aria-label="System menu">
+				<button class="menubar__item" type="button" data-menu="menu-file" aria-haspopup="true" aria-expanded="false">File</button>
+				<button class="menubar__item" type="button" data-menu="menu-edit" aria-haspopup="true" aria-expanded="false">Edit</button>
+				<button class="menubar__item" type="button" data-menu="menu-view" aria-haspopup="true" aria-expanded="false">View</button>
+				<button class="menubar__item" type="button" data-menu="menu-window" aria-haspopup="true" aria-expanded="false">Window</button>
+				<button class="menubar__item" type="button" data-menu="menu-help" aria-haspopup="true" aria-expanded="false">Help</button>
+			</nav>
+
+			<div class="menu" id="menu-file" role="menu" aria-label="File">
+				<button type="button" role="menuitem" data-open="about"><svg class="icon"><use href="#i-user" /></svg>Open about.txt</button>
+				<button type="button" role="menuitem" data-open="projects"><svg class="icon"><use href="#i-folder" /></svg>Open ~/projects</button>
+				<button type="button" role="menuitem" data-open="experience"><svg class="icon"><use href="#i-briefcase" /></svg>Open experience.log</button>
+				<hr />
+				<button type="button" role="menuitem" data-href="/files/Terence_Zhang_Resume.pdf"><svg class="icon"><use href="#i-pdf" /></svg>Open resume.pdf<kbd>↗</kbd></button>
+			</div>
+			<div class="menu" id="menu-edit" role="menu" aria-label="Edit">
+				<button type="button" role="menuitem" data-copy="terencezhang829@gmail.com"><svg class="icon"><use href="#i-mail" /></svg>Copy email address</button>
+				<button type="button" role="menuitem" data-copy="https://terencezhang.is-a.dev"><svg class="icon"><use href="#i-external" /></svg>Copy link to this site</button>
+			</div>
+			<div class="menu" id="menu-view" role="menu" aria-label="View">
+				<button type="button" role="menuitem" data-action="reset"><svg class="icon"><use href="#i-home" /></svg>Reset desktop</button>
+				<button type="button" role="menuitem" data-action="close-all"><svg class="icon"><use href="#i-x" /></svg>Close all windows</button>
+				<hr />
+				<button type="button" role="menuitem" data-action="palette"><svg class="icon"><use href="#i-search" /></svg>Command palette<kbd>⌘K</kbd></button>
+			</div>
+			<div class="menu" id="menu-window" role="menu" aria-label="Window" data-window-menu></div>
+			<div class="menu" id="menu-help" role="menu" aria-label="Help">
+				<button type="button" role="menuitem" data-action="palette"><svg class="icon"><use href="#i-search" /></svg>Open command palette<kbd>⌘K</kbd></button>
+				<button type="button" role="menuitem" data-open="terminal" data-run="help"><svg class="icon"><use href="#i-terminal" /></svg>Terminal commands</button>
+				<button type="button" role="menuitem" data-open="contact"><svg class="icon"><use href="#i-mail" /></svg>Get in touch</button>
+			</div>
+
+			<div class="systembar__status">
+				<span class="up">available for interesting problems</span>
+				<svg class="icon net" aria-hidden="true"><use href="#i-wifi" /></svg>
+				<span id="clock" aria-live="off">--:--</span>
+			</div>
+		</header>
+
+		<div class="os__body">
+			<aside class="sidebar">
+				<p class="meta sidebar__label">Applications</p>
+				<nav aria-label="Applications">
+					<ul>
+						<li><a class="launcher" href="#terminal" data-launch="terminal"><svg class="icon"><use href="#i-home" /></svg><span>Home</span><i class="launcher__dot"></i></a></li>
+						<li><a class="launcher" href="#about" data-launch="about"><svg class="icon"><use href="#i-user" /></svg><span>About</span><i class="launcher__dot"></i></a></li>
+						<li><a class="launcher" href="#projects" data-launch="projects"><svg class="icon"><use href="#i-folder" /></svg><span>Projects</span><i class="launcher__dot"></i></a></li>
+						<li><a class="launcher" href="#experience" data-launch="experience"><svg class="icon"><use href="#i-briefcase" /></svg><span>Experience</span><i class="launcher__dot"></i></a></li>
+						<li><a class="launcher" href="#stack" data-launch="stack"><svg class="icon"><use href="#i-layers" /></svg><span>Stack</span><i class="launcher__dot"></i></a></li>
+						<li><a class="launcher" href="#contact" data-launch="contact"><svg class="icon"><use href="#i-mail" /></svg><span>Contact</span><i class="launcher__dot"></i></a></li>
+					</ul>
+				</nav>
+				<!-- The collapsed state of the profile window: shown whenever that
+				     window is closed or minimized, and the way back into it. -->
+				<a class="sidebar__card" href="#profile" data-launch="profile">
+					<img src="images/avatar-96.jpg" width="96" height="96" alt="Portrait of Terence Zhang" />
+					<span class="name">Terence Zhang</span>
+					<span class="role">AI research engineer · Cornell Tech MEng '27</span>
+				</a>
+			</aside>
+
+			<main class="workspace" id="top">
+				<div class="shortcuts-wrap">
+					<ul class="shortcuts">
+						<li><a class="shortcut" href="#projects" data-launch="projects"><svg class="icon"><use href="#i-folder" /></svg><span>projects</span></a></li>
+						<li><a class="shortcut" href="#about" data-launch="about"><svg class="icon"><use href="#i-file" /></svg><span>about.txt</span></a></li>
+						<li><a class="shortcut" href="#experience" data-launch="experience"><svg class="icon"><use href="#i-briefcase" /></svg><span>experience.log</span></a></li>
+						<li><a class="shortcut" data-accent="blue" href="/files/Terence_Zhang_Resume.pdf" target="_blank" rel="noopener"><svg class="icon"><use href="#i-pdf" /></svg><span>resume.pdf</span></a></li>
+					</ul>
 				</div>
-			</div>
-			<div class="hero-aside">
-				<img src="images/avatar.jpg" alt="Portrait of Terence Zhang" />
-				<div class="availability"><span></span> Currently at Cornell Tech MEng '27</div>
-				<p>CS & ECON @ Cornell University '22</p>
-			</div>
-		</section>
 
-		<section class="section-block experience-section" id="experience" aria-labelledby="experience-title">
-			<div class="section-intro">
-				<p class="eyebrow">01 / the path so far</p>
-				<h2 id="experience-title">Experience with<br /><em>real scale.</em></h2>
+				<!-- ============================ profile ============================= -->
+				<section class="win" id="profile" data-app="profile" data-title="profile" data-icon="i-badge"
+					data-w="400" data-h="620" data-x="700" data-y="50" aria-labelledby="profile-title" hidden>
+					<div class="win__body">
+						<div class="profile">
+							<img class="profile__portrait" src="images/avatar-320.jpg" width="320" height="320" alt="Portrait of Terence Zhang" />
+							<h2 id="profile-title">Terence Zhang</h2>
+							<p class="profile__role">AI research engineer · software engineer</p>
+							<p class="profile__status">available for interesting problems</p>
+							<dl class="detail-grid">
+								<div class="field"><dt>Currently</dt><dd><strong>AI Research Engineer</strong> @ <a href="https://vicino.ai/" target="_blank" rel="noopener noreferrer">Vicino AI</a><br />Image editing · 3D asset generation</dd></div>
+								<div class="field"><dt>Studying</dt><dd>Cornell Tech · Computer Science, MEng '27</dd></div>
+								<div class="field"><dt>Studied</dt><dd>Cornell University · CS &amp; Economics, '22</dd></div>
+							</dl>
+							<div class="linkrow">
+								<a class="linkbtn linkbtn--primary" href="/files/Terence_Zhang_Resume.pdf" target="_blank" rel="noopener"><svg class="icon"><use href="#i-pdf" /></svg>resume.pdf</a>
+								<a class="linkbtn" href="https://github.com/TerenceZhang29" target="_blank" rel="noopener noreferrer"><svg class="icon"><use href="#i-github" /></svg>GitHub</a>
+								<a class="linkbtn" href="https://www.linkedin.com/in/terence-hantian-zhang/" target="_blank" rel="noopener noreferrer"><svg class="icon"><use href="#i-linkedin" /></svg>LinkedIn</a>
+								<a class="linkbtn" href="mailto:terencezhang829@gmail.com"><svg class="icon"><use href="#i-mail" /></svg>Email</a>
+							</div>
+							<a class="profile__more" href="#about" data-launch="about">open about.txt<svg class="icon"><use href="#i-arrow-right" /></svg></a>
+						</div>
+					</div>
+				</section>
+
+				<!-- ============================ terminal ============================ -->
+				<section class="win" id="terminal" data-app="terminal" data-title="terminal — terence@terenceOS" data-icon="i-terminal"
+					data-w="640" data-h="500" data-x="120" data-y="40" aria-label="Terminal" hidden>
+					<div class="win__body win__body--flush">
+						<div class="terminal" id="terminal-surface">
+							<div id="terminal-log">
+								<div class="terminal__block">
+									<p class="line"><span class="prompt">terence@terenceOS</span>:<span class="path">~</span>$ whoami</p>
+									<p class="out">Terence Zhang — AI research engineer &amp; software engineer</p>
+									<h1 class="hero">Building useful <em>intelligence.</em></h1>
+								</div>
+								<div class="terminal__block">
+									<p class="line"><span class="prompt">terence@terenceOS</span>:<span class="path">~</span>$ cat about.txt</p>
+									<p class="lede">I build AI tools and distributed systems: enterprise AI marketing at Vicino AI, version control infrastructure for AI agent collaboration at Bili, and billion-scale digital asset management at Amazon.</p>
+								</div>
+								<div class="terminal__block">
+									<p class="line"><span class="prompt">terence@terenceOS</span>:<span class="path">~</span>$ ls</p>
+									<div class="ls out">
+										<a href="#about" data-launch="about">about.txt</a>
+										<a href="#projects" data-launch="projects">projects/</a>
+										<a href="#experience" data-launch="experience">experience.log</a>
+										<a href="#stack" data-launch="stack">stack.json</a>
+										<a href="#contact" data-launch="contact">contact.json</a>
+										<a href="/files/Terence_Zhang_Resume.pdf" target="_blank" rel="noopener">resume.pdf</a>
+									</div>
+								</div>
+							</div>
+							<form class="terminal__form" id="terminal-form" autocomplete="off">
+								<label class="visually-hidden" for="terminal-input">Type a command</label>
+								<span class="line"><span class="prompt">terence@terenceOS</span>:<span class="path">~</span>$</span>
+								<span class="terminal__field">
+									<input id="terminal-input" name="command" type="text" spellcheck="false" autocapitalize="off" autocorrect="off" aria-describedby="terminal-hint" />
+									<span class="terminal__ghost" id="terminal-ghost" aria-hidden="true"><span class="terminal__typed"></span><span class="cursor"></span><span class="terminal__suggest"></span></span>
+								</span>
+							</form>
+							<p class="terminal__hint" id="terminal-hint">Try <b>help</b>, <b>projects</b>, <b>experience</b>, <b>resume</b> — or press <b>⌘K</b> for the command palette. Everything here is also one click away in the navigation.</p>
+						</div>
+					</div>
+				</section>
+
+				<!-- ============================= about ============================= -->
+				<section class="win" id="about" data-app="about" data-title="about.txt" data-icon="i-file"
+					data-w="620" data-h="560" data-x="470" data-y="130" aria-labelledby="about-title" hidden>
+					<div class="win__body">
+						<div class="app-head">
+							<p class="app-path">~/about/about.txt</p>
+							<h2 id="about-title">Terence Zhang</h2>
+							<p>AI research engineer · software engineer</p>
+						</div>
+						<div class="doc">
+							<section>
+								<h3>About</h3>
+								<p class="lead">I build systems where engineering meets a real user need — from generative AI tooling to infrastructure that holds up at billion-item scale.</p>
+								<p>AI Research Engineer @ Vicino AI: Enterprise AI Marketing Platform.</p>
+								<p>Senior SDE @ Bili: version control infrastructure for AI agent collaboration.</p>
+								<p>SDE II @ Amazon: billion-scale distributed systems for digital asset management.</p>
+							</section>
+							<section>
+								<h3>Currently</h3>
+								<p>AI Research Engineer at Vicino AI, working on image editing and 3D asset generation. Studying Computer Science at Cornell Tech, MEng '27.</p>
+							</section>
+							<section>
+								<h3>Curious, on purpose</h3>
+								<p>At Cornell, I studied Computer Science and Economics, taught courses across the CS curriculum, and built with teams that connected engineering to the physical world.</p>
+								<ul class="kv">
+									<li><strong>Cornell University</strong><span>CS &amp; Economics · '22</span></li>
+									<li><strong>Cornell Tech</strong><span>Computer Science · '27</span></li>
+									<li><strong>Campus work</strong><span>CMSX · Cup Robotics · CIS Teaching Assistant</span></li>
+									<li><strong>Honors</strong><span>Omicron Delta Epsilon · Dean's List</span></li>
+								</ul>
+							</section>
+							<section>
+								<h3>Elsewhere</h3>
+								<div class="linkrow">
+									<a class="linkbtn linkbtn--primary" href="/files/Terence_Zhang_Resume.pdf" target="_blank" rel="noopener"><svg class="icon"><use href="#i-pdf" /></svg>resume.pdf</a>
+									<a class="linkbtn" href="https://github.com/TerenceZhang29" target="_blank" rel="noopener noreferrer"><svg class="icon"><use href="#i-github" /></svg>GitHub</a>
+									<a class="linkbtn" href="https://www.linkedin.com/in/terence-hantian-zhang/" target="_blank" rel="noopener noreferrer"><svg class="icon"><use href="#i-linkedin" /></svg>LinkedIn</a>
+								</div>
+							</section>
+						</div>
+					</div>
+				</section>
+
+				<!-- =========================== projects ============================ -->
+				<section class="win" id="projects" data-app="projects" data-title="projects — file manager" data-icon="i-folder"
+					data-w="700" data-h="580" data-x="300" data-y="70" aria-labelledby="projects-title" hidden>
+					<div class="win__body">
+						<div class="app-head">
+							<p class="app-path">~/projects</p>
+							<h2 id="projects-title">Selected projects</h2>
+							<p>A few experiments and products where engineering meets a real user need.</p>
+						</div>
+						<ul class="filelist">
+							<li>
+								<button class="file-row" type="button" data-launch="project-vicino">
+									<img class="file-row__thumb" src="images/fulls/vicino.png" width="740" height="434" loading="lazy" decoding="async" alt="Vicino AI image editor project" />
+									<span class="file-row__main">
+										<span class="file-row__name">Vicino AI Image Editor <svg class="icon"><use href="#i-chevron" /></svg></span>
+										<span class="file-row__desc">AI-assisted image editing for Shopline merchants.</span>
+										<span class="file-row__kind">Product · AI</span>
+									</span>
+								</button>
+							</li>
+							<li>
+								<button class="file-row" type="button" data-launch="project-rent">
+									<img class="file-row__thumb" src="images/fulls/rent-calculator.png" width="740" height="434" loading="lazy" decoding="async" alt="Rent Calculator project interface" />
+									<span class="file-row__main">
+										<span class="file-row__name">Rent Calculator <svg class="icon"><use href="#i-chevron" /></svg></span>
+										<span class="file-row__desc">A faster way to automate rent calculations.</span>
+										<span class="file-row__kind">Tool · Web app</span>
+									</span>
+								</button>
+							</li>
+							<li>
+								<button class="file-row" type="button" data-launch="project-clubby">
+									<img class="file-row__thumb" src="images/fulls/clubby.png" width="740" height="434" loading="lazy" decoding="async" alt="Clubby campus club discovery project" />
+									<span class="file-row__main">
+										<span class="file-row__name">Clubby <svg class="icon"><use href="#i-chevron" /></svg></span>
+										<span class="file-row__desc">Campus club discovery, co-founded and built full stack.</span>
+										<span class="file-row__kind">Product · Community</span>
+									</span>
+								</button>
+							</li>
+						</ul>
+					</div>
+				</section>
+
+				<section class="win" id="project-vicino" data-app="project-vicino" data-title="vicino-ai-image-editor" data-icon="i-box"
+					data-w="600" data-h="540" data-x="360" data-y="110" aria-label="Vicino AI Image Editor" hidden>
+					<div class="win__body">
+						<div class="project-detail">
+							<img src="images/fulls/vicino.png" width="740" height="434" loading="lazy" decoding="async" alt="Vicino AI image editor project" />
+							<div class="app-head">
+								<p class="app-path">~/projects/vicino-ai-image-editor</p>
+								<h2>Vicino AI Image Editor</h2>
+								<p>AI-assisted image editing for Shopline merchants.</p>
+							</div>
+							<dl class="detail-grid">
+								<div class="field"><dt>Type</dt><dd>Product · AI</dd></div>
+								<div class="field"><dt>Built at</dt><dd><a href="https://vicino.ai/" target="_blank" rel="noopener noreferrer">Vicino AI</a></dd></div>
+								<div class="field"><dt>Stack</dt><dd><ul class="tags"><li>Generative AI</li><li>Computer Vision</li><li>Product Engineering</li></ul></dd></div>
+								<div class="field"><dt>Links</dt><dd><div class="linkrow"><a class="linkbtn linkbtn--primary" href="https://apps.shopline.com/detail?appHandle=public_image_editor" target="_blank" rel="noopener noreferrer"><svg class="icon"><use href="#i-external" /></svg>View on Shopline</a></div></dd></div>
+							</dl>
+						</div>
+					</div>
+				</section>
+
+				<section class="win" id="project-rent" data-app="project-rent" data-title="rent-calculator" data-icon="i-box"
+					data-w="600" data-h="540" data-x="390" data-y="130" aria-label="Rent Calculator" hidden>
+					<div class="win__body">
+						<div class="project-detail">
+							<img src="images/fulls/rent-calculator.png" width="740" height="434" loading="lazy" decoding="async" alt="Rent Calculator project interface" />
+							<div class="app-head">
+								<p class="app-path">~/projects/rent-calculator</p>
+								<h2>Rent Calculator</h2>
+								<p>A faster way to automate rent calculations.</p>
+							</div>
+							<dl class="detail-grid">
+								<div class="field"><dt>Type</dt><dd>Tool · Web app</dd></div>
+								<div class="field"><dt>Links</dt><dd><div class="linkrow"><a class="linkbtn linkbtn--primary" href="https://rent-calculator-gray.vercel.app/" target="_blank" rel="noopener noreferrer"><svg class="icon"><use href="#i-external" /></svg>Live demo</a></div></dd></div>
+							</dl>
+						</div>
+					</div>
+				</section>
+
+				<section class="win" id="project-clubby" data-app="project-clubby" data-title="clubby" data-icon="i-box"
+					data-w="600" data-h="540" data-x="420" data-y="150" aria-label="Clubby" hidden>
+					<div class="win__body">
+						<div class="project-detail">
+							<img src="images/fulls/clubby.png" width="740" height="434" loading="lazy" decoding="async" alt="Clubby campus club discovery project" />
+							<div class="app-head">
+								<p class="app-path">~/projects/clubby</p>
+								<h2>Clubby</h2>
+								<p>Campus club discovery, co-founded and built full stack.</p>
+							</div>
+							<dl class="detail-grid">
+								<div class="field"><dt>Type</dt><dd>Product · Community</dd></div>
+								<div class="field"><dt>Role</dt><dd>Co-founder · full stack</dd></div>
+								<div class="field"><dt>Links</dt><dd><div class="linkrow"><a class="linkbtn" href="images/fulls/clubby.png" target="_blank" rel="noopener"><svg class="icon"><use href="#i-external" /></svg>Open screenshot</a></div></dd></div>
+							</dl>
+						</div>
+					</div>
+				</section>
+
+				<!-- ========================== experience =========================== -->
+				<section class="win" id="experience" data-app="experience" data-title="experience.log" data-icon="i-briefcase"
+					data-w="660" data-h="600" data-x="330" data-y="60" aria-labelledby="experience-title" hidden>
+					<div class="win__body">
+						<div class="app-head">
+							<p class="app-path">~/experience/experience.log</p>
+							<h2 id="experience-title">Experience with real scale</h2>
+							<p>The path so far.</p>
+						</div>
+						<ol class="log">
+							<li class="log__entry log__entry--current">
+								<p class="log__stamp"><span>2024 → PRESENT</span><span class="log__badge">current</span></p>
+								<h3 class="log__role">AI Research Engineer <span>at <a href="https://vicino.ai/" target="_blank" rel="noopener noreferrer">Vicino AI</a></span></h3>
+								<p class="log__focus">Image editing · 3D asset generation</p>
+								<p class="log__body">Researching and shipping AI tools that help creators move from an idea to production-ready visual assets.</p>
+								<ul class="tags"><li>Generative AI</li><li>Computer Vision</li><li>Product Engineering</li></ul>
+							</li>
+							<li class="log__entry">
+								<p class="log__stamp"><span>2023 → 2024</span></p>
+								<h3 class="log__role">Senior Software Development Engineer <span>at <a href="https://duedash.com/dd/bilitechnologyinc" target="_blank" rel="noopener noreferrer">Bili Technology</a></span></h3>
+								<p class="log__focus">Version control infrastructure for AI agents</p>
+								<p class="log__body">Designed infrastructure for collaborative AI agent workflows, bringing reliable versioning to fast-moving model development.</p>
+								<ul class="tags"><li>Distributed Systems</li><li>Developer Tools</li><li>Infrastructure</li></ul>
+							</li>
+							<li class="log__entry">
+								<p class="log__stamp"><span>2022 → 2023</span></p>
+								<h3 class="log__role">Software Development Engineer II <span>at <a href="https://www.amazon.com/" target="_blank" rel="noopener noreferrer">Amazon</a></span></h3>
+								<p class="log__focus">Digital asset management at billion-item scale</p>
+								<p class="log__body">Built dependable distributed systems for managing digital assets across one of the world's largest commerce platforms.</p>
+								<ul class="tags"><li>Java</li><li>Cloud Systems</li><li>Data Platforms</li></ul>
+							</li>
+							<li class="log__entry">
+								<p class="log__stamp"><span>2021 → 2022</span></p>
+								<h3 class="log__role">Automation Developer Intern <span>at <a href="https://www.mlp.com/" target="_blank" rel="noopener noreferrer">Millennium Management</a></span></h3>
+								<p class="log__focus">Automation · internal tools</p>
+								<p class="log__body">Created software that made complex operational workflows faster and more repeatable.</p>
+								<ul class="tags"><li>Python</li><li>Automation</li><li>Analytics</li></ul>
+							</li>
+						</ol>
+					</div>
+				</section>
+
+				<!-- ============================= stack ============================= -->
+				<section class="win" id="stack" data-app="stack" data-title="stack.json — system information" data-icon="i-layers"
+					data-w="580" data-h="520" data-x="520" data-y="120" aria-labelledby="stack-title" hidden>
+					<div class="win__body">
+						<div class="app-head">
+							<p class="app-path">$ system-info</p>
+							<h2 id="stack-title">stack.json</h2>
+							<p>The tools and domains behind the work in experience.log and ~/projects.</p>
+						</div>
+						<div class="sysinfo">
+							<div class="sysinfo__group">
+								<h3>Languages</h3>
+								<ul class="sysinfo__items"><li>Java</li><li>Python</li></ul>
+							</div>
+							<div class="sysinfo__group">
+								<h3>AI &amp; research</h3>
+								<ul class="sysinfo__items"><li>Generative AI</li><li>Computer Vision</li><li>3D asset generation</li></ul>
+							</div>
+							<div class="sysinfo__group">
+								<h3>Systems &amp; infrastructure</h3>
+								<ul class="sysinfo__items"><li>Distributed Systems</li><li>Infrastructure</li><li>Cloud Systems</li><li>Data Platforms</li><li>Version control systems</li></ul>
+							</div>
+							<div class="sysinfo__group">
+								<h3>Product &amp; tooling</h3>
+								<ul class="sysinfo__items"><li>Developer Tools</li><li>Product Engineering</li><li>Automation</li><li>Analytics</li></ul>
+							</div>
+							<p class="note">Listed by domain rather than proficiency — every entry here maps to shipped work in experience.log.</p>
+						</div>
+					</div>
+				</section>
+
+				<!-- ============================ contact ============================ -->
+				<section class="win" id="contact" data-app="contact" data-title="contact.json" data-icon="i-mail"
+					data-w="580" data-h="560" data-x="480" data-y="150" aria-labelledby="contact-title" hidden>
+					<div class="win__body">
+						<div class="app-head">
+							<p class="app-path">~/contact.json</p>
+							<h2 id="contact-title">Have an interesting problem?</h2>
+							<p>Let's talk.</p>
+						</div>
+						<div class="contact-actions">
+							<a class="contact-row" href="mailto:terencezhang829@gmail.com">
+								<svg class="icon"><use href="#i-mail" /></svg>
+								<span><span class="contact-row__key">email</span><span class="contact-row__val">terencezhang829@gmail.com</span></span>
+								<svg class="icon contact-row__go"><use href="#i-chevron" /></svg>
+							</a>
+							<a class="contact-row" href="https://github.com/TerenceZhang29" target="_blank" rel="noopener noreferrer">
+								<svg class="icon"><use href="#i-github" /></svg>
+								<span><span class="contact-row__key">github</span><span class="contact-row__val">github.com/TerenceZhang29</span></span>
+								<svg class="icon contact-row__go"><use href="#i-external" /></svg>
+							</a>
+							<a class="contact-row" href="https://www.linkedin.com/in/terence-hantian-zhang/" target="_blank" rel="noopener noreferrer">
+								<svg class="icon"><use href="#i-linkedin" /></svg>
+								<span><span class="contact-row__key">linkedin</span><span class="contact-row__val">terence-hantian-zhang</span></span>
+								<svg class="icon contact-row__go"><use href="#i-external" /></svg>
+							</a>
+							<a class="contact-row" href="/files/Terence_Zhang_Resume.pdf" target="_blank" rel="noopener">
+								<svg class="icon"><use href="#i-pdf" /></svg>
+								<span><span class="contact-row__key">resume</span><span class="contact-row__val">Terence_Zhang_Resume.pdf</span></span>
+								<svg class="icon contact-row__go"><use href="#i-external" /></svg>
+							</a>
+						</div>
+						<p class="footer-note"><span>© 2026 Terence Zhang</span><span>Designed &amp; built with intent.</span></p>
+					</div>
+				</section>
+
+				<div class="dock" id="dock" role="toolbar" aria-label="Open applications"></div>
+
+				<nav class="mobilenav" aria-label="Applications">
+					<a class="dock__item" href="#terminal" data-launch="terminal"><svg class="icon"><use href="#i-terminal" /></svg><span>home</span><span class="dock__indicator"></span></a>
+					<a class="dock__item" href="#about" data-launch="about"><svg class="icon"><use href="#i-user" /></svg><span>about</span><span class="dock__indicator"></span></a>
+					<a class="dock__item" href="#projects" data-launch="projects"><svg class="icon"><use href="#i-folder" /></svg><span>work</span><span class="dock__indicator"></span></a>
+					<a class="dock__item" href="#experience" data-launch="experience"><svg class="icon"><use href="#i-briefcase" /></svg><span>path</span><span class="dock__indicator"></span></a>
+					<a class="dock__item" href="#stack" data-launch="stack"><svg class="icon"><use href="#i-layers" /></svg><span>stack</span><span class="dock__indicator"></span></a>
+					<a class="dock__item" href="#contact" data-launch="contact"><svg class="icon"><use href="#i-mail" /></svg><span>contact</span><span class="dock__indicator"></span></a>
+					<a class="dock__item" href="#profile" data-launch="profile"><svg class="icon"><use href="#i-badge" /></svg><span>me</span><span class="dock__indicator"></span></a>
+				</nav>
+			</main>
+		</div>
+	</div>
+
+	<div class="palette" id="palette" hidden>
+		<div class="palette__scrim" data-palette-close></div>
+		<div class="palette__panel" role="dialog" aria-modal="true" aria-labelledby="palette-label">
+			<div class="palette__search">
+				<svg class="icon" aria-hidden="true"><use href="#i-search" /></svg>
+				<label class="visually-hidden" id="palette-label" for="palette-input">Search applications and actions</label>
+				<input id="palette-input" type="text" placeholder="Search applications and actions…" spellcheck="false" autocomplete="off"
+					role="combobox" aria-expanded="true" aria-controls="palette-list" aria-autocomplete="list" />
+				<kbd>esc</kbd>
 			</div>
-			<div class="timeline">
-				<article class="timeline-item current">
-					<div class="timeline-meta"><span>2024 — now</span><span class="current-label">Current</span></div>
-					<div class="timeline-body"><div class="company-mark vicino-mark">V</div><div><h3>AI Research Engineer <span>at <a href="https://vicino.ai/" target="_blank" rel="noopener noreferrer">Vicino AI</a></span></h3><p class="role-focus">Image editing · 3D asset generation</p><p>Researching and shipping AI tools that help creators move from an idea to production-ready visual assets.</p><ul class="tag-list"><li>Generative AI</li><li>Computer Vision</li><li>Product Engineering</li></ul></div></div>
-				</article>
-				<article class="timeline-item">
-					<div class="timeline-meta"><span>2023 — 2024</span></div>
-					<div class="timeline-body"><div class="company-mark bili-mark">B</div><div><h3>Senior Software Development Engineer <span>at <a href="https://duedash.com/dd/bilitechnologyinc" target="_blank" rel="noopener noreferrer">Bili Technology</a></span></h3><p class="role-focus">Version control infrastructure for AI agents</p><p>Designed infrastructure for collaborative AI agent workflows, bringing reliable versioning to fast-moving model development.</p><ul class="tag-list"><li>Distributed Systems</li><li>Developer Tools</li><li>Infrastructure</li></ul></div></div>
-				</article>
-				<article class="timeline-item">
-					<div class="timeline-meta"><span>2022 — 2023</span></div>
-					<div class="timeline-body"><div class="company-mark amazon-mark">A</div><div><h3>Software Development Engineer II <span>at <a href="https://www.amazon.com/" target="_blank" rel="noopener noreferrer">Amazon</a></span></h3><p class="role-focus">Digital asset management at billion-item scale</p><p>Built dependable distributed systems for managing digital assets across one of the world's largest commerce platforms.</p><ul class="tag-list"><li>Java</li><li>Cloud Systems</li><li>Data Platforms</li></ul></div></div>
-				</article>
-				<article class="timeline-item">
-					<div class="timeline-meta"><span>2021 — 2022</span></div>
-					<div class="timeline-body"><div class="company-mark mlp-mark">M</div><div><h3>Automation Developer Intern <span>at <a href="https://www.mlp.com/" target="_blank" rel="noopener noreferrer">Millennium Management</a></span></h3><p class="role-focus">Automation · internal tools</p><p>Created software that made complex operational workflows faster and more repeatable.</p><ul class="tag-list"><li>Python</li><li>Automation</li><li>Analytics</li></ul></div></div>
-				</article>
+			<ul class="palette__list" id="palette-list" role="listbox" aria-label="Results"></ul>
+			<p class="palette__empty" id="palette-empty" hidden>No matching application.</p>
+			<div class="palette__footer">
+				<span><kbd>↑</kbd><kbd>↓</kbd> navigate</span>
+				<span><kbd>↵</kbd> open</span>
+				<span><kbd>⌥</kbd><kbd>1</kbd>–<kbd>6</kbd> jump to app</span>
 			</div>
-		</section>
+		</div>
+	</div>
 
-		<section class="section-block projects-section" id="projects" aria-labelledby="projects-title">
-			<div class="section-heading"><div><p class="eyebrow">02 / things I have made</p><h2 id="projects-title">Selected<br /><em>projects.</em></h2></div><p class="section-note">A few experiments and products where engineering meets a real user need.</p></div>
-			<div class="project-grid">
-				<article class="project-card project-featured"><a href="https://apps.shopline.com/detail?appHandle=public_image_editor" target="_blank" rel="noopener noreferrer"><img src="images/fulls/vicino.png" alt="Vicino AI image editor project" /><div class="project-content"><p class="project-type">Product · AI</p><h3>Vicino AI Image Editor <span aria-hidden="true">↗</span></h3><p>AI-assisted image editing for Shopline merchants.</p></div></a></article>
-				<article class="project-card"><a href="https://rent-calculator-gray.vercel.app/" target="_blank" rel="noopener noreferrer"><img src="images/fulls/rent-calculator.png" alt="Rent Calculator project interface" /><div class="project-content"><p class="project-type">Tool · Web app</p><h3>Rent Calculator <span aria-hidden="true">↗</span></h3><p>A faster way to automate rent calculations.</p></div></a></article>
-				<article class="project-card"><a href="images/fulls/clubby.png"><img src="images/fulls/clubby.png" alt="Clubby campus club discovery project" /><div class="project-content"><p class="project-type">Product · Community</p><h3>Clubby <span aria-hidden="true">↗</span></h3><p>Campus club discovery, co-founded and built full stack.</p></div></a></article>
-			</div>
-		</section>
-
-		<section class="section-block two-column-section" aria-labelledby="outside-title">
-			<div><p class="eyebrow">03 / beyond the job title</p><h2 id="outside-title">Curious,<br /><em>on purpose.</em></h2></div>
-			<div class="outside-content"><p>At Cornell, I studied Computer Science and Economics, taught courses across the CS curriculum, and built with teams that connected engineering to the physical world.</p><div class="outside-list"><div><strong>Cornell University</strong><span>CS & Economics · '22</span></div><div><strong>Cornell Tech</strong><span>Computer Science · '27</span></div><div><strong>Campus work</strong><span>CMSX · Cup Robotics · CIS Teaching Assistant</span></div><div><strong>Honors</strong><span>Omicron Delta Epsilon · Dean's List</span></div></div></div>
-		</section>
-
-		<section class="contact-section" id="contact" aria-labelledby="contact-title"><p class="eyebrow">04 / let's talk</p><h2 id="contact-title">Have an interesting<br /><em>problem?</em></h2><a class="contact-email" href="mailto:terencezhang829@gmail.com">terencezhang829@gmail.com <span aria-hidden="true">↗</span></a><div class="contact-links"><a href="https://www.linkedin.com/in/terence-hantian-zhang/" target="_blank" rel="noopener noreferrer">LinkedIn ↗</a><a href="https://github.com/TerenceZhang29" target="_blank" rel="noopener noreferrer">GitHub ↗</a><a href="/sneakers.html">Sneaker Room ↗</a></div></section>
-	</main>
-
-	<footer class="site-footer"><span>© 2026 Terence Zhang</span><span>Designed & built with intent.</span></footer>
-	<script src="assets/js/scale.js"></script>
+	<script src="assets/js/os.js"></script>
 </body>
 
 </html>
