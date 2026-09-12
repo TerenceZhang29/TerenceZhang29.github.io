@@ -31,6 +31,7 @@
 		{ id: 'resume', name: 'Resume', sub: 'Terence_Zhang_Resume.pdf', icon: 'i-pdf', group: 'Files & links', keys: 'cv download pdf', href: '/files/Terence_Zhang_Resume.pdf', external: true },
 		{ id: 'github', name: 'GitHub', sub: 'github.com/TerenceZhang29', icon: 'i-github', group: 'Files & links', keys: 'code repos', href: 'https://github.com/TerenceZhang29', external: true },
 		{ id: 'linkedin', name: 'LinkedIn', sub: 'terence-hantian-zhang', icon: 'i-linkedin', group: 'Files & links', keys: 'profile', href: 'https://www.linkedin.com/in/terence-hantian-zhang/', external: true },
+		{ id: 'classic', name: 'Traditional view', sub: 'classic.html — plain scrolling page', icon: 'i-file', group: 'Files & links', keys: 'classic simple traditional plain switch view', view: 'classic' },
 		{ id: 'email', name: 'Copy email address', sub: 'terencezhang829@gmail.com', icon: 'i-mail', group: 'Files & links', keys: 'mail copy contact', copy: 'terencezhang829@gmail.com' }
 	];
 
@@ -46,6 +47,7 @@
 	/* The one place an application is "launched" from, whatever the entry point. */
 	function launch(id) {
 		var app = appById(id);
+		if (app && app.view) return switchView(app.view);
 		if (app && app.copy) return copyText(app.copy);
 		if (app && app.href) {
 			if (app.external) window.open(app.href, '_blank', 'noopener');
@@ -54,6 +56,15 @@
 		}
 		if (windows.has(id)) { open(id); return true; }
 		return false;
+	}
+
+	/* Every way out of the OS goes through the shared view module, so switching
+	   and remembering the choice can never disagree. If that module failed to
+	   load, still get the visitor where they asked to go. */
+	function switchView(view) {
+		if (window.terenceView && window.terenceView.switchTo(view)) return true;
+		window.location.href = view === 'classic' ? 'classic.html' : 'index.html';
+		return true;
 	}
 
 	function copyText(text) {
@@ -409,6 +420,7 @@
 		document.querySelectorAll('.menu [data-action]').forEach(function (btn) {
 			btn.addEventListener('click', function () {
 				if (btn.dataset.action === 'palette') { closeMenus(); openPalette(); return; }
+				if (btn.dataset.action === 'classic') { closeMenus(); switchView('classic'); return; }
 				if (btn.dataset.action === 'close-all') closeAll();
 				if (btn.dataset.action === 'reset') { closeAll(); windows.forEach(function (r) { r.placed = false; }); bootDefaults(); }
 				closeMenus();
@@ -542,6 +554,76 @@
 		});
 	}
 
+	/* ------------------------------------------------------- view prompt */
+
+	/* Asked once per browser: 3s after the page has loaded, and only when no view
+	   preference is stored. Answering either way stores one, so it never returns. */
+	var viewPrompt = document.getElementById('viewprompt');
+	var viewPromptReturn = null;
+	var PROMPT_DELAY = 3000;
+	var PROMPT_RETRY = 2000;
+
+	function promptIsOpen() { return !!viewPrompt && !viewPrompt.hidden; }
+
+	function shellIsBusy() {
+		return !palette.hidden || !!document.querySelector('.menu[data-open="true"]');
+	}
+
+	function openViewPrompt() {
+		if (!viewPrompt || promptIsOpen()) return;
+		viewPromptReturn = document.activeElement;
+		viewPrompt.hidden = false;
+		document.getElementById('viewprompt-yes').focus();
+	}
+
+	function closeViewPrompt() {
+		if (!promptIsOpen()) return;
+		viewPrompt.hidden = true;
+		if (viewPromptReturn && viewPromptReturn.focus) viewPromptReturn.focus({ preventScroll: true });
+		viewPromptReturn = null;
+	}
+
+	/* "No" is also what Escape and a click on the scrim mean. */
+	function declineViewPrompt() {
+		if (window.terenceView) window.terenceView.write('os');
+		closeViewPrompt();
+	}
+
+	function initViewPrompt() {
+		if (!viewPrompt || !window.terenceView) return;
+
+		document.getElementById('viewprompt-yes').addEventListener('click', function () {
+			switchView('classic');
+		});
+		document.getElementById('viewprompt-no').addEventListener('click', declineViewPrompt);
+		viewPrompt.querySelector('[data-viewprompt-dismiss]').addEventListener('click', declineViewPrompt);
+
+		/* Focus stays inside the dialog while it is modal. */
+		viewPrompt.addEventListener('keydown', function (e) {
+			if (e.key !== 'Tab') return;
+			var buttons = [document.getElementById('viewprompt-yes'), document.getElementById('viewprompt-no')];
+			var i = buttons.indexOf(document.activeElement);
+			e.preventDefault();
+			buttons[(i + (e.shiftKey ? -1 : 1) + buttons.length) % buttons.length].focus();
+		});
+
+		if (window.terenceView.read()) return;
+
+		function attempt(retriesLeft) {
+			if (window.terenceView.read()) return; /* chose meanwhile, e.g. via the menu */
+			if (shellIsBusy()) {
+				/* Don't interrupt someone mid-palette or mid-menu; try once more. */
+				if (retriesLeft > 0) setTimeout(function () { attempt(retriesLeft - 1); }, PROMPT_RETRY);
+				return;
+			}
+			openViewPrompt();
+		}
+
+		function start() { setTimeout(function () { attempt(1); }, PROMPT_DELAY); }
+		if (document.readyState === 'complete') start();
+		else window.addEventListener('load', start);
+	}
+
 	/* --------------------------------------------------- keyboard shortcuts */
 
 	function isTyping(el) {
@@ -550,6 +632,10 @@
 
 	function initShortcuts() {
 		document.addEventListener('keydown', function (e) {
+			if (promptIsOpen()) {
+				if (e.key === 'Escape') { e.preventDefault(); declineViewPrompt(); }
+				return;
+			}
 			/* Command palette */
 			if ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === 'k') {
 				e.preventDefault();
@@ -606,6 +692,7 @@
 			 ['contact', 'open contact.json'],
 			 ['resume', 'open resume.pdf in a new tab'],
 			 ['whoami', 'who is behind this machine'],
+			 ['classic', 'switch to the traditional view'],
 			 ['ls', 'list everything in ~'],
 			 ['clear', 'clear the terminal']].forEach(function (row) {
 				var line = el('div', 'terminal__cmd');
@@ -622,6 +709,7 @@
 		},
 		whoami: function () { return 'Terence Zhang — AI research engineer & software engineer. Cornell CS & Economics \'22, Cornell Tech MEng \'27.'; },
 		profile: function () { open('profile'); return 'opening profile'; },
+		classic: function () { switchView('classic'); return 'switching to the traditional view'; },
 		about: function () { open('about'); return 'opening about.txt'; },
 		projects: function () { open('projects'); return 'opening ~/projects'; },
 		experience: function () { open('experience'); return 'opening experience.log'; },
@@ -658,7 +746,7 @@
 			 ['shell', 'a very polite fake one'],
 			 ['role', 'AI Research Engineer @ Vicino AI'],
 			 ['studying', 'Cornell Tech MEng \'27'],
-			 ['apps', APPS.filter(function (a) { return !a.href && !a.copy; }).length + ' installed'],
+			 ['apps', APPS.filter(function (a) { return !a.href && !a.copy && !a.view; }).length + ' installed'],
 			 ['uptime', COMMANDS.uptime().split(' — ')[0]]].forEach(function (row) {
 				dl.append(el('dt', null, row[0]), el('dd', null, row[1]));
 			});
@@ -879,6 +967,7 @@
 	initTerminal();
 	initLaunchers();
 	initPalette();
+	initViewPrompt();
 	initShortcuts();
 	initDesktop();
 	initClock();

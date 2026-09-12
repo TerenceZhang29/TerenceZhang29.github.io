@@ -13,6 +13,21 @@
 	<link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700&family=Geist+Mono:wght@400;500&family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
 	<link rel="stylesheet" href="assets/css/os.css" />
 	<script>document.documentElement.classList.remove('no-js');</script>
+	<script>
+		/* Honour a stored "traditional view" preference before anything paints.
+		   Deliberately duplicated from assets/js/view.js (same key): that file
+		   loads at the end of <body>, far too late to avoid a flash of the desktop.
+		   Only this page redirects, and only away from itself — classic.html never
+		   redirects back — so the two views cannot loop. The five ids kept on the
+		   hash exist as sections in both views. */
+		try {
+			if (!/[?&]view=os(&|$)/.test(location.search) &&
+				localStorage.getItem('terenceos:view') === 'classic') {
+				location.replace('classic.html' +
+					(/^#(top|about|projects|experience|contact)$/.test(location.hash) ? location.hash : ''));
+			}
+		} catch (e) {}
+	</script>
 </head>
 
 <body>
@@ -73,6 +88,8 @@
 				<button type="button" role="menuitem" data-action="close-all"><svg class="icon"><use href="#i-x" /></svg>Close all windows</button>
 				<hr />
 				<button type="button" role="menuitem" data-action="palette"><svg class="icon"><use href="#i-search" /></svg>Command palette<kbd>⌘K</kbd></button>
+				<hr />
+				<button type="button" role="menuitem" data-action="classic"><svg class="icon"><use href="#i-file" /></svg>Switch to traditional view</button>
 			</div>
 			<div class="menu" id="menu-window" role="menu" aria-label="Window" data-window-menu></div>
 			<div class="menu" id="menu-help" role="menu" aria-label="Help">
@@ -472,6 +489,23 @@
 		</div>
 	</div>
 
+	<!-- First-visit view prompt. Shown once, 3s after landing, only when no view
+	     preference is stored (see assets/js/view.js). -->
+	<div class="viewprompt" id="viewprompt" hidden>
+		<div class="viewprompt__scrim" data-viewprompt-dismiss></div>
+		<div class="viewprompt__panel" role="dialog" aria-modal="true"
+			aria-labelledby="viewprompt-title" aria-describedby="viewprompt-body">
+			<h2 id="viewprompt-title">Fancy a traditional view?</h2>
+			<p id="viewprompt-body">Same content, laid out as a plain scrolling page — no windows,
+				no terminal. You can switch back any time.</p>
+			<div class="viewprompt__actions">
+				<button class="linkbtn linkbtn--primary" type="button" id="viewprompt-yes">Yes, switch</button>
+				<button class="linkbtn" type="button" id="viewprompt-no">No, stay in terenceOS</button>
+			</div>
+		</div>
+	</div>
+
+	<script src="assets/js/view.js"></script>
 	<script src="assets/js/os.js"></script>
 </body>
 

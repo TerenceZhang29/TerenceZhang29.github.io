@@ -1,15 +1,16 @@
-/* Homepage test for terenceOS.
+/* terenceOS view test (index.html).
  *
  * Two jobs:
- *   1. nothing from the previous portfolio was lost in the redesign
- *      (every role, project, link, credential and file is still on the page);
+ *   1. the OS view carries every fact in tests/content.js — the same list the
+ *      traditional view is checked against, so the two cannot drift;
  *   2. the OS shell is wired up — one Window primitive, a launcher, a dock,
  *      a terminal, deep links, and a phone layout that does not overflow.
  *
- * Run with: node tests/homepage.test.js
+ * Run with: node tests/run.js   (or on its own: node tests/os.test.js)
  */
 const assert = require('node:assert/strict');
 const fs = require('node:fs');
+const content = require('./content');
 
 const homepage = fs.readFileSync('index.html', 'utf8');
 const styles = fs.readFileSync('assets/css/os.css', 'utf8');
@@ -18,46 +19,26 @@ const sneakers = fs.readFileSync('sneakers.html', 'utf8');
 
 /* ---------------------------------------------------------- content kept */
 
-for (const role of ['Vicino AI', 'Bili Technology', 'Amazon', 'Millennium Management']) {
-  assert.ok(homepage.includes(role), `missing experience: ${role}`);
+/* The OS view writes an open-ended range as "→ PRESENT". */
+const osRange = (role) => `${role.from} → ${role.to === null ? 'PRESENT' : role.to}`;
+
+for (const role of content.roles) {
+  for (const fact of [role.title, role.employer, role.url, role.focus, osRange(role)]) {
+    assert.ok(homepage.includes(fact), `OS view missing ${role.employer} detail: ${fact}`);
+  }
 }
-for (const title of [
-  'AI Research Engineer',
-  'Senior Software Development Engineer',
-  'Software Development Engineer II',
-  'Automation Developer Intern'
-]) {
-  assert.ok(homepage.includes(title), `missing job title: ${title}`);
+for (const project of content.projects) {
+  for (const fact of [project.name, project.image, project.url].filter(Boolean)) {
+    assert.ok(homepage.includes(fact), `OS view missing project detail: ${fact}`);
+  }
 }
-for (const span of ['2024 → PRESENT', '2023 → 2024', '2022 → 2023', '2021 → 2022']) {
-  assert.ok(homepage.includes(span), `missing date range: ${span}`);
+for (const fact of [...content.links, ...content.biography]) {
+  assert.ok(homepage.includes(fact), `OS view missing: ${fact}`);
 }
 
-for (const project of ['Vicino AI Image Editor', 'Rent Calculator', 'Clubby']) {
-  assert.ok(homepage.includes(project), `missing project: ${project}`);
-}
-for (const link of [
-  'https://apps.shopline.com/detail?appHandle=public_image_editor',
-  'https://rent-calculator-gray.vercel.app/',
-  'https://vicino.ai/',
-  'https://duedash.com/dd/bilitechnologyinc',
-  'https://www.amazon.com/',
-  'https://www.mlp.com/',
-  'https://github.com/TerenceZhang29',
-  'https://www.linkedin.com/in/terence-hantian-zhang/',
-  'mailto:terencezhang829@gmail.com',
-  '/files/Terence_Zhang_Resume.pdf'
-]) {
-  assert.ok(homepage.includes(link), `missing link: ${link}`);
-}
-
+/* Details only the OS view words this way. */
 for (const fact of [
-  'Cornell University',
   'CS &amp; Economics · \'22',
-  'Cornell Tech',
-  'CMSX · Cup Robotics · CIS Teaching Assistant',
-  'Omicron Delta Epsilon · Dean\'s List',
-  'Enterprise AI Marketing Platform',
   'version control infrastructure for AI agent collaboration',
   'billion-scale distributed systems for digital asset',
   'images/avatar-96.jpg'
@@ -66,7 +47,7 @@ for (const fact of [
 }
 
 /* Existing anchors still resolve, so old inbound links keep working. */
-for (const id of ['top', 'about', 'experience', 'projects', 'contact']) {
+for (const id of content.sharedAnchors) {
   assert.match(homepage, new RegExp(`id="${id}"`), `missing #${id}`);
 }
 
@@ -211,9 +192,9 @@ assert.match(styles, /\.dock__item::after/, 'dock tooltip styling missing');
 
 /* Performance: no libraries, no boot screen, no polling clock. */
 const scriptTags = [...homepage.matchAll(/<script\b[^>]*>/g)].map((m) => m[0]);
-const external = scriptTags.filter((t) => t.includes('src='));
-assert.equal(external.length, 1, 'the page should load exactly one external script');
-assert.ok(external[0].includes('assets/js/os.js'), 'no third-party libraries');
+const external = scriptTags.filter((t) => t.includes('src=')).map((t) => t.match(/src="([^"]+)"/)[1]);
+/* The shell's own script plus the view-preference module shared with classic.html. */
+assert.deepEqual(external, ['assets/js/view.js', 'assets/js/os.js'], 'only first-party scripts, in load order');
 assert.ok(!/setInterval/.test(script), 'no continuously running timers');
 assert.ok(!/class="boot|id="boot/.test(homepage), 'no boot screen was introduced');
 
@@ -318,4 +299,4 @@ assert.ok(fs.statSync('images/avatar-320.jpg').size < 60000, 'portrait should st
 /* Touch targets on phones. */
 assert.match(styles, /\.win__control::before \{ content: ""; inset: -16px;/, 'phone close control needs a real hit area');
 
-console.log('homepage test: PASS');
+console.log('os view test: PASS');

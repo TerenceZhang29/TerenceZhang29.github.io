@@ -1075,6 +1075,47 @@ button {
 }
 .palette__footer kbd { margin-right: 3px; }
 
+/* ---------------------------------------------------- 5b-2. view prompt */
+/* Same modal grammar as the palette: one scrim, one surface, one open motion. */
+.viewprompt {
+	inset: 0;
+	position: fixed;
+	z-index: 510;
+}
+.viewprompt[hidden] { display: none; }
+.viewprompt__scrim {
+	background: rgba(4, 6, 8, 0.55);
+	inset: 0;
+	position: absolute;
+}
+.viewprompt__panel {
+	animation: viewprompt-in var(--t-open) both;
+	background: var(--surface);
+	border: 1px solid var(--border-strong);
+	border-radius: var(--radius);
+	box-shadow: var(--shadow-active);
+	left: 50%;
+	max-width: 420px;
+	padding: var(--sp-5);
+	position: absolute;
+	top: 50%;
+	transform: translate(-50%, -50%);
+	width: calc(100vw - 32px);
+}
+@keyframes viewprompt-in {
+	from { opacity: 0; transform: translate(-50%, calc(-50% + 6px)) scale(0.99); }
+	to { opacity: 1; transform: translate(-50%, -50%); }
+}
+.viewprompt__panel h2 { font-size: 19px; margin-bottom: var(--sp-2); }
+.viewprompt__panel p { color: var(--text-2); font-size: var(--fs-small); line-height: 1.55; }
+.viewprompt__actions {
+	display: flex;
+	flex-wrap: wrap;
+	gap: var(--sp-2);
+	margin-top: var(--sp-5);
+}
+.viewprompt__actions .linkbtn { font-size: 12.5px; justify-content: center; }
+
 /* --------------------------------------------------------- 5c. no-script */
 /* The shell needs JavaScript; the portfolio does not. Without it every window
    renders as a plain stacked document and the desktop chrome steps aside. */
@@ -1165,6 +1206,8 @@ button {
 
 	.palette__panel { max-height: 68vh; top: 8vh; width: calc(100vw - 24px); }
 	.palette__footer, .palette__item kbd { display: none; } /* keyboard hints are desktop-only */
+	.viewprompt__actions { flex-direction: column; }
+	.viewprompt__actions .linkbtn { min-height: 44px; width: 100%; }
 
 	.file-row { flex-direction: column; }
 	.file-row__thumb { height: 132px; width: 100%; }
