@@ -105,7 +105,7 @@ for (const token of ['#080B0F', '#0D1116', '#11161A', '#151A1F', '#232A31', '#30
 for (const family of ['Geist', 'Geist+Mono', 'Inter']) {
   assert.ok(homepage.includes(family), `missing font family: ${family}`);
 }
-assert.match(styles, /--radius: 8px;/, 'window radius token missing');
+assert.match(styles, /--radius: 0\.5rem;/, 'window radius token missing (8px at the reference scale)');
 assert.match(styles, /--shadow-window:/, 'window shadow token missing');
 assert.match(styles, /--t-fast:/, 'transition token missing');
 
@@ -297,6 +297,60 @@ assert.ok(mobilenav.includes('data-launch="profile"'), 'phone navigation missing
 assert.ok(fs.statSync('images/avatar-320.jpg').size < 60000, 'portrait should stay a light asset');
 
 /* Touch targets on phones. */
-assert.match(styles, /\.win__control::before \{ content: ""; inset: -16px;/, 'phone close control needs a real hit area');
+assert.match(styles, /\.win__control::before \{ content: ""; inset: -1rem;/, 'phone close control needs a real hit area');
+
+/* ------------------------------------------------ large screens (stage 5) */
+
+/* One scale for the whole interface: 16px at the 1440×900 reference, never smaller,
+   up to 1.6× on large monitors. Everything else is rem so it follows this value. */
+assert.match(styles, /html \{ font-size: clamp\(16px, min\(1\.1111vw, 1\.7778vh\), 25\.6px\); \}/,
+  'root scale missing, or its floor/cap changed');
+
+/* Only values that must not scale may stay in px: 0–2px hairlines and outlines,
+   media-query breakpoints, and the scale declaration itself. */
+{
+  const code = styles.replace(/\/\*[\s\S]*?\*\//g, '');
+  const stray = [];
+  code.split('\n').forEach((line) => {
+    for (const value of line.match(/-?\d*\.?\d+px/g) || []) {
+      if (/^-?[012]px$/.test(value)) continue;
+      if (/^\s*@media/.test(line)) continue;
+      if (/^html \{ font-size: clamp/.test(line)) continue;
+      stray.push(`${value} in "${line.trim()}"`);
+    }
+  });
+  assert.deepEqual(stray, [], 'px values that will not scale on large screens');
+}
+
+/* JS window geometry follows the same scale: layout runs in design units and is
+   converted only when written. */
+assert.match(script, /function readScale\(\) \{\s*scale = \(parseFloat\(getComputedStyle\(document\.documentElement\)\.fontSize\) \|\| 16\) \/ 16;/,
+  'readScale must derive the scale from the root font size os.css sets');
+assert.match(script, /function px\(designUnits\) \{ return Math\.round\(designUnits \* scale\); \}/);
+assert.match(script, /readScale\(\);\s*document\.querySelectorAll\('\.win'\)\.forEach\(build\);/, 'scale must be known before windows are built');
+{
+  const place = script.slice(script.indexOf('function place(rec)'), script.indexOf('function open(app'));
+  assert.match(place, /var maxW = workspace\.clientWidth \/ scale;/, 'place() must measure the workspace in design units');
+  assert.match(place, /width: px\(w\) \+ 'px', height: px\(h\) \+ 'px', left: px\(x\) \+ 'px', top: px\(y\) \+ 'px'/, 'place() must write real px');
+}
+{
+  const boot = script.slice(script.indexOf('function bootDefaults'), script.indexOf('function initLaunchers'));
+  assert.match(boot, /var W = workspace\.clientWidth \/ scale;/, 'boot layout must run in design units');
+  assert.match(boot, /var x0 = Math\.max\(left, Math\.round\(\(W - \(tw \+ gap \+ pw\)\) \/ 2\)\);/, 'the boot pair must be centred, never over the shortcuts');
+  assert.match(boot, /x: Math\.max\(left, Math\.round\(\(W - tw1\) \/ 2\)\)/, 'the single-terminal fallback must be centred too');
+}
+
+/* Default window positions shift to the centre of larger desktops, never left or up. */
+assert.match(script, /var DESIGN_DESKTOP = \{ w: 1230, h: 866 \};/);
+assert.match(script, /var dx = rec\.centred \? 0 : Math\.max\(0, Math\.round\(\(maxW - DESIGN_DESKTOP\.w\) \/ 2\)\);/);
+assert.match(script, /var dy = rec\.centred \? 0 : Math\.max\(0, Math\.round\(\(maxH - DESIGN_DESKTOP\.h\) \/ 2\)\);/);
+
+/* Scale changes at runtime (resize, moving monitors) keep open windows in proportion. */
+assert.match(script, /var previous = scale;\s*readScale\(\);\s*if \(Math\.abs\(scale - previous\) > 0\.001 && !isPhone\(\)\)/,
+  'windows must follow a scale change instead of jumping');
+
+/* Drag/resize limits are scaled so they match the rem sizes in os.css. */
+assert.match(script, /Math\.max\(px\(300\), /, 'minimum window width must scale with .win min-width');
+assert.match(styles, /min-width: 18\.75rem;/, '.win min-width (300px at the reference scale)');
 
 console.log('os view test: PASS');

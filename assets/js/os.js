@@ -80,6 +80,17 @@
 
 	function isPhone() { return PHONE.matches; }
 
+	/* Interface scale: the root font size os.css sets, relative to 16px — 1 at or below
+	   the 1440×900 reference, up to 1.6 on large monitors. Window layout maths below
+	   runs in design units (reference-sized pixels) and is converted with px() only
+	   when written to a style. Pointer deltas and offsetWidth / clientWidth style measurements are
+	   already real pixels and are compared with px()-converted constants. */
+	var scale = 1;
+	function readScale() {
+		scale = (parseFloat(getComputedStyle(document.documentElement).fontSize) || 16) / 16;
+	}
+	function px(designUnits) { return Math.round(designUnits * scale); }
+
 	function icon(id, cls) {
 		return '<svg class="' + (cls || 'icon') + '" aria-hidden="true"><use href="#' + id + '" /></svg>';
 	}
@@ -146,15 +157,23 @@
 		});
 	}
 
+	/* Windows' data-x/data-y defaults were tuned on the desktop you get at 1440×900.
+	   On a larger desktop the whole arrangement is shifted to its centre instead of
+	   staying pinned top-left; smaller desktops keep the tuned positions and rely on
+	   the clamp below. Boot windows carry already-centred positions (rec.centred). */
+	var DESIGN_DESKTOP = { w: 1230, h: 866 };
+
 	function place(rec) {
 		if (isPhone()) return;
-		var maxW = workspace.clientWidth;
-		var maxH = workspace.clientHeight;
+		var maxW = workspace.clientWidth / scale;
+		var maxH = workspace.clientHeight / scale;
+		var dx = rec.centred ? 0 : Math.max(0, Math.round((maxW - DESIGN_DESKTOP.w) / 2));
+		var dy = rec.centred ? 0 : Math.max(0, Math.round((maxH - DESIGN_DESKTOP.h) / 2));
 		var w = Math.min(rec.w, maxW - 32);
 		var h = Math.min(rec.h, maxH - 32);
-		var x = Math.max(16, Math.min(rec.x, maxW - w - 16));
-		var y = Math.max(16, Math.min(rec.y, maxH - h - 16));
-		Object.assign(rec.el.style, { width: w + 'px', height: h + 'px', left: x + 'px', top: y + 'px' });
+		var x = Math.max(16, Math.min(rec.x + dx, maxW - w - 16));
+		var y = Math.max(16, Math.min(rec.y + dy, maxH - h - 16));
+		Object.assign(rec.el.style, { width: px(w) + 'px', height: px(h) + 'px', left: px(x) + 'px', top: px(y) + 'px' });
 		rec.placed = true;
 	}
 
@@ -203,6 +222,15 @@
 		focusTopmost();
 	}
 
+	/* Fill the workspace, keeping clear of the dock. */
+	function maxGeometry() {
+		return {
+			left: px(8) + 'px', top: px(8) + 'px',
+			width: (workspace.clientWidth - px(16)) + 'px',
+			height: (workspace.clientHeight - px(16) - px(70)) + 'px'
+		};
+	}
+
 	function toggleMax(app) {
 		var rec = windows.get(app);
 		if (!rec || isPhone()) return;
@@ -212,11 +240,7 @@
 			rec.el.classList.remove('is-max');
 		} else {
 			rec.restore = { width: rec.el.style.width, height: rec.el.style.height, left: rec.el.style.left, top: rec.el.style.top };
-			Object.assign(rec.el.style, {
-				left: '8px', top: '8px',
-				width: (workspace.clientWidth - 16) + 'px',
-				height: (workspace.clientHeight - 16 - 70) + 'px'
-			});
+			Object.assign(rec.el.style, maxGeometry());
 			rec.max = true;
 			rec.el.classList.add('is-max');
 		}
@@ -330,9 +354,9 @@
 		function move(ev) {
 			var x = originX + ev.clientX - startX;
 			var y = originY + ev.clientY - startY;
-			var maxX = workspace.clientWidth - 60;
-			var maxY = workspace.clientHeight - 40;
-			rec.el.style.left = Math.max(-rec.el.offsetWidth + 120, Math.min(x, maxX)) + 'px';
+			var maxX = workspace.clientWidth - px(60);
+			var maxY = workspace.clientHeight - px(40);
+			rec.el.style.left = Math.max(-rec.el.offsetWidth + px(120), Math.min(x, maxX)) + 'px';
 			rec.el.style.top = Math.max(0, Math.min(y, maxY)) + 'px';
 		}
 		function up() {
@@ -353,8 +377,9 @@
 		rec.grip.setPointerCapture(e.pointerId);
 
 		function move(ev) {
-			rec.el.style.width = Math.max(300, Math.min(w0 + ev.clientX - startX, workspace.clientWidth - rec.el.offsetLeft - 8)) + 'px';
-			rec.el.style.height = Math.max(180, Math.min(h0 + ev.clientY - startY, workspace.clientHeight - rec.el.offsetTop - 8)) + 'px';
+			/* Minimums match .win's min-width/min-height (18.75rem × 11.25rem). */
+			rec.el.style.width = Math.max(px(300), Math.min(w0 + ev.clientX - startX, workspace.clientWidth - rec.el.offsetLeft - px(8))) + 'px';
+			rec.el.style.height = Math.max(px(180), Math.min(h0 + ev.clientY - startY, workspace.clientHeight - rec.el.offsetTop - px(8))) + 'px';
 		}
 		function up() {
 			rec.grip.removeEventListener('pointermove', move);
@@ -422,7 +447,7 @@
 				if (btn.dataset.action === 'palette') { closeMenus(); openPalette(); return; }
 				if (btn.dataset.action === 'classic') { closeMenus(); switchView('classic'); return; }
 				if (btn.dataset.action === 'close-all') closeAll();
-				if (btn.dataset.action === 'reset') { closeAll(); windows.forEach(function (r) { r.placed = false; }); bootDefaults(); }
+				if (btn.dataset.action === 'reset') { closeAll(); windows.forEach(function (r) { r.placed = false; r.centred = false; }); bootDefaults(); }
 				closeMenus();
 			});
 		});
@@ -881,10 +906,11 @@
 	function fitToContent(rec, H) {
 		if (!rec || !rec.open || isPhone()) return;
 		var body = rec.el.querySelector('.win__body');
-		var natural = body.scrollHeight + rec.bar.offsetHeight + 2;
+		/* Measured in real px (+2 for the 1px borders, which do not scale), fitted in design units. */
+		var natural = (body.scrollHeight + rec.bar.offsetHeight + 2) / scale;
 		var h = Math.min(H - 40, natural);
-		rec.el.style.height = h + 'px';
-		rec.el.style.top = Math.max(16, Math.round((H - h) / 2) - 12) + 'px';
+		rec.el.style.height = px(h) + 'px';
+		rec.el.style.top = px(Math.max(16, Math.round((H - h) / 2) - 12)) + 'px';
 	}
 
 	/* The desktop's opening arrangement: the terminal beside the profile card,
@@ -895,9 +921,10 @@
 	function bootDefaults() {
 		var term = windows.get('terminal');
 		var profile = windows.get('profile');
-		var W = workspace.clientWidth;
-		var H = workspace.clientHeight;
-		var left = 124;
+		/* Design units: the constants below read as they would at 1440×900. */
+		var W = workspace.clientWidth / scale;
+		var H = workspace.clientHeight / scale;
+		var left = 124; /* clear of the desktop shortcut column */
 		var gap = 20;
 		var avail = W - left - 24;
 
@@ -906,8 +933,11 @@
 			var tw = Math.min(680, avail - gap - pw);
 			var th = Math.min(600, H - 120);
 			var ph = Math.min(660, H - 96);
-			Object.assign(term, { x: left, y: Math.max(24, Math.round((H - th) / 2) - 20), w: tw, h: th, placed: false });
-			Object.assign(profile, { x: left + tw + gap, y: Math.max(24, Math.round((H - ph) / 2) - 12), w: pw, h: ph, placed: false });
+			/* Centre the pair on the desktop. Where it already fills the free space
+			   this resolves to `left`, i.e. exactly the previous layout. */
+			var x0 = Math.max(left, Math.round((W - (tw + gap + pw)) / 2));
+			Object.assign(term, { x: x0, y: Math.max(24, Math.round((H - th) / 2) - 20), w: tw, h: th, placed: false, centred: true });
+			Object.assign(profile, { x: x0 + tw + gap, y: Math.max(24, Math.round((H - ph) / 2) - 12), w: pw, h: ph, placed: false, centred: true });
 			open('terminal', { moveFocus: false });
 			open('profile', { moveFocus: false });
 			fitToContent(profile, H);
@@ -915,6 +945,10 @@
 			open('terminal', { moveFocus: false });
 			open('profile', { moveFocus: false });
 		} else {
+			var tw1 = Math.min(680, avail);
+			var th1 = Math.min(600, H - 120);
+			Object.assign(term, { x: Math.max(left, Math.round((W - tw1) / 2)), y: Math.max(24, Math.round((H - th1) / 2) - 20),
+				w: tw1, h: th1, placed: false, centred: true });
 			open('terminal', { moveFocus: false });
 		}
 	}
@@ -962,6 +996,7 @@
 		return el && el.classList.contains('win') ? el.dataset.app : null;
 	}
 
+	readScale();
 	document.querySelectorAll('.win').forEach(build);
 	initMenubar();
 	initTerminal();
@@ -994,6 +1029,28 @@
 	   them when crossing the phone breakpoint so the metaphor adapts. */
 	var lastPhone = isPhone();
 	window.addEventListener('resize', function () {
+		/* Crossing monitors or resizing past the reference changes the scale: keep every
+		   placed window's proportions and position rather than letting it jump. */
+		var previous = scale;
+		readScale();
+		if (Math.abs(scale - previous) > 0.001 && !isPhone()) {
+			var ratio = scale / previous;
+			var grow = function (box) {
+				['left', 'top', 'width', 'height'].forEach(function (k) {
+					var v = parseFloat(box[k]);
+					if (!isNaN(v)) box[k] = Math.round(v * ratio) + 'px';
+				});
+			};
+			windows.forEach(function (rec) {
+				if (!rec.placed) return;
+				if (rec.max) {
+					grow(rec.restore);
+					Object.assign(rec.el.style, maxGeometry());
+				} else {
+					grow(rec.el.style);
+				}
+			});
+		}
 		if (isPhone() !== lastPhone) {
 			lastPhone = isPhone();
 			windows.forEach(function (rec) { rec.placed = false; rec.max = false; rec.el.classList.remove('is-max'); });
@@ -1003,8 +1060,8 @@
 		if (isPhone()) return;
 		windows.forEach(function (rec) {
 			if (!rec.open || rec.min || rec.max) return;
-			rec.el.style.left = Math.min(rec.el.offsetLeft, Math.max(0, workspace.clientWidth - 80)) + 'px';
-			rec.el.style.top = Math.min(rec.el.offsetTop, Math.max(0, workspace.clientHeight - 40)) + 'px';
+			rec.el.style.left = Math.min(rec.el.offsetLeft, Math.max(0, workspace.clientWidth - px(80))) + 'px';
+			rec.el.style.top = Math.min(rec.el.offsetTop, Math.max(0, workspace.clientHeight - px(40))) + 'px';
 		});
 	});
 })();
