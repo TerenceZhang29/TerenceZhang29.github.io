@@ -40,8 +40,6 @@ html { font-size: clamp(16px, min(1.1111vw, 1.7778vh), 25.6px); }
 	--purple: #C084FC;
 	--green-soft: rgba(163, 230, 53, 0.11);
 	--green-line: rgba(163, 230, 53, 0.32);
-	--blue-soft: rgba(96, 165, 250, 0.11);
-	--purple-soft: rgba(192, 132, 252, 0.11);
 
 	/* type */
 	--font-ui: "Geist", "Inter", system-ui, -apple-system, "Segoe UI", sans-serif;
@@ -58,13 +56,11 @@ html { font-size: clamp(16px, min(1.1111vw, 1.7778vh), 25.6px); }
 	--fs-meta: 0.6875rem;
 
 	/* space */
-	--sp-1: 0.25rem;
 	--sp-2: 0.5rem;
 	--sp-3: 0.75rem;
 	--sp-4: 1rem;
 	--sp-5: 1.5rem;
 	--sp-6: 2rem;
-	--sp-7: 3rem;
 	/* Control padding stays on the same 4px grid (4/6/8/10/12). */
 
 	/* structure */

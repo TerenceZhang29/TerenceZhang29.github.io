@@ -2,3 +2,12 @@
 **/.DS_Store
 ._.DS_Store
 **/._.DS_Store
+
+# Jekyll build output. Nothing here builds the site — GitHub Pages serves the
+# repo root as-is — so these are only ever stale local leftovers.
+_site/
+.jekyll-cache/
+.sass-cache/
+
+# Per-machine tool settings.
+.claude/settings.local.json

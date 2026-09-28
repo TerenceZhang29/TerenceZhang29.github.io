@@ -651,10 +651,6 @@
 
 	/* --------------------------------------------------- keyboard shortcuts */
 
-	function isTyping(el) {
-		return el && (el.tagName === 'INPUT' || el.tagName === 'TEXTAREA' || el.isContentEditable);
-	}
-
 	function initShortcuts() {
 		document.addEventListener('keydown', function (e) {
 			if (promptIsOpen()) {

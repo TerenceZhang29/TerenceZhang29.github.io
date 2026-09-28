@@ -13,26 +13,17 @@
 	--primary-light: #6BA3E8;
 
 	/* Accent Colors */
-	--accent-color: #5C6AC4;
-	--accent-hover: #7C8AE4;
-	--success-color: #43A047;
 
 	/* Neutral Colors - Modern Grays */
 	--text-primary: #2C3E50;
 	--text-secondary: #546E7A;
-	--text-light: #78909C;
-	--bg-primary: #FFFFFF;
-	--bg-secondary: #F8F9FA;
-	--bg-tertiary: #ECEFF1;
 
 	/* Border Colors */
-	--border-light: #E0E0E0;
 	--border-medium: #BDBDBD;
 
 	/* Shadows */
 	--shadow-sm: 0 2px 4px rgba(0, 0, 0, 0.05);
 	--shadow-md: 0 4px 6px rgba(0, 0, 0, 0.07);
-	--shadow-lg: 0 10px 15px rgba(0, 0, 0, 0.1);
 	--shadow-hover: 0 8px 16px rgba(0, 0, 0, 0.15);
 
 	/* Typography */
@@ -48,7 +39,6 @@
 	/* Border Radius */
 	--radius-sm: 4px;
 	--radius-md: 8px;
-	--radius-lg: 12px;
 }
 
 /* Fix for anchor jump offset with fixed navigation */
@@ -137,7 +127,7 @@ ul.double {
 
 /* Portfolio page */
 
-	.portfolio-page { --portfolio-bg: #FAFAF8; --portfolio-surface: #FFFFFF; --portfolio-ink: #18181B; --portfolio-secondary: #52525B; --portfolio-muted: #71717A; --portfolio-border: #E4E4E7; --portfolio-blue: #2563EB; --portfolio-blue-hover: #1D4ED8; --portfolio-purple: #7C3AED; --portfolio-blue-bg: #EFF6FF; background: var(--portfolio-bg); color: var(--portfolio-secondary); font-family: 'Inter', sans-serif; font-size: 1rem; line-height: 1.65; padding: 0; }
+	.portfolio-page { --portfolio-bg: #FAFAF8; --portfolio-surface: #FFFFFF; --portfolio-ink: #18181B; --portfolio-secondary: #52525B; --portfolio-muted: #71717A; --portfolio-border: #E4E4E7; --portfolio-blue: #2563EB; --portfolio-blue-hover: #1D4ED8; --portfolio-blue-bg: #EFF6FF; background: var(--portfolio-bg); color: var(--portfolio-secondary); font-family: 'Inter', sans-serif; font-size: 1rem; line-height: 1.65; padding: 0; }
 	.portfolio-page a { color: var(--portfolio-blue); }
 	.portfolio-page .site-header { align-items: center; background: var(--portfolio-bg); border-bottom: 1px solid var(--portfolio-border); color: var(--portfolio-ink); display: flex; height: 4.625rem; justify-content: space-between; left: 0; padding: 0 max(var(--gutter), calc((var(--viewport-width) - var(--content-max)) / 2 + var(--gutter))); position: sticky; top: 0; width: 100%; z-index: 10; }
 	.portfolio-page .wordmark { border: 0; color: var(--portfolio-ink); font-family: 'Manrope', sans-serif; font-size: 1.55rem; font-weight: 700; }
