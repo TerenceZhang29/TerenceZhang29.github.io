@@ -57,11 +57,14 @@ html {
 }
 
 /* Resolution-independent scale lever for the portfolio homepage.
-   1rem == 16px at the 1600x900 reference; min() tracks whichever axis
-   is the binding constraint so proportions hold on any aspect ratio.
+   1rem == 18px at the 1440x900 reference (a 14" laptop): the base size, not just the
+   viewport it is measured against, since at 900px tall the height term binds and a
+   narrower reference alone would change nothing. min() tracks whichever axis is the
+   binding constraint so proportions hold on any aspect ratio, and the 16px floor stops
+   narrow windows collapsing the type.
    assets/js/scale.js refines this using clientWidth (excludes scrollbar). */
 html.portfolio-root {
-	font-size: clamp(9px, min(1vw, 1.7778vh), 28px);
+	font-size: clamp(16px, min(1.25vw, 2vh), 28px);
 	scroll-padding-top: 5rem;
 	/* Full-bleed sections measure against this instead of 100vw, which counts
 	   the classic scrollbar and would force a horizontal scrollbar. scale.js
@@ -152,15 +155,22 @@ ul.double {
 	.portfolio-page h1, .portfolio-page h2, .portfolio-page h3 { color: var(--portfolio-ink); font-family: 'Manrope', sans-serif; font-weight: 700; }
 	.portfolio-page h1 { font-size: 5.2rem; letter-spacing: -0.04em; line-height: 1.05; margin: 0 0 2rem; }
 	/* The template hides h1 <br>s below 980px. The hero markup has no space before its
-	   <br />, so hiding it fused "useful" and "intelligence." into one word that could
-	   not wrap and overflowed narrow screens. Keep the designed line break. */
+	   <br />, so hiding it fused the two hero lines into one word that could not wrap
+	   and overflowed narrow screens. Keep the designed line break. */
 	.portfolio-page h1 br { display: inline; }
-	.portfolio-page h2 { font-size: 2.25rem; letter-spacing: -0.03em; line-height: 1.1; margin: 0; }
+	.portfolio-page h2 { font-size: 3rem; letter-spacing: -0.03em; line-height: 1.08; margin: 0; }
 	.portfolio-page h3 { font-size: 1.2rem; line-height: 1.3; margin: 0 0 0.7rem; }
 	.portfolio-page em { color: var(--portfolio-blue); font-style: normal; }
-	.portfolio-page .eyebrow { color: var(--portfolio-muted); font-family: 'JetBrains Mono', monospace; font-size: 0.75rem; font-weight: 500; letter-spacing: 0; margin: 0 0 1.5rem; text-transform: uppercase; }
+	.portfolio-page .eyebrow { color: var(--portfolio-muted); font-family: 'JetBrains Mono', monospace; font-size: 0.8rem; font-weight: 500; letter-spacing: 0; margin: 0 0 1.5rem; text-transform: uppercase; }
 	.portfolio-page .hero { align-items: center; display: grid; gap: 5rem; grid-template-columns: minmax(0, 1fr) 18rem; min-height: calc(100vh - 4.625rem); padding: 10rem 0; }
-	.portfolio-page .hero-summary { color: var(--portfolio-ink); font-size: 1.15rem; line-height: 1.55; margin: 0; max-width: 33rem; }
+	/* Three aligned columns — role, company, what it was. The shared grid is what makes
+	   them scan; subgrid keeps every row on the same tracks. Each stays on one line: the
+	   first two never wrap, and the note truncates rather than pushing to a second line. */
+	.portfolio-page .hero-roles { display: grid; gap: 0.6rem 1.6rem; grid-template-columns: max-content max-content minmax(0, 1fr); list-style: none; margin: 0; max-width: 46rem; padding: 0; }
+	.portfolio-page .hero-roles li { align-items: baseline; display: grid; grid-column: 1 / -1; grid-template-columns: subgrid; }
+	.portfolio-page .hero-role { color: var(--portfolio-ink); font-family: 'Manrope', sans-serif; font-size: 1.15rem; font-weight: 700; letter-spacing: -0.01em; white-space: nowrap; }
+	.portfolio-page .hero-company { color: var(--portfolio-blue); font-size: 1.05rem; font-weight: 600; white-space: nowrap; }
+	.portfolio-page .hero-note { color: var(--portfolio-muted); font-size: 0.9rem; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 	.portfolio-page .hero-actions { align-items: center; display: flex; flex-wrap: wrap; gap: 1.5rem; margin-top: 2.5rem; }
 	/* height/line-height reset the template's fixed-height button, which clipped the
 	   text once this rule added vertical padding. Inheriting the line-height keeps it
@@ -178,41 +188,39 @@ ul.double {
 	.portfolio-page .section-intro { margin-bottom: 4rem; }
 	.portfolio-page .timeline-item { border-top: 1px solid var(--portfolio-border); display: grid; gap: 3rem; grid-template-columns: 8.125rem minmax(0, 1fr); padding: 2.4rem 0; }
 	.portfolio-page .timeline-item:last-child { border-bottom: 1px solid var(--portfolio-border); }
-	.portfolio-page .timeline-meta { color: var(--portfolio-muted); font-family: 'JetBrains Mono', monospace; font-size: 0.75rem; font-weight: 400; padding-top: 0.2rem; }
-	.portfolio-page .current-label { color: var(--portfolio-blue); display: block; margin-top: 0.4rem; text-transform: uppercase; }
+	.portfolio-page .timeline-meta { color: var(--portfolio-muted); font-family: 'JetBrains Mono', monospace; font-size: 0.82rem; font-weight: 400; padding-top: 0.2rem; }
 	.portfolio-page .timeline-body { display: grid; gap: 1.5rem; grid-template-columns: 3rem minmax(0, 1fr); }
 	.portfolio-page .company-mark { align-items: center; background: var(--portfolio-blue-bg); border: 1px solid var(--portfolio-border); color: var(--portfolio-ink); display: flex; font-family: 'Manrope', sans-serif; font-size: 1.2rem; height: 3rem; justify-content: center; width: 3rem; }
-	.portfolio-page .vicino-mark { background: var(--portfolio-blue); border-color: var(--portfolio-blue); color: #FFFFFF; }
 	.portfolio-page .timeline h3 span { color: var(--portfolio-muted); font-family: 'Inter', sans-serif; font-size: 0.8em; font-weight: 400; }
 	.portfolio-page .timeline h3 a { border-bottom: 1px solid var(--portfolio-blue); color: var(--portfolio-blue); }
 	.portfolio-page .role-focus { color: var(--portfolio-secondary); font-size: 0.85rem; font-weight: 600; margin: 0 0 0.7rem; }
 	.portfolio-page .timeline-body p:not(.role-focus) { margin: 0; max-width: 43rem; }
+	.portfolio-page .timeline-place { display: block; margin-top: 0.35rem; }
 	.portfolio-page .tag-list { display: flex; flex-wrap: wrap; gap: 0.5rem; list-style: none; margin: 1.2rem 0 0; padding: 0; }
-	.portfolio-page .tag-list li { background: #F4F4F5; border: 1px solid var(--portfolio-border); border-radius: 0.375rem; color: var(--portfolio-secondary); font-family: 'JetBrains Mono', monospace; font-size: 0.68rem; padding: 0.35rem 0.6rem; }
+	.portfolio-page .tag-list li { background: #F4F4F5; border: 1px solid var(--portfolio-border); border-radius: 0.375rem; color: var(--portfolio-secondary); font-family: 'JetBrains Mono', monospace; font-size: 0.78rem; padding: 0.35rem 0.6rem; }
 	.portfolio-page .section-heading, .portfolio-page .two-column-section { display: grid; gap: 4rem; grid-template-columns: 1fr 1fr; }
-	.portfolio-page .section-note { align-self: end; font-size: 1rem; margin: 0 0 0.3rem; max-width: 20rem; }
-	.portfolio-page .project-grid { display: grid; gap: 1.5rem; grid-template-columns: 1.25fr 1fr 1fr; margin-top: 4rem; }
+	.portfolio-page .section-note { align-self: end; font-size: 1rem; justify-self: end; margin: 0 0 0.3rem; max-width: 20rem; text-align: right; }
+	.portfolio-page .project-grid { display: grid; gap: 1.5rem; grid-template-columns: repeat(3, 1fr); margin-top: 4rem; }
 	.portfolio-page .project-card { background: var(--portfolio-surface); border: 1px solid var(--portfolio-border); border-radius: 0.75rem; box-shadow: 0 1px 2px rgba(24, 24, 27, 0.03); overflow: hidden; transition: border-color 180ms ease, box-shadow 180ms ease, transform 180ms ease; }
 	.portfolio-page .project-card:hover { border-color: var(--portfolio-blue); box-shadow: 0 8px 20px rgba(24, 24, 27, 0.06); transform: translateY(-0.1875rem); }
 	.portfolio-page .project-card a { border: 0; color: var(--portfolio-ink); display: block; height: 100%; }
 	.portfolio-page .project-card img { aspect-ratio: 1.7; display: block; object-fit: cover; width: 100%; }
 	.portfolio-page .project-content { padding: 1.5rem; }
-	.portfolio-page .project-type { color: var(--portfolio-muted); font-family: 'JetBrains Mono', monospace; font-size: 0.7rem; font-weight: 400; letter-spacing: 0; margin: 0 0 0.8rem; text-transform: uppercase; }
+	.portfolio-page .project-type { color: var(--portfolio-muted); font-family: 'JetBrains Mono', monospace; font-size: 0.78rem; font-weight: 400; letter-spacing: 0; margin: 0 0 0.8rem; text-transform: uppercase; }
 	.portfolio-page .project-content h3 { font-size: 1.25rem; }
 	.portfolio-page .project-content h3 span { color: var(--portfolio-blue); float: right; }
 	.portfolio-page .project-content p:last-child { font-size: 0.85rem; margin: 0; }
-	.portfolio-page .outside-content > p { color: var(--portfolio-ink); font-size: 1.1rem; margin: 0 0 2.5rem; max-width: 34rem; }
 	.portfolio-page .outside-list { border-top: 1px solid var(--portfolio-border); }
-	.portfolio-page .outside-list div { border-bottom: 1px solid var(--portfolio-border); display: flex; justify-content: space-between; padding: 1rem 0; }
-	.portfolio-page .outside-list strong { color: var(--portfolio-ink); font-size: 0.85rem; }
-	.portfolio-page .outside-list span { font-size: 0.8rem; text-align: right; }
+	.portfolio-page .outside-list div { border-bottom: 1px solid var(--portfolio-border); display: flex; gap: 2rem; justify-content: space-between; padding: 1.35rem 0; }
+	.portfolio-page .outside-list strong { color: var(--portfolio-ink); font-size: 1.1rem; }
+	.portfolio-page .outside-list span { font-size: 1rem; text-align: right; }
 	.portfolio-page .contact-section { background: var(--portfolio-blue-bg); border-top: 1px solid var(--portfolio-border); margin-inline: calc(50% - var(--viewport-width) / 2); padding: 8rem max(var(--gutter), calc((var(--viewport-width) - var(--content-max)) / 2 + var(--gutter))); }
 	.portfolio-page .contact-section .eyebrow, .portfolio-page .contact-section h2 { color: var(--portfolio-ink); }
 	.portfolio-page .contact-section h2 { margin-bottom: 3rem; }
 	.portfolio-page .contact-email { border-bottom: 1px solid var(--portfolio-blue); color: var(--portfolio-blue); display: inline-block; font-family: 'Manrope', sans-serif; font-size: 2.4rem; }
 	.portfolio-page .contact-links { display: flex; flex-wrap: wrap; gap: 2rem; margin-top: 4rem; }
 	.portfolio-page .contact-links a { border-bottom: 1px solid var(--portfolio-border); color: var(--portfolio-secondary); font-size: 0.8rem; font-weight: 600; }
-	.portfolio-page .site-footer { color: var(--portfolio-muted); display: flex; font-size: 0.7rem; justify-content: space-between; margin: 0 auto; max-width: var(--content-max); padding: 2rem var(--gutter); }
+	.portfolio-page .site-footer { color: var(--portfolio-muted); display: flex; font-size: 0.78rem; justify-content: space-between; margin: 0 auto; max-width: var(--content-max); padding: 2rem var(--gutter); }
 	@media screen and (max-width: 700px) {
 		html.portfolio-root { font-size: 16px; scroll-padding-top: 80px; }
 		.portfolio-page .site-header { height: 64px; padding: 0 1.25rem; }
@@ -227,17 +235,21 @@ ul.double {
 		.portfolio-page main { padding: 0 1.25rem; }
 		.portfolio-page .hero { align-items: center; display: flex; flex-direction: column; gap: clamp(1.5rem, 6vw, 2.25rem); min-height: 0; padding: clamp(3rem, 10vw, 4.5rem) 0; text-align: center; }
 		.portfolio-page h1 { font-size: clamp(40px, 12vw, 48px); }
+		.portfolio-page h2 { font-size: clamp(30px, 9vw, 38px); }
 		.portfolio-page .hero-copy { order: 1; }
 		.portfolio-page .hero-copy, .portfolio-page .hero-aside { text-align: center; width: 100%; }
+		/* No room for the note at this width; role and company stay, centred. */
+		.portfolio-page .hero-roles { grid-template-columns: max-content max-content; justify-content: center; gap: 0.5rem 1rem; }
+		.portfolio-page .hero-note { display: none; }
 		.portfolio-page .hero-aside { align-items: center; display: flex; flex-wrap: wrap; gap: 0.8rem 1rem; justify-content: center; order: 0; }
 		.portfolio-page .hero-aside img { height: 96px; margin: 0; width: 96px; }
 		.portfolio-page .hero-aside p { margin: 0; width: 100%; }
 		.portfolio-page .section-block { padding: 4rem 0; }
 		.portfolio-page .timeline-item { gap: 1rem; grid-template-columns: 1fr; padding: 2rem 0; }
 		.portfolio-page .timeline-meta { display: flex; gap: 1rem; }
-		.portfolio-page .current-label { display: inline; margin: 0; }
+		.portfolio-page .timeline-place { margin-top: 0; }
 		.portfolio-page .section-heading, .portfolio-page .two-column-section { display: block; }
-		.portfolio-page .section-note { margin-top: 2rem; }
+		.portfolio-page .section-note { margin-top: 2rem; max-width: none; text-align: left; }
 		.portfolio-page .project-grid { display: block; margin-top: 2.5rem; }
 		.portfolio-page .project-card { margin-bottom: 1.25rem; }
 		.portfolio-page .outside-content { margin-top: 2.5rem; }

@@ -1,11 +1,11 @@
 /* Resolution-independent scaling for the portfolio homepage.
  *
- * The layout is authored once against a 1600x900 reference where 1rem = 16px,
+ * The layout is authored once against a 1440x900 reference where 1rem = 18px,
  * and every dimension in the .portfolio-page block is expressed in rem. Scaling
  * the root font-size therefore scales the whole composition uniformly, so the
  * page keeps identical proportions at any resolution.
  *
- * main.css already does this with `clamp(9px, min(1vw, 1.7778vh), 28px)`, which
+ * main.css already does this with `clamp(16px, min(1.25vw, 2vh), 28px)`, which
  * is the no-JS default. This script recomputes the same value from the live
  * clientWidth/clientHeight, which exclude the classic scrollbar that vw/vh
  * include -- worth up to ~17px of viewport on Windows and Linux.
@@ -13,10 +13,10 @@
 (function () {
 	'use strict';
 
-	var REF_WIDTH = 1600;
+	var REF_WIDTH = 1440;
 	var REF_HEIGHT = 900;
-	var REF_ROOT = 16;
-	var MIN_ROOT = 9;
+	var REF_ROOT = 18;
+	var MIN_ROOT = 16;
 	var MAX_ROOT = 28;
 	var MOBILE_MAX = 700; /* must match the max-width: 700px branch in main.css */
 

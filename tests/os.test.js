@@ -19,14 +19,47 @@ const sneakers = fs.readFileSync('sneakers.html', 'utf8');
 
 /* ---------------------------------------------------------- content kept */
 
-/* The OS view writes an open-ended range as "→ PRESENT". */
-const osRange = (role) => `${role.from} → ${role.to === null ? 'PRESENT' : role.to}`;
+/* Experience, checked against tests/content.js — the same list the traditional
+   view is checked against. The OS log writes dates as 2025-09 → 2026-02. */
+const logEntries = homepage.split('<li class="log__entry">').slice(1);
+assert.equal(logEntries.length, content.roles.length, 'one log entry per role');
+content.roles.forEach((role, i) => {
+  const entry = logEntries[i];
+  const facts = [role.title, role.employer, role.url, role.location,
+    `${role.from} → ${role.to}`, role.focus, role.summary];
+  for (const fact of facts) {
+    assert.ok(entry.includes(content.html(fact)), `OS log entry ${i + 1} (${role.employer}) missing: ${fact}`);
+  }
+  if (role.note) assert.ok(entry.includes(role.note), `OS log missing employer note: ${role.note}`);
+  for (const tag of role.tags) {
+    assert.ok(entry.includes(`<li>${tag}</li>`), `${role.employer} entry missing tag: ${tag}`);
+  }
+});
 
-for (const role of content.roles) {
-  for (const fact of [role.title, role.employer, role.url, role.focus, osRange(role)]) {
-    assert.ok(homepage.includes(fact), `OS view missing ${role.employer} detail: ${fact}`);
+/* The Vicino project window mirrors that role's tags; keep the two in step. */
+{
+  const vicino = content.roles.find((r) => r.employer === 'Vicino AI');
+  const detail = homepage.slice(homepage.indexOf('id="project-vicino"'), homepage.indexOf('id="project-rent"'));
+  for (const tag of vicino.tags) {
+    assert.ok(detail.includes(`<li>${tag}</li>`), `Vicino project window missing stack tag: ${tag}`);
   }
 }
+/* stack.json promises every entry maps to shipped work in experience.log, so the
+   two must agree in both directions. */
+const stackWindow = homepage.slice(homepage.indexOf('id="stack"'), homepage.indexOf('id="contact"'));
+const stackItems = [...stackWindow.matchAll(/<li>([^<]+)<\/li>/g)].map((m) => m[1]);
+for (const [heading, items] of content.stack) {
+  assert.ok(stackWindow.includes(`<h3>${heading}</h3>`), `stack.json missing group: ${heading}`);
+  for (const item of items) assert.ok(stackItems.includes(item), `stack.json missing entry: ${item}`);
+}
+for (const tag of new Set(content.roles.flatMap((r) => r.tags))) {
+  assert.ok(stackItems.includes(tag), `experience tag absent from stack.json: ${tag}`);
+}
+for (const item of stackItems) {
+  const claimed = content.stack.some(([, items]) => items.includes(item));
+  assert.ok(claimed, `stack.json lists ${item}, which is not in tests/content.js`);
+}
+
 for (const project of content.projects) {
   for (const fact of [project.name, project.image, project.url].filter(Boolean)) {
     assert.ok(homepage.includes(fact), `OS view missing project detail: ${fact}`);
@@ -35,6 +68,25 @@ for (const project of content.projects) {
 for (const fact of [...content.links, ...content.biography]) {
   assert.ok(homepage.includes(fact), `OS view missing: ${fact}`);
 }
+assert.ok(homepage.includes(`<meta name="description" content="${content.description}" />`),
+  'OS view meta description missing or reworded');
+assert.ok(homepage.includes(`<h1 class="hero">${content.slogan.lead} <em>${content.slogan.accent}</em></h1>`),
+  'OS view hero slogan missing or reworded');
+
+/* The profile lists the three past roles, and no view claims a current one. */
+for (const role of content.roles.slice(0, 3)) {
+  const shown = role.short || role.title;
+  assert.ok(homepage.includes(`<strong>${content.html(shown)}</strong> @ `), `profile missing past role: ${shown}`);
+}
+assert.ok(homepage.includes('<dt>Previously</dt>'), 'the profile should list past roles, not a current one');
+/* The availability line is the way into contact.json — a real link, so it also
+   works before the shell boots and without JavaScript. */
+assert.match(homepage, /<a class="profile__status" href="#contact" data-launch="contact">available for interesting problems<\/a>/,
+  'the profile status line should link into contact.json');
+assert.ok(!homepage.includes('log__entry--current'), 'no experience entry is current any more');
+assert.ok(!homepage.includes('log__badge'), 'the "current" badge should be gone');
+assert.ok(!homepage.includes('PRESENT'), 'no open-ended date range remains');
+assert.ok(!/<h3>Currently<\/h3>/.test(homepage), 'about.txt should no longer have a Currently section');
 
 /* Details only the OS view words this way. */
 for (const fact of [
@@ -94,6 +146,18 @@ for (const cmd of ['help', 'whoami', 'about', 'projects', 'experience', 'stack',
   assert.ok(new RegExp(`\\n\\t\\t${cmd}:`).test(script), `missing terminal command: ${cmd}`);
 }
 assert.match(script, /ArrowUp/, 'terminal history missing');
+
+/* Tab completes without stealing focus. It used to fall through to the browser
+   whenever there was nothing unique to fill in — an ambiguous prefix, an already
+   complete command, or a typo — which moved focus out to the dock. */
+assert.match(script, /\} else if \(e\.key === 'Tab' && !e\.shiftKey\) \{\s*\/\*[\s\S]*?\*\/\s*if \(!input\.value\) return;\s*e\.preventDefault\(\);/,
+  'Tab must claim the key whenever the prompt has text, and only pass it on when empty');
+assert.match(script, /function candidates\(value\)/, 'prefix matching helper missing');
+assert.match(script, /function commonPrefix\(names\)/, 'shell-style common-prefix completion missing');
+assert.match(script, /function listCandidates\(value, names\)/, 'ambiguous prefixes should list the options');
+assert.ok(!/e\.key === 'Tab' \|\| \(e\.key === 'ArrowRight'/.test(script),
+  'Tab and ArrowRight need separate branches: ArrowRight may fall through, Tab may not');
+assert.match(script, /shift\+tab leaves the terminal/, 'the escape hatch should be documented in the help tip');
 assert.match(homepage, /id="terminal-input"/, 'terminal input missing');
 
 /* --------------------------------------------------------------- design */
@@ -257,9 +321,9 @@ assert.equal(new Set(ids).size, ids.length, `duplicate id: ${ids.find((v, i) => 
 assert.match(homepage, /<section class="win" id="profile" data-app="profile"/, 'profile window missing');
 for (const line of [
   'images/avatar-320.jpg',
-  'AI research engineer · software engineer',
+  content.roleLine,
   'available for interesting problems',
-  'Cornell Tech · Computer Science, MEng \'27',
+  'Cornell Tech · CS, MEng \'27',
   'Cornell University · CS &amp; Economics, \'22'
 ]) {
   assert.ok(homepage.includes(line), `profile window missing: ${line}`);

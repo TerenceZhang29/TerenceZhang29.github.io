@@ -726,13 +726,13 @@
 			});
 			wrap.append(list);
 			var tip = el('p', 'tip');
-			tip.append(document.createTextNode('tab completes · ↑↓ recalls history · ⌘K opens the command palette · '));
+			tip.append(document.createTextNode('tab completes, shift+tab leaves the terminal · ↑↓ recalls history · ⌘K opens the command palette · '));
 			tip.append(el('b', null, 'neofetch'));
 			tip.append(document.createTextNode(' prints the system summary.'));
 			wrap.append(tip);
 			return wrap;
 		},
-		whoami: function () { return 'Terence Zhang — AI research engineer & software engineer. Cornell CS & Economics \'22, Cornell Tech MEng \'27.'; },
+		whoami: function () { return 'Terence Zhang — software engineer & AI research engineer. Cornell CS & Economics \'22, Cornell Tech MEng \'27.'; },
 		profile: function () { open('profile'); return 'opening profile'; },
 		classic: function () { switchView('classic'); return 'switching to the traditional view'; },
 		about: function () { open('about'); return 'opening about.txt'; },
@@ -769,7 +769,7 @@
 			[['user', 'terence'],
 			 ['os', 'terenceOS v2026.1'],
 			 ['shell', 'a very polite fake one'],
-			 ['role', 'AI Research Engineer @ Vicino AI'],
+			 ['role', 'software engineer & AI research engineer'],
 			 ['studying', 'Cornell Tech MEng \'27'],
 			 ['apps', APPS.filter(function (a) { return !a.href && !a.copy && !a.view; }).length + ' installed'],
 			 ['uptime', COMMANDS.uptime().split(' — ')[0]]].forEach(function (row) {
@@ -832,11 +832,40 @@
 		scrollTerminal();
 	}
 
-	function completion(value) {
+	/* Commands this prefix could become. Once a space is typed the word is settled,
+	   so nothing is offered. */
+	function candidates(value) {
 		var partial = value.toLowerCase();
-		if (!partial || /\s/.test(value)) return '';
-		var match = COMMAND_NAMES.filter(function (k) { return k.indexOf(partial) === 0; });
-		return match.length === 1 ? match[0].slice(value.length) : '';
+		if (!partial || /\s/.test(value)) return [];
+		return COMMAND_NAMES.filter(function (k) { return k.indexOf(partial) === 0; });
+	}
+
+	/* The longest start every candidate shares — what a shell fills in for you. */
+	function commonPrefix(names) {
+		return names.reduce(function (prefix, name) {
+			var i = 0;
+			while (i < prefix.length && i < name.length && prefix[i] === name[i]) i += 1;
+			return prefix.slice(0, i);
+		}, names[0] || '');
+	}
+
+	/* What the ghost shows after the caret: the shared remainder, so an ambiguous
+	   prefix still hints at where it is going. */
+	function completion(value) {
+		var names = candidates(value);
+		return names.length ? commonPrefix(names).slice(value.length) : '';
+	}
+
+	/* Tab with nothing left to fill in lists the options, the way a shell does. */
+	function listCandidates(value, names) {
+		var block = el('div', 'terminal__block');
+		var line = el('p', 'line');
+		line.innerHTML = '<span class="prompt">terence@terenceOS</span>:<span class="path">~</span>$ ';
+		line.append(document.createTextNode(value));
+		block.append(line);
+		block.append(el('p', 'line out', names.join('   ')));
+		log.append(block);
+		scrollTerminal();
 	}
 
 	function syncGhost() {
@@ -882,12 +911,27 @@
 				if (historyIndex < history_.length - 1) { historyIndex += 1; input.value = history_[historyIndex]; }
 				else { historyIndex = history_.length; input.value = ''; }
 				syncGhost();
-			} else if (e.key === 'Tab' || (e.key === 'ArrowRight' && input.selectionStart === input.value.length)) {
+			} else if (e.key === 'ArrowRight' && input.selectionStart === input.value.length) {
 				var rest = completion(input.value);
 				if (!rest) return;
 				e.preventDefault();
 				input.value += rest;
 				syncGhost();
+			} else if (e.key === 'Tab' && !e.shiftKey) {
+				/* Tab belongs to the terminal whenever there is something to complete.
+				   An empty prompt lets it move focus on as usual, and Shift+Tab is never
+				   taken, so the keyboard is never trapped in here. */
+				if (!input.value) return;
+				e.preventDefault();
+				var names = candidates(input.value);
+				if (!names.length) return;
+				var prefix = commonPrefix(names);
+				if (prefix.length > input.value.length) {
+					input.value = prefix;
+					syncGhost();
+				} else if (names.length > 1) {
+					listCandidates(input.value, names);
+				}
 			}
 		});
 		var terminal = document.getElementById('terminal-surface');
