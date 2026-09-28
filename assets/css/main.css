@@ -213,6 +213,8 @@ ul.double {
 	.portfolio-page .outside-list { border-top: 1px solid var(--portfolio-border); }
 	.portfolio-page .outside-list div { border-bottom: 1px solid var(--portfolio-border); display: flex; gap: 2rem; justify-content: space-between; padding: 1.35rem 0; }
 	.portfolio-page .outside-list strong { color: var(--portfolio-ink); font-size: 1.1rem; }
+	/* A quieter continuation of the label, e.g. an award beside the school. */
+	.portfolio-page .outside-list strong small { font-size: inherit; font-weight: 400; }
 	.portfolio-page .outside-list span { font-size: 1rem; text-align: right; }
 	.portfolio-page .contact-section { background: var(--portfolio-blue-bg); border-top: 1px solid var(--portfolio-border); margin-inline: calc(50% - var(--viewport-width) / 2); padding: 8rem max(var(--gutter), calc((var(--viewport-width) - var(--content-max)) / 2 + var(--gutter))); }
 	.portfolio-page .contact-section .eyebrow, .portfolio-page .contact-section h2 { color: var(--portfolio-ink); }

@@ -79,6 +79,8 @@ for (const role of content.roles.slice(0, 3)) {
   assert.ok(homepage.includes(`<strong>${content.html(shown)}</strong> @ `), `profile missing past role: ${shown}`);
 }
 assert.ok(homepage.includes('<dt>Previously</dt>'), 'the profile should list past roles, not a current one');
+assert.match(homepage, /<dt>Studying<\/dt><dd>[^<]*<small>Merit Scholarship<\/small>/,
+  'the Merit Scholarship line under the degree is missing');
 /* The availability line is the way into contact.json — a real link, so it also
    works before the shell boots and without JavaScript. */
 assert.match(homepage, /<a class="profile__status" href="#contact" data-launch="contact">available for interesting problems<\/a>/,
@@ -330,7 +332,7 @@ for (const line of [
 }
 /* Its quick links are the real ones, not a second set of strings to drift. */
 for (const href of ['/files/Terence_Zhang_Resume.pdf', 'https://github.com/TerenceZhang29',
-  'mailto:terencezhang829@gmail.com']) {
+  'mailto:hz467@cornell.edu']) {
   const win = homepage.slice(homepage.indexOf('id="profile"'), homepage.indexOf('id="terminal"'));
   assert.ok(win.includes(href), `profile quick links missing: ${href}`);
 }

@@ -37,9 +37,9 @@ Sources: [Resend Cloudflare DNS guide](https://resend.com/docs/dashboard/domains
 |---|---|
 | Delivery | Cloudflare Worker + Resend, not client-only EmailJS (needs a paid plan and exposes a public key). |
 | Attachment | **Both** — PDF attached *and* a link in the body, so a stripped attachment still leaves a way through. |
-| Lead capture | **On** — a separate notification to `terencezhang829@gmail.com` with the requester's address. |
+| Lead capture | **On** — a separate notification to `hz467@cornell.edu` with the requester's address. |
 | Button placement | `contact.json` (OS view) and the contact band (traditional view). Not the profile card — it already carries `resume.pdf`. |
-| Sending address | `Terence Zhang <resume@terencezhang.is-a.dev>`, `reply_to: terencezhang829@gmail.com`. |
+| Sending address | `Terence Zhang <resume@terencezhang.is-a.dev>`, `reply_to: hz467@cornell.edu`. |
 
 ### Constraints inherited from earlier stages
 
@@ -86,7 +86,9 @@ party, which is what separates it from an open relay.
 1. Create a Resend account, add domain `terencezhang.is-a.dev`, copy the generated values.
 2. Open one PR to [`is-a-dev/register`](https://github.com/is-a-dev/register) adding three
    files. **Do not modify `domains/terencezhang.json`.** Each needs the same `owner` block
-   as the existing file (`TerenceZhang29` / `terencezhang829@gmail.com`).
+   as the existing file (`TerenceZhang29` / `terencezhang829@gmail.com`) — that is the
+   address registered with is-a.dev, and must stay as it is even though the site now
+   shows the Cornell address.
 
 `domains/send.terencezhang.json` — envelope sender and SPF:
 
@@ -114,7 +116,7 @@ party, which is what separates it from an open relay.
 ```json
 {
   "owner": { "username": "TerenceZhang29", "email": "terencezhang829@gmail.com" },
-  "records": { "TXT": "v=DMARC1; p=none; rua=mailto:terencezhang829@gmail.com" }
+  "records": { "TXT": "v=DMARC1; p=none; rua=mailto:hz467@cornell.edu" }
 }
 ```
 
@@ -156,7 +158,7 @@ npx wrangler secret put TURNSTILE_SECRET
     "ALLOWED_ORIGIN": "https://terencezhang.is-a.dev",
     "RESUME_URL": "https://terencezhang.is-a.dev/files/Terence_Zhang_Resume.pdf",
     "FROM": "Terence Zhang <resume@terencezhang.is-a.dev>",
-    "NOTIFY": "terencezhang829@gmail.com",
+    "NOTIFY": "hz467@cornell.edu",
     "ENABLED": "true"
   },
   "ratelimits": [

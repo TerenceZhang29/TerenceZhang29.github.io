@@ -833,6 +833,8 @@ button {
 .profile__status:hover, .profile__status:focus-visible { color: var(--green); }
 .profile .detail-grid { width: 100%; }
 .profile .field { grid-template-columns: 5.5rem minmax(0, 1fr); }
+/* A quieter second line under a field's value, e.g. an award under the degree. */
+.profile .field dd small { color: var(--text-muted); display: block; font-size: var(--fs-meta); margin-top: 0.125rem; }
 .profile__more {
 	align-items: center;
 	color: var(--text-2);
@@ -866,8 +868,14 @@ button {
 }
 .doc p { color: var(--text-2); font-size: var(--fs-body); }
 .doc p + p { margin-top: var(--sp-3); }
+/* Role and employer carry the line; the connector and the description stay quieter. */
+.doc p strong { color: var(--text); font-weight: 600; }
 .doc .lead { color: var(--text); font-family: var(--font-ui); font-size: 1.1875rem; letter-spacing: -0.015em; line-height: 1.45; }
 
+/* The document's rhythm only covered p+p and section+section, so this block list
+   sat flush against the paragraph above it. It carries more weight than a
+   paragraph, so it gets a wider gap than the 12px used between paragraphs. */
+.doc .kv { margin-top: var(--sp-4); }
 .kv { display: grid; gap: var(--sp-3); grid-template-columns: repeat(auto-fit, minmax(12.5rem, 1fr)); list-style: none; }
 .kv li { background: var(--bg-alt); border: var(--hairline); border-radius: var(--radius); padding: var(--sp-3) var(--sp-4); }
 .kv strong { color: var(--text); display: block; font-family: var(--font-ui); font-size: 0.875rem; font-weight: 600; }

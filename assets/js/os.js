@@ -32,7 +32,7 @@
 		{ id: 'github', name: 'GitHub', sub: 'github.com/TerenceZhang29', icon: 'i-github', group: 'Files & links', keys: 'code repos', href: 'https://github.com/TerenceZhang29', external: true },
 		{ id: 'linkedin', name: 'LinkedIn', sub: 'terence-hantian-zhang', icon: 'i-linkedin', group: 'Files & links', keys: 'profile', href: 'https://www.linkedin.com/in/terence-hantian-zhang/', external: true },
 		{ id: 'classic', name: 'Traditional view', sub: 'classic.html — plain scrolling page', icon: 'i-file', group: 'Files & links', keys: 'classic simple traditional plain switch view', view: 'classic' },
-		{ id: 'email', name: 'Copy email address', sub: 'terencezhang829@gmail.com', icon: 'i-mail', group: 'Files & links', keys: 'mail copy contact', copy: 'terencezhang829@gmail.com' }
+		{ id: 'email', name: 'Copy email address', sub: 'hz467@cornell.edu', icon: 'i-mail', group: 'Files & links', keys: 'mail copy contact', copy: 'hz467@cornell.edu' }
 	];
 
 	/* Alt+1..6 — the six applications in sidebar order. Alt is used rather than

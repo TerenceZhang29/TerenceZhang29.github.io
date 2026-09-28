@@ -85,7 +85,7 @@ module.exports = {
   links: [
     'https://github.com/TerenceZhang29',
     'https://www.linkedin.com/in/terence-hantian-zhang/',
-    'mailto:terencezhang829@gmail.com',
+    'mailto:hz467@cornell.edu',
     '/files/Terence_Zhang_Resume.pdf'
   ],
 

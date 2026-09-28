@@ -51,6 +51,10 @@ assert.ok(page.includes(`<meta name="description" content="${content.description
   'traditional view meta description missing or reworded');
 assert.ok(page.includes(`<h1 id="hero-title">${content.slogan.lead}<br /><em>${content.slogan.accent}</em></h1>`),
   'traditional view hero slogan missing or reworded');
+/* The award rides along inside the school's label, quieted by weight alone —
+   the OS view carries the same fact on its own line instead. */
+assert.match(page, /<strong>Cornell Tech <small>· Merit Scholarship<\/small><\/strong>/,
+  'traditional view missing the Merit Scholarship note beside Cornell Tech');
 
 /* ---------------------------------------------------- its own source */
 
