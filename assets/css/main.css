@@ -60,9 +60,12 @@ html.portfolio-root {
 	   the classic scrollbar and would force a horizontal scrollbar. scale.js
 	   replaces it with the real clientWidth. */
 	--viewport-width: 100vw;
-	/* The shared content column. A width-bound viewport measures exactly 100rem,
-	   so this is also the gutter dial: 84rem leaves 8rem of margin per side. */
-	--content-max: 84rem;
+	/* The shared content column, and with it every section's side margins: the
+	   header, all sections, the contact band and the footer align to it. The
+	   column tops out at 72rem, which is what centres the page on laptops and up —
+	   on a 16:10 laptop (80rem wide) each side gets 8rem, about 10% of the screen.
+	   The 4rem gutter is only the floor for narrower screens, which need the room. */
+	--content-max: 72rem;
 	--gutter: 4rem;
 }
 
