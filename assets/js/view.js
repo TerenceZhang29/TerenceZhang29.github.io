@@ -55,10 +55,15 @@
 	}
 
 	/* Every "switch view" affordance goes through here, so switching and
-	   remembering can never disagree. */
+	   remembering can never disagree. The shutdown/boot animation
+	   (assets/js/transition.js) navigates itself when it takes over; without
+	   it, or when it declines, this is a plain navigation. */
 	function switchTo(view) {
 		if (!writeView(view)) return false;
-		window.location.href = VIEWS[view];
+		var href = VIEWS[view];
+		var tx = window.terenceTransition;
+		if (tx && tx.leave(view, href)) return true;
+		window.location.href = href;
 		return true;
 	}
 

@@ -65,7 +65,8 @@ assert.ok(!page.includes('assets/css/os.css'), 'the OS stylesheet must not leak 
 assert.ok(!page.includes('assets/js/os.js'), 'the OS script must not leak into this view');
 
 const scripts = [...page.matchAll(/<script src="([^"]+)"><\/script>/g)].map((m) => m[1]);
-assert.deepEqual(scripts, ['assets/js/view.js', 'assets/js/scale.js'], 'only the shared view module and its own scaler');
+assert.deepEqual(scripts, ['assets/js/transition.js', 'assets/js/view.js', 'assets/js/scale.js'],
+  'only the shared transition and view modules and its own scaler');
 
 /* ------------------------------------------- agreed additions, nothing else */
 

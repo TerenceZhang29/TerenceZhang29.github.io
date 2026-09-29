@@ -259,9 +259,14 @@ assert.match(styles, /\.dock__item::after/, 'dock tooltip styling missing');
 /* Performance: no libraries, no boot screen, no polling clock. */
 const scriptTags = [...homepage.matchAll(/<script\b[^>]*>/g)].map((m) => m[0]);
 const external = scriptTags.filter((t) => t.includes('src=')).map((t) => t.match(/src="([^"]+)"/)[1]);
-/* The shell's own script plus the view-preference module shared with classic.html. */
-assert.deepEqual(external, ['assets/js/view.js', 'assets/js/os.js'], 'only first-party scripts, in load order');
+/* The shell's own script plus the two modules shared with classic.html: the
+   switch transition (first, so it can draw before the page paints) and the
+   view preference. */
+assert.deepEqual(external, ['assets/js/transition.js', 'assets/js/view.js', 'assets/js/os.js'],
+  'only first-party scripts, in load order');
 assert.ok(!/setInterval/.test(script), 'no continuously running timers');
+/* The stage-6 boot animation is not a boot screen: it plays only on an explicit
+   switch from the traditional view, never on a plain visit. */
 assert.ok(!/class="boot|id="boot/.test(homepage), 'no boot screen was introduced');
 
 /* ----------------------------------------------------- design QA (stage 3) */

@@ -1,0 +1,122 @@
+/* ============================================================================
+   View transitions — shared by the terenceOS desktop (index.html) and the
+   traditional page (classic.html). Drawn by assets/js/transition.js.
+   ----------------------------------------------------------------------------
+   Each view is its own page, so a switch is split at a frame both pages draw
+   identically: the shutdown window going one way, a full dark screen coming
+   back. Everything here sizes from the viewport (px and vw), never rem — the
+   two pages have different root font sizes, and the window must not jump at
+   the handoff.
+   ========================================================================= */
+
+.tx {
+	inset: 0;
+	position: fixed;
+	z-index: 2147483000;
+}
+
+.tx__backdrop {
+	background: #080B0F;
+	inset: 0;
+	position: absolute;
+}
+
+/* At 1440×900 this is 634×396: the desktop's own shape, scaled by 0.44, so the
+   collapse lands on it exactly. */
+.tx__win {
+	background: #0D1116;
+	border: 1px solid #303841;
+	border-radius: clamp(6px, 0.56vw, 10px);
+	box-shadow: 0 2vw 5vw rgba(0, 0, 0, 0.55);
+	display: flex;
+	flex-direction: column;
+	height: clamp(240px, min(44vh, 30.8vw), 460px);
+	left: 50%;
+	overflow: hidden;
+	position: absolute;
+	top: 50%;
+	transform-origin: 50% 50%;
+	translate: -50% -50%;
+	width: clamp(300px, 44vw, 720px);
+}
+
+.tx__bar {
+	align-items: center;
+	background: #11161A;
+	border-bottom: 1px solid #232A31;
+	display: flex;
+	flex: none;
+	gap: clamp(6px, 0.55vw, 9px);
+	height: clamp(28px, 2.36vw, 40px);
+	padding: 0 clamp(10px, 0.9vw, 15px);
+}
+.tx__bar i { background: #303841; border-radius: 50%; height: clamp(9px, 0.8vw, 13px); width: clamp(9px, 0.8vw, 13px); }
+.tx__title {
+	color: #A1A7AE;
+	font-family: "Geist Mono", "JetBrains Mono", ui-monospace, "SF Mono", Menlo, monospace;
+	font-size: clamp(11px, 0.9vw, 14px);
+	margin-left: clamp(6px, 0.6vw, 10px);
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
+
+.tx__body { flex: 1; min-height: 0; }
+
+/* Boot log (entering terenceOS) */
+.tx__log {
+	color: #A1A7AE;
+	font-family: "Geist Mono", "JetBrains Mono", ui-monospace, "SF Mono", Menlo, monospace;
+	font-size: clamp(11px, 0.95vw, 15px);
+	line-height: 1.75;
+	overflow: hidden;
+	padding: clamp(14px, 1.3vw, 22px) clamp(16px, 1.6vw, 26px);
+}
+.tx__log div { opacity: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.tx__log .is-on { opacity: 1; }
+.tx__log .ok { color: #A3E635; opacity: 0; }
+.tx__log .is-ok .ok { opacity: 1; }
+.tx__log .head { color: #A3E635; }
+.tx__log .last { color: #E6E6E6; }
+
+/* Minimal (leaving terenceOS) */
+.tx__min {
+	align-items: center;
+	display: flex;
+	flex-direction: column;
+	gap: clamp(8px, 0.9vw, 14px);
+	justify-content: center;
+	padding: 0 16px;
+	text-align: center;
+}
+.tx__mark {
+	align-items: center;
+	color: #E6E6E6;
+	display: flex;
+	font-family: "Geist", "Inter", system-ui, -apple-system, "Segoe UI", sans-serif;
+	font-size: clamp(22px, 2.1vw, 34px);
+	font-weight: 600;
+	gap: clamp(7px, 0.7vw, 11px);
+	letter-spacing: -0.02em;
+	line-height: 1.1;
+}
+.tx__mark::before { background: #A3E635; border-radius: 50%; content: ""; flex: none; height: clamp(7px, 0.7vw, 11px); width: clamp(7px, 0.7vw, 11px); }
+.tx__status { color: #E6E6E6; font-family: "Geist", "Inter", system-ui, -apple-system, "Segoe UI", sans-serif; font-size: clamp(13px, 1.1vw, 18px); line-height: 1.3; }
+.tx__step { color: #7B8290; font-family: "Geist Mono", "JetBrains Mono", ui-monospace, "SF Mono", Menlo, monospace; font-size: clamp(11px, 0.85vw, 14px); line-height: 1.4; min-height: 1.4em; }
+
+.tx__prog {
+	background: #232A31;
+	border-radius: 3px;
+	flex: none;
+	height: 3px;
+	margin: 0 clamp(16px, 1.6vw, 26px) clamp(14px, 1.4vw, 22px);
+	overflow: hidden;
+}
+.tx__prog b { background: #A3E635; display: block; height: 100%; transform: scaleX(0); transform-origin: 0 50%; }
+
+/* The CRT power-off's bright line. */
+.tx__flash { background: #E6E6E6; inset: 0; opacity: 0; pointer-events: none; position: absolute; }
+
+/* Reduced motion: the arriving page starts invisible and fades in. Set on
+   <html> before first paint by transition.js. */
+.tx-fade-in body { opacity: 0; }
