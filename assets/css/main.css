@@ -69,6 +69,13 @@ html.portfolio-root {
 	--gutter: 4rem;
 }
 
+/* In-page links (nav, TZ, "See my experience") glide to their section. Only once
+   scale.js marks the page as landed: from the first paint, arriving at a link such
+   as classic.html#projects would glide down from the top instead of opening there. */
+@media (prefers-reduced-motion: no-preference) {
+	html.portfolio-root.is-landed { scroll-behavior: smooth; }
+}
+
 html, body, div, span, applet, object,
 iframe, h1, h2, h3, h4, h5, h6, p, blockquote,
 pre, a, abbr, acronym, address, big, cite,

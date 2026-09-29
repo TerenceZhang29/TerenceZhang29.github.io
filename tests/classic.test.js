@@ -41,6 +41,18 @@ for (const project of content.projects) {
 for (const fact of [...content.links, ...content.biography]) {
   assert.ok(page.includes(fact), `traditional view missing: ${fact}`);
 }
+/* In-page links scroll smoothly, but only after the page has landed, so arriving at
+   classic.html#projects opens at the section instead of gliding down from the top. */
+const scaleSource = fs.readFileSync('assets/js/scale.js', 'utf8');
+assert.match(styles, /@media \(prefers-reduced-motion: no-preference\) \{\s*html\.portfolio-root\.is-landed \{ scroll-behavior: smooth; \}/,
+  'smooth scrolling is gated on landing and on motion being welcome');
+assert.ok(!/html\.portfolio-root \{[^}]*scroll-behavior/.test(styles), 'smooth scrolling must not be on from the first paint');
+assert.match(scaleSource, /root\.classList\.add\('is-landed'\)/, 'scale.js marks the page as landed');
+assert.match(scaleSource, /window\.addEventListener\('load', land\)/, 'and only once it has loaded');
+/* #top must be the top of the document. On the sticky header it is always already
+   on screen, so the TZ link only nudged the page up by the scroll padding. */
+assert.match(page, /<body class="portfolio-page" id="top">/, '#top belongs on <body>');
+assert.ok(!/<header[^>]*id="top"/.test(page), '#top must not sit on the sticky header');
 for (const id of content.sharedAnchors) {
   assert.match(page, new RegExp(`id="${id}"`), `traditional view missing #${id}, which the redirect carries across`);
 }
@@ -59,7 +71,7 @@ assert.match(page, /<strong>Cornell Tech <small>· Merit Scholarship<\/small><\/
 /* ---------------------------------------------------- its own source */
 
 assert.match(page, /<html lang="en" class="portfolio-root">/, 'main.css is scoped to html.portfolio-root');
-assert.match(page, /<body class="portfolio-page">/, 'main.css is scoped to body.portfolio-page');
+assert.match(page, /<body class="portfolio-page"[ >]/, 'main.css is scoped to body.portfolio-page');
 assert.match(page, /<link rel="stylesheet" href="assets\/css\/main\.css" \/>/, 'traditional stylesheet missing');
 assert.ok(!page.includes('assets/css/os.css'), 'the OS stylesheet must not leak into this view');
 assert.ok(!page.includes('assets/js/os.js'), 'the OS script must not leak into this view');

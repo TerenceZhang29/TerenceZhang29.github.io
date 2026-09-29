@@ -9,6 +9,9 @@
  * is the no-JS default. This script recomputes the same value from the live
  * clientWidth/clientHeight, which exclude the classic scrollbar that vw/vh
  * include -- worth up to ~17px of viewport on Windows and Linux.
+ *
+ * It also marks the page as landed once it has loaded, which is what turns on
+ * smooth scrolling for in-page links (see html.portfolio-root.is-landed).
  */
 (function () {
 	'use strict';
@@ -58,4 +61,12 @@
 	apply();
 	window.addEventListener('resize', schedule);
 	window.addEventListener('orientationchange', schedule);
+
+	/* Smooth scrolling waits until the page has loaded and settled on any #section
+	   it was opened at; after that, in-page links glide instead of jumping. */
+	function land() {
+		window.requestAnimationFrame(function () { root.classList.add('is-landed'); });
+	}
+	if (document.readyState === 'complete') land();
+	else window.addEventListener('load', land);
 })();
