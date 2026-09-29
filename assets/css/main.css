@@ -127,20 +127,27 @@ ul.double {
 
 /* Portfolio page */
 
-	.portfolio-page { --portfolio-bg: #FAFAF8; --portfolio-surface: #FFFFFF; --portfolio-ink: #18181B; --portfolio-secondary: #52525B; --portfolio-muted: #71717A; --portfolio-border: #E4E4E7; --portfolio-blue: #2563EB; --portfolio-blue-hover: #1D4ED8; --portfolio-blue-bg: #EFF6FF; background: var(--portfolio-bg); color: var(--portfolio-secondary); font-family: 'Inter', sans-serif; font-size: 1rem; line-height: 1.65; padding: 0; }
+	.portfolio-page { --portfolio-bg: #FAFAF8; --portfolio-surface: #FFFFFF; --portfolio-ink: #18181B; --portfolio-secondary: #52525B; --portfolio-muted: #71717A; --portfolio-border: #E4E4E7; --portfolio-blue: #2563EB; --portfolio-blue-hover: #1D4ED8; --portfolio-blue-bg: #EFF6FF; --portfolio-os-green: #A3E635; background: var(--portfolio-bg); color: var(--portfolio-secondary); font-family: 'Inter', sans-serif; font-size: 1rem; line-height: 1.65; padding: 0; }
 	.portfolio-page a { color: var(--portfolio-blue); }
 	.portfolio-page .site-header { align-items: center; background: var(--portfolio-bg); border-bottom: 1px solid var(--portfolio-border); color: var(--portfolio-ink); display: flex; height: 4.625rem; justify-content: space-between; left: 0; padding: 0 max(var(--gutter), calc((var(--viewport-width) - var(--content-max)) / 2 + var(--gutter))); position: sticky; top: 0; width: 100%; z-index: 10; }
 	.portfolio-page .wordmark { border: 0; color: var(--portfolio-ink); font-family: 'Manrope', sans-serif; font-size: 1.55rem; font-weight: 700; }
 	.portfolio-page .wordmark span { color: var(--portfolio-blue); }
 	.portfolio-page .site-header nav { display: flex; gap: 2rem; }
 	.portfolio-page .site-header nav a, .portfolio-page .header-resume, .portfolio-page .header-view { border: 0; color: var(--portfolio-secondary); font-size: 0.78rem; font-weight: 600; letter-spacing: 0.03em; text-transform: uppercase; }
-	.portfolio-page .site-header nav a:hover, .portfolio-page .header-resume:hover, .portfolio-page .header-view:hover { color: var(--portfolio-blue) !important; }
+	.portfolio-page .site-header nav a:hover, .portfolio-page .header-resume:hover { color: var(--portfolio-blue) !important; }
 	.portfolio-page .header-resume { border-bottom: 1px solid var(--portfolio-border); padding-bottom: 0.25rem; }
 	/* The way back to the OS view; mirrors the resume link beside it. A fourth
 	   header item would otherwise be spread out by space-between, so the nav takes
 	   the free space on both sides and the two links sit together on the right. */
 	.portfolio-page .site-header nav { margin: 0 auto; }
 	.portfolio-page .header-view { border-bottom: 1px solid var(--portfolio-border); margin-left: 1.75rem; padding-bottom: 0.25rem; text-transform: none; }
+	/* The way into terenceOS: dark text like its neighbours, led by the OS menu bar's
+	   green status dot (#A3E635, --green in os.css). The green stays a dot — as text on
+	   this light ground it would be unreadable (about 1.4:1). */
+	.portfolio-page .header-view, .portfolio-page .header-view:hover { align-items: center; color: var(--portfolio-ink); display: inline-flex; }
+	.portfolio-page .header-view::before { background: var(--portfolio-os-green); border-radius: 50%; content: ""; flex: none; height: 0.45rem; margin-right: 0.45rem; width: 0.45rem; }
+	.portfolio-page .header-view span { margin-left: 0.25em; }
+	.portfolio-page .header-view:hover { border-bottom-color: var(--portfolio-os-green); }
 	.portfolio-page main { margin: 0 auto; max-width: var(--content-max); padding: 0 var(--gutter); width: 100%; }
 	.portfolio-page h1, .portfolio-page h2, .portfolio-page h3 { color: var(--portfolio-ink); font-family: 'Manrope', sans-serif; font-weight: 700; }
 	.portfolio-page h1 { font-size: 5.2rem; letter-spacing: -0.04em; line-height: 1.05; margin: 0 0 2rem; }

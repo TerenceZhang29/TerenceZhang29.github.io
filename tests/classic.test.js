@@ -74,6 +74,11 @@ assert.match(page, /<link rel="canonical" href="https:\/\/terencezhang\.is-a\.de
 assert.match(page, /<a class="header-view" href="index\.html\?view=os">terenceOS <span aria-hidden="true">↗<\/span><\/a>/,
   'the way back to the OS view is missing, or no longer works without JavaScript');
 assert.match(styles, /\.portfolio-page \.header-view \{/, 'return link has no styling of its own');
+assert.match(styles, /--portfolio-os-green: #A3E635;/, 'the terenceOS link uses the OS view\'s green');
+assert.match(styles, /\.portfolio-page \.header-view::before \{ background: var\(--portfolio-os-green\);/,
+  'the terenceOS link is led by the OS\'s green dot');
+assert.match(styles, /\.portfolio-page \.header-view, \.portfolio-page \.header-view:hover \{[^}]*color: var\(--portfolio-ink\)/,
+  'its text stays dark and readable; the green is only the dot');
 /* Two branch bugs, both caused by the old template CSS still in main.css, are
    fixed in CSS only (so the markup stays as-is). Keep them fixed. */
 assert.match(styles, /\.portfolio-page h1 br \{ display: inline; \}/,
