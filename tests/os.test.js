@@ -126,7 +126,11 @@ for (const win of wins) {
     assert.ok(win.includes(attr), `window missing ${attr}: ${win}`);
   }
 }
-assert.ok(!homepage.includes('win__bar'), 'window chrome must be built by the manager, not the markup');
+/* App windows get their chrome from the manager. The view prompt is not an app: it
+   wears the same bar as static markup, and only there. */
+const desktopMarkup = homepage.replace(/<div class="viewprompt"[\s\S]*?<script src="assets\/js\/view\.js">/, '');
+assert.ok(!desktopMarkup.includes('win__bar'), 'window chrome must be built by the manager, not the markup');
+assert.equal((homepage.match(/win__bar/g) || []).length, 1, 'only the view prompt carries a static title bar');
 for (const app of ['terminal', 'profile', 'about', 'projects', 'experience', 'stack', 'contact']) {
   assert.ok(homepage.includes(`data-app="${app}"`), `missing application: ${app}`);
 }

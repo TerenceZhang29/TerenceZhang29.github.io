@@ -187,8 +187,26 @@ for (const attr of ['aria-labelledby', 'aria-describedby']) {
   assert.ok(prompt.includes(`id="${id}"`), `${attr} points at a missing element: ${id}`);
 }
 assert.match(prompt, /Fancy a traditional view\?/);
-assert.match(prompt, /<button[^>]*id="viewprompt-yes"/);
-assert.match(prompt, /<button[^>]*id="viewprompt-no"/);
+/* It teaches the two lasting ways across, then offers one quiet shortcut. */
+assert.match(prompt, /Try typing <code>classic<\/code> in the terminal/);
+assert.match(prompt, /Or check out <code>view<\/code> on the menu bar/);
+assert.match(prompt, /<button class="linkbtn viewprompt__go" type="button" id="viewprompt-yes">Take me to classic view now<\/button>/);
+assert.ok(!/linkbtn--primary/.test(prompt), 'the shortcut is not highlighted');
+/* Dressed as a desktop window: the same title bar and three controls, plus one button. */
+assert.match(prompt, /<div class="win__bar viewprompt__bar">/);
+for (const act of ['close', 'min', 'max']) {
+  assert.match(prompt, new RegExp(`<button class="win__control" type="button" data-act="${act}" aria-label="[^"]+"`), `window control missing: ${act}`);
+}
+assert.equal((prompt.match(/<button/g) || []).length, 4, 'three window controls and the one shortcut');
+assert.ok(!/class="win[ "]/.test(prompt), 'not a .win, or os.js would build it as a desktop app');
+assert.match(shell, /if \(act === 'close'\) declineViewPrompt\(\);/, 'close means stay, remembered');
+const minimize = shell.match(/function minimizeViewPrompt\(\) \{[\s\S]*?\n\t\}/)[0];
+assert.ok(!/write\(/.test(minimize), 'minimize records no choice, so the prompt asks again next visit');
+assert.match(shell, /panel\.classList\.toggle\('is-max'\)/, 'full screen toggles the window size');
+assert.match(fs.readFileSync('assets/css/os.css', 'utf8'), /\.viewprompt__panel\.is-minimizing \{ animation: viewprompt-min 220ms/, 'minimize animation timing matches the script');
+assert.match(prompt, /class="viewprompt__panel" role="dialog" aria-modal="true" tabindex="-1"/, 'the panel can take focus');
+assert.match(shell, /viewPrompt\.querySelector\('\.viewprompt__panel'\)\.focus\(\)/,
+  'opening focuses the dialog, not the button, so the shortcut is not shown as the primary action');
 
 assert.match(shell, /var PROMPT_DELAY = 3000;/, 'the prompt waits three seconds');
 assert.match(shell, /if \(window\.terenceView\.read\(\)\) return;/, 'the prompt only asks when no preference is stored');

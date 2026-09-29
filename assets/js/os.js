@@ -598,7 +598,9 @@
 		if (!viewPrompt || promptIsOpen()) return;
 		viewPromptReturn = document.activeElement;
 		viewPrompt.hidden = false;
-		document.getElementById('viewprompt-yes').focus();
+		/* Focus the dialog, not its button: a focus ring would dress the quiet
+		   shortcut up as the primary action. Tab reaches the button. */
+		viewPrompt.querySelector('.viewprompt__panel').focus();
 	}
 
 	function closeViewPrompt() {
@@ -608,7 +610,17 @@
 		viewPromptReturn = null;
 	}
 
-	/* "No" is also what Escape and a click on the scrim mean. */
+	/* Minimize: out of the way for now, without recording a choice. */
+	function minimizeViewPrompt() {
+		var panel = viewPrompt.querySelector('.viewprompt__panel');
+		panel.classList.add('is-minimizing');
+		setTimeout(function () {
+			closeViewPrompt();
+			panel.classList.remove('is-minimizing');
+		}, 220); /* the viewprompt-min animation in os.css */
+	}
+
+	/* Closing it — the close control, Escape, or a click outside — means "stay". */
 	function declineViewPrompt() {
 		if (window.terenceView) window.terenceView.write('os');
 		closeViewPrompt();
@@ -620,15 +632,32 @@
 		document.getElementById('viewprompt-yes').addEventListener('click', function () {
 			switchView('classic');
 		});
-		document.getElementById('viewprompt-no').addEventListener('click', declineViewPrompt);
 		viewPrompt.querySelector('[data-viewprompt-dismiss]').addEventListener('click', declineViewPrompt);
 
-		/* Focus stays inside the dialog while it is modal. */
+		/* Its window controls. Close = stay in terenceOS for good (as Escape or a click
+		   outside). Minimize = not now: hidden for this visit, asked again next time.
+		   Full screen toggles the window's size, as on any desktop window. */
+		var panel = viewPrompt.querySelector('.viewprompt__panel');
+		viewPrompt.querySelectorAll('.win__control').forEach(function (btn) {
+			btn.addEventListener('click', function () {
+				var act = btn.dataset.act;
+				if (act === 'close') declineViewPrompt();
+				else if (act === 'min') minimizeViewPrompt();
+				else if (act === 'max') {
+					var max = panel.classList.toggle('is-max');
+					btn.setAttribute('aria-pressed', String(max));
+					btn.setAttribute('aria-label', max ? 'Exit full screen' : 'Full screen');
+				}
+			});
+		});
+
+		/* Focus stays inside the dialog while it is modal, cycling its visible buttons. */
 		viewPrompt.addEventListener('keydown', function (e) {
 			if (e.key !== 'Tab') return;
-			var buttons = [document.getElementById('viewprompt-yes'), document.getElementById('viewprompt-no')];
-			var i = buttons.indexOf(document.activeElement);
 			e.preventDefault();
+			var buttons = [].filter.call(panel.querySelectorAll('button'), function (b) { return b.offsetParent !== null; });
+			var i = buttons.indexOf(document.activeElement);
+			if (i < 0) i = e.shiftKey ? 0 : -1;
 			buttons[(i + (e.shiftKey ? -1 : 1) + buttons.length) % buttons.length].focus();
 		});
 

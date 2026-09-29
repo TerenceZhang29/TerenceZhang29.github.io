@@ -487,14 +487,27 @@
 	     preference is stored (see assets/js/view.js). -->
 	<div class="viewprompt" id="viewprompt" hidden>
 		<div class="viewprompt__scrim" data-viewprompt-dismiss></div>
-		<div class="viewprompt__panel" role="dialog" aria-modal="true"
+		<div class="viewprompt__panel" role="dialog" aria-modal="true" tabindex="-1"
 			aria-labelledby="viewprompt-title" aria-describedby="viewprompt-body">
-			<h2 id="viewprompt-title">Fancy a traditional view?</h2>
-			<p id="viewprompt-body">Same content, laid out as a plain scrolling page — no windows,
-				no terminal. You can switch back any time.</p>
-			<div class="viewprompt__actions">
-				<button class="linkbtn linkbtn--primary" type="button" id="viewprompt-yes">Yes, switch</button>
-				<button class="linkbtn" type="button" id="viewprompt-no">No, stay in terenceOS</button>
+			<!-- Dressed as a terenceOS window: the same bar and controls, built statically
+			     (it is not one of the desktop's apps, so os.js does not build it). -->
+			<div class="win__bar viewprompt__bar">
+				<div class="win__controls">
+					<button class="win__control" type="button" data-act="close" aria-label="Close — stay in terenceOS"></button>
+					<button class="win__control" type="button" data-act="min" aria-label="Minimize — ask again next visit"></button>
+					<button class="win__control" type="button" data-act="max" aria-label="Full screen" aria-pressed="false"></button>
+				</div>
+				<p class="win__title"><svg class="icon" aria-hidden="true"><use href="#i-file" /></svg><span>classic.html</span></p>
+			</div>
+			<div class="viewprompt__body">
+				<h2 id="viewprompt-title">Fancy a traditional view?</h2>
+				<div class="viewprompt__hints" id="viewprompt-body">
+					<p>Try typing <code>classic</code> in the terminal</p>
+					<p>Or check out <code>view</code> on the menu bar</p>
+				</div>
+				<div class="viewprompt__actions">
+					<button class="linkbtn viewprompt__go" type="button" id="viewprompt-yes">Take me to classic view now</button>
+				</div>
 			</div>
 		</div>
 	</div>
