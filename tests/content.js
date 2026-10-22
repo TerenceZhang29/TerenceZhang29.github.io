@@ -77,9 +77,10 @@ module.exports = {
   projects: [
     { name: 'Vicino AI Image Editor', image: 'images/fulls/vicino.png',
       url: 'https://apps.shopline.com/detail?appHandle=public_image_editor' },
+    { name: 'HackaMatch.com', image: 'images/fulls/hackamatch.png',
+      url: 'https://hackamatch.com/' },
     { name: 'Rent Calculator', image: 'images/fulls/rent-calculator.png',
-      url: 'https://rent-calculator-gray.vercel.app/' },
-    { name: 'Clubby', image: 'images/fulls/clubby.png', url: null }
+      url: 'https://rent-calculator-gray.vercel.app/' }
   ],
 
   links: [

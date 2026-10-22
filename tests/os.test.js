@@ -215,7 +215,7 @@ assert.match(script, /var HIDDEN = \['sudo', 'neofetch', 'sneakers'\]/,
 /* One registry behind every entry point, so nothing can drift out of sync. */
 assert.match(script, /var APPS = \[/, 'application registry missing');
 for (const id of ['terminal', 'about', 'projects', 'experience', 'stack', 'contact',
-  'profile', 'project-vicino', 'project-rent', 'project-clubby', 'resume', 'github', 'linkedin', 'email']) {
+  'profile', 'project-vicino', 'project-hackamatch', 'project-rent', 'resume', 'github', 'linkedin', 'email']) {
   assert.ok(script.includes(`id: '${id}'`), `registry missing entry: ${id}`);
 }
 assert.match(script, /function launch\(/, 'single launch path missing');
