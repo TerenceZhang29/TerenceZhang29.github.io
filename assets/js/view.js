@@ -59,12 +59,14 @@
 	   (assets/js/transition.js) navigates itself when it takes over; without
 	   it, or when it declines, this is a plain navigation.
 
-	   page, optional, lands somewhere other than the view's front page: the OS
-	   passes amazon-source.html when that write-up's window is the active one.
-	   Only a bare page in this site's root is accepted. */
+	   page, optional, keeps the visitor's place: the OS passes the active
+	   window's counterpart (classic.html#projects, amazon-source.html), and the
+	   traditional page passes the window for the section being read
+	   (index.html?view=os#projects). Only a page in this site's root, with at
+	   most that query and a #section, is accepted. */
 	function switchTo(view, page) {
 		if (!writeView(view)) return false;
-		var href = (page && /^[a-z0-9-]+\.html$/.test(page)) ? page : VIEWS[view];
+		var href = (page && /^[a-z0-9-]+\.html(\?view=os)?(#[a-z0-9-]+)?$/.test(page)) ? page : VIEWS[view];
 		var tx = window.terenceTransition;
 		if (tx && tx.leave(view, href)) return true;
 		window.location.href = href;
@@ -73,14 +75,28 @@
 
 	var onClassic = /(^|\/)classic\.html$/.test(window.location.pathname);
 
+	/* The section being read: the last one whose top has passed a line a third
+	   of the way down the screen. Each section names its OS window in data-os;
+	   the hero has none, so reading it leads to the desktop's opening layout. */
+	function readingWindow() {
+		var app = null;
+		var line = window.innerHeight / 3;
+		document.querySelectorAll('[data-os]').forEach(function (el) {
+			if (el.getBoundingClientRect().top <= line) app = el.getAttribute('data-os');
+		});
+		return app;
+	}
+
 	if (onClassic) {
 		/* The link already works without JavaScript (its href carries ?view=os);
-		   this just records the choice before leaving. */
+		   this records the choice before leaving, and opens the window for the
+		   section being read. */
 		document.querySelectorAll('.header-view').forEach(function (link) {
 			link.addEventListener('click', function (e) {
 				if (e.metaKey || e.ctrlKey || e.shiftKey || e.button !== 0) return;
 				e.preventDefault();
-				switchTo('os');
+				var app = readingWindow();
+				switchTo('os', app ? VIEWS.os + '#' + app : null);
 			});
 		});
 	} else if (/[?&]view=os(&|$)/.test(window.location.search)) {

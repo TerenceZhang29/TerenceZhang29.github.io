@@ -63,9 +63,10 @@
 
 	/* Every way out of the OS goes through the shared view module, so switching
 	   and remembering the choice can never disagree. If that module failed to
-	   load, still get the visitor where they asked to go. A window that is also
-	   a traditional page (data-page, the Amazon write-ups) leads to that page
-	   when it is the active one, rather than to the top of classic.html. */
+	   load, still get the visitor where they asked to go. A window with a
+	   traditional counterpart (data-page: classic.html#projects, or an Amazon
+	   write-up's page) leads there when it is the active one, rather than to
+	   the top of classic.html. */
 	function switchView(view) {
 		var rec = view === 'classic' && active ? windows.get(active) : null;
 		var page = rec && rec.el.dataset.page;

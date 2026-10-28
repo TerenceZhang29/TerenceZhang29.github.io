@@ -37,7 +37,7 @@ function fakeStorage({ throws = false } = {}) {
 }
 
 /* Runs view.js in a sandbox shaped like the page it would load on. */
-function load({ path = '/index.html', search = '', hash = '', local = fakeStorage(), session = fakeStorage(), links = [] } = {}) {
+function load({ path = '/index.html', search = '', hash = '', local = fakeStorage(), session = fakeStorage(), links = [], sections = [] } = {}) {
   const nav = { href: null, replaced: null };
   const location = {
     pathname: path, search, hash,
@@ -45,11 +45,12 @@ function load({ path = '/index.html', search = '', hash = '', local = fakeStorag
   };
   const window = {
     location,
+    innerHeight: 900,
     get localStorage() { if (local === 'blocked') throw new Error('SecurityError'); return local; },
     get sessionStorage() { if (session === 'blocked') throw new Error('SecurityError'); return session; }
   };
   const history = { replaceState: (_s, _t, url) => { nav.replaced = url; } };
-  const document = { querySelectorAll: (sel) => (sel === '.header-view' ? links : []) };
+  const document = { querySelectorAll: (sel) => (sel === '.header-view' ? links : sel === '[data-os]' ? sections : []) };
   vm.runInNewContext(viewSource, { window, document, history });
   return { api: window.terenceView, nav, local, session };
 }
@@ -87,7 +88,29 @@ function load({ path = '/index.html', search = '', hash = '', local = fakeStorag
   assert.equal(nav.href, 'amazon-source.html', 'an Amazon write-up window switches to its own page');
   assert.equal(local.data.get(KEY), 'classic');
   api.switchTo('classic', 'https://evil.example/x.html');
-  assert.equal(nav.href, 'classic.html', 'only a bare page in the site root is accepted');
+  assert.equal(nav.href, 'classic.html', 'only a page in the site root is accepted');
+  api.switchTo('classic', 'classic.html#projects');
+  assert.equal(nav.href, 'classic.html#projects', 'an OS window switches to its section');
+  api.switchTo('classic', '//evil.example/#x');
+  assert.equal(nav.href, 'classic.html');
+}
+
+/* The traditional page's link opens the window for the section being read:
+   the last section whose top has passed a third of the way down (900 / 3). */
+{
+  const section = (app, top) => ({ getAttribute: () => app, getBoundingClientRect: () => ({ top }) });
+  const click = (sections) => {
+    const handlers = [];
+    const link = { addEventListener: (type, fn) => handlers.push(fn) };
+    const { nav } = load({ path: '/classic.html', links: [link], sections });
+    handlers[0]({ button: 0, preventDefault() {} });
+    return nav.href;
+  };
+  assert.equal(click([section('experience', 1200), section('projects', 2400)]), 'index.html?view=os',
+    'still in the hero: the desktop\'s opening layout');
+  assert.equal(click([section('experience', -400), section('projects', 250), section('about', 1100)]), 'index.html?view=os#projects');
+  assert.equal(click([section('experience', -3000), section('projects', -2000), section('about', -600), section('contact', 400)]),
+    'index.html?view=os#about', 'the education block is about.txt in the OS');
 }
 
 /* Storage ladder: localStorage blocked → sessionStorage; both blocked → memory. */

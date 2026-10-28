@@ -93,8 +93,8 @@ assert.match(styles, /\.portfolio-page \.header-view, \.portfolio-page \.header-
   'its text stays dark and readable; the green is only the dot');
 /* Two branch bugs, both caused by the old template CSS still in main.css, are
    fixed in CSS only (so the markup stays as-is). Keep them fixed. */
-assert.match(styles, /\.portfolio-page h1 br \{ display: inline; \}/,
-  'the template hides h1 <br>s below 980px, fusing the two hero lines into one unbreakable word');
+assert.match(styles, /\.portfolio-page h1 br, \.portfolio-page h2 br \{ display: inline; \}/,
+  'the template hides heading <br>s below 980px, fusing the hero and section headings into one word ("Selectedprojects.")');
 assert.match(styles, /\.portfolio-page \.button \{[^}]*height: auto;[^}]*line-height: inherit;/,
   "the template's fixed-height .button clips its text once padding is added");
 
