@@ -25,9 +25,9 @@ const PAGES = ['amazon-source.html', 'amazon-takedown.html', 'amazon-compression
 /* --------------------------------------------------- linked from classic */
 
 const projects = classic.slice(classic.indexOf('id="projects"'), classic.indexOf('two-column-section'));
-assert.ok(projects.includes('<p class="project-group">At Amazon · 2022–2025</p>'), 'the "At Amazon" row label is missing');
-assert.ok(projects.includes('<p class="project-group">Side projects</p>'), 'the side projects row label is missing');
-assert.ok(projects.indexOf('At Amazon') < projects.indexOf('Side projects'), 'Amazon work is listed before side projects');
+assert.ok(projects.includes('<p class="project-group"><span>At Amazon · 2022–2025</span></p>'), 'the "At Amazon" row label is missing');
+assert.ok(projects.includes('<p class="project-group"><span>Personal projects</span></p>'), 'the personal projects row label is missing');
+assert.ok(projects.indexOf('At Amazon') < projects.indexOf('Personal projects'), 'Amazon work is listed before personal projects');
 
 const cards = [...projects.matchAll(/<article class="project-card"><a href="(amazon-[a-z]+\.html)">([\s\S]*?)<\/article>/g)];
 assert.deepEqual(cards.map((m) => m[1]), PAGES, 'one card per project page, in order');
@@ -89,8 +89,8 @@ assert.match(homepage, /<link rel="stylesheet" href="assets\/css\/os\.css" \/>\s
   'index.html: os.css, then project.css');
 
 const fileList = homepage.slice(homepage.indexOf('<ul class="filelist">'), homepage.indexOf('</ul>', homepage.indexOf('<ul class="filelist">')));
-assert.ok(fileList.indexOf('<li class="filelist__group">amazon/</li>') === fileList.indexOf('<li'), 'the projects window opens with the amazon/ group');
-assert.ok(fileList.indexOf('amazon/</li>') < fileList.indexOf('<li class="filelist__group">side/</li>'), 'amazon/ is listed before side/');
+assert.ok(fileList.indexOf('<li class="filelist__group"><span><svg class="icon"><use href="#i-folder" /></svg>amazon/</span></li>') === fileList.indexOf('<li'), 'the projects window opens with the amazon/ group');
+assert.ok(fileList.indexOf('amazon/</li>') < fileList.indexOf('<li class="filelist__group"><span><svg class="icon"><use href="#i-folder" /></svg>personal/</span></li>'), 'amazon/ is listed before personal/');
 const rows = [...fileList.matchAll(/data-launch="(project-amazon-[a-z]+)">\s*<span class="file-row__thumb file-row__thumb--stat"><b>([^<]+)<\/b>/g)];
 assert.deepEqual(rows.map((m) => m[1]), WINDOWS, 'one projects-window row per Amazon window, in order');
 

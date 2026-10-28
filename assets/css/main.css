@@ -217,10 +217,12 @@ ul.double {
 	.portfolio-page .project-content h3 { font-size: 1.25rem; }
 	.portfolio-page .project-content h3 span { color: var(--portfolio-blue); float: right; }
 	.portfolio-page .project-content p:last-child { font-size: 0.85rem; margin: 0; }
-	/* Amazon work sits in its own row above the side projects. Its cards are the same
-	   card, but lead with a headline figure where a side project shows a screenshot,
+	/* Amazon work sits in its own row above the personal projects. Its cards are the same
+	   card, but lead with a headline figure where a personal project shows a screenshot,
 	   and close on three numbers. Each opens a project page (amazon-*.html). */
-	.portfolio-page .project-group { align-items: center; color: var(--portfolio-muted); display: flex; font-family: 'JetBrains Mono', monospace; font-size: 0.78rem; gap: 1rem; margin: 4rem 0 0; text-transform: uppercase; }
+	/* Each row's label is highlighted as a blue chip, so the two groups read at a glance. */
+	.portfolio-page .project-group { align-items: center; display: flex; gap: 1rem; margin: 4rem 0 0; }
+	.portfolio-page .project-group span { background: var(--portfolio-blue-bg); border: 1px solid rgba(37, 99, 235, 0.25); border-radius: 999px; color: var(--portfolio-blue); font-family: 'JetBrains Mono', monospace; font-size: 0.8rem; font-weight: 600; padding: 0.4rem 0.9rem; text-transform: uppercase; white-space: nowrap; }
 	.portfolio-page .project-group::after { background: var(--portfolio-border); content: ""; flex: 1; height: 1px; }
 	.portfolio-page .project-group + .project-grid { margin-top: 1.5rem; }
 	.portfolio-page .project-cover { aspect-ratio: 1.7; background: var(--portfolio-blue-bg); border-bottom: 1px solid var(--portfolio-border); display: flex; flex-direction: column; justify-content: space-between; padding: 1.25rem 1.5rem; }
