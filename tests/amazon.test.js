@@ -1,6 +1,6 @@
 /* Amazon project pages test (amazon-*.html, linked from classic.html).
  *
- * Four jobs:
+ * Five jobs:
  *   1. the traditional view's "At Amazon" row links to every project page, and
  *      each card's numbers are ones its page actually states;
  *   2. each page is wired like the traditional view (its stylesheets and
@@ -8,7 +8,10 @@
  *      to the projects section and on to the next project;
  *   3. every diagram is intact: arrowheads resolve to markers on the same page,
  *      and each numbered marker has its written explanation (and vice versa);
- *   4. no Amazon-internal names leak onto the public site. The write-ups were
+ *   4. terenceOS carries the same write-ups: an amazon/ group in its projects
+ *      window, and one window per project whose content is the page's, word
+ *      for word, so the two views cannot drift;
+ *   5. no Amazon-internal names leak onto the public site. The write-ups were
  *      translated from internal design docs; this list is what was translated.
  *
  * Run with: node tests/run.js   (or on its own: node tests/amazon.test.js)
@@ -58,7 +61,8 @@ PAGES.forEach((file, i) => {
   assert.ok(!/location\.(replace|assign)|location\.href\s*=/.test(page), `${file}: never redirects`);
 
   assert.ok(page.includes('<a class="work-crumb" href="classic.html#projects">← All projects</a>'), `${file}: link back to the projects`);
-  assert.match(page, /<a class="header-view" href="index\.html\?view=os">terenceOS/, `${file}: the way into terenceOS`);
+  assert.match(page, new RegExp(`<a class="header-view" href="index\\.html\\?view=os#project-${file.slice(0, -5)}">terenceOS`),
+    `${file}: the way into terenceOS opens this write-up's window`);
   const next = PAGES[(i + 1) % PAGES.length];
   assert.match(page, new RegExp(`<nav class="work-next"[\\s\\S]*?<a href="${next.replace('.', '\\.')}">`), `${file}: next project is ${next}`);
 
@@ -74,6 +78,47 @@ PAGES.forEach((file, i) => {
   assert.match(page, /data-callouts/, `${file}: project.js finds the callouts by data-callouts`);
 });
 
+/* ------------------------------------------------------------ in terenceOS */
+
+const homepage = fs.readFileSync('index.html', 'utf8');
+const osScript = fs.readFileSync('assets/js/os.js', 'utf8');
+const WINDOWS = PAGES.map((f) => f.replace('amazon-', 'project-amazon-').replace('.html', ''));
+const squash = (html) => html.replace(/\s+/g, ' ').trim();
+
+assert.match(homepage, /<link rel="stylesheet" href="assets\/css\/os\.css" \/>\s*<link rel="stylesheet" href="assets\/css\/project\.css" \/>/,
+  'index.html: os.css, then project.css');
+
+const fileList = homepage.slice(homepage.indexOf('<ul class="filelist">'), homepage.indexOf('</ul>', homepage.indexOf('<ul class="filelist">')));
+assert.ok(fileList.indexOf('<li class="filelist__group">amazon/</li>') === fileList.indexOf('<li'), 'the projects window opens with the amazon/ group');
+assert.ok(fileList.indexOf('amazon/</li>') < fileList.indexOf('<li class="filelist__group">side/</li>'), 'amazon/ is listed before side/');
+const rows = [...fileList.matchAll(/data-launch="(project-amazon-[a-z]+)">\s*<span class="file-row__thumb file-row__thumb--stat"><b>([^<]+)<\/b>/g)];
+assert.deepEqual(rows.map((m) => m[1]), WINDOWS, 'one projects-window row per Amazon window, in order');
+
+const ids = [...homepage.matchAll(/\sid="([^"]+)"/g)].map((m) => m[1]);
+assert.deepEqual(ids.filter((id, i) => ids.indexOf(id) !== i), [], 'index.html: ids are unique across all three write-ups');
+
+WINDOWS.forEach((app, i) => {
+  const file = PAGES[i];
+  const page = fs.readFileSync(file, 'utf8');
+  const start = homepage.indexOf(`<section class="win" id="${app}" data-app="${app}" `);
+  assert.ok(start > 0, `index.html: window ${app}`);
+  const win = homepage.slice(start, homepage.indexOf('</section>\n\n', homepage.indexOf('<nav class="work-onward"', start)));
+
+  const title = page.match(/<h1 id="([^"]+)"/)[1];
+  assert.match(win, new RegExp(`aria-labelledby="${title}" hidden>`), `${app}: labelled by its write-up's title`);
+  assert.ok(win.startsWith(`<section class="win" id="${app}" data-app="${app}" data-page="${file}" `),
+    `${app}: switching to the traditional view from this window lands on ${file}`);
+  assert.ok(win.includes(rows[i][2]), `${app}: its projects-window row claims "${rows[i][2]}", which the window never states`);
+
+  const ours = win.slice(win.indexOf('<div class="work-page">') + '<div class="work-page">'.length, win.lastIndexOf('</div>', win.indexOf('<nav class="work-onward"')));
+  const theirs = page.slice(page.indexOf('<section class="work-hero"'), page.indexOf('<nav class="work-next"'));
+  assert.equal(squash(ours), squash(theirs), `${app}: write-up differs from ${file}`);
+
+  assert.ok(win.includes(`data-launch="${WINDOWS[(i + 1) % WINDOWS.length]}">Next at Amazon:`), `${app}: next project is ${WINDOWS[(i + 1) % WINDOWS.length]}`);
+  assert.ok(win.includes(`<a class="linkbtn" href="${file}" target="_blank" rel="noopener">Open as a page`), `${app}: links to ${file}`);
+  assert.match(osScript, new RegExp(`\\{ id: '${app}', name: '[^']+', sub: '[^']+', icon: 'i-box', group: 'Projects'`), `${app}: in the command palette`);
+});
+
 /* ---------------------------------------------------- no internal names */
 
 const INTERNAL = [
@@ -81,7 +126,7 @@ const INTERNAL = [
   'Media Central', 'Content Symphony', 'Swifter', 'Weblab', 'MCM', 'pips-orig', 'Physical Object',
   'PhysicalId', 'GeneralMediaOU', 'Coral', 'Flamel', 'Merlin', 'PixelPusher', 'Andes', 'MediaCollections'
 ];
-for (const file of ['classic.html', ...PAGES]) {
+for (const file of ['classic.html', 'index.html', 'assets/js/os.js', ...PAGES]) {
   const page = fs.readFileSync(file, 'utf8');
   for (const term of INTERNAL) {
     assert.ok(!page.includes(term), `${file} mentions the internal name "${term}"`);

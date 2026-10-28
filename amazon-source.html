@@ -25,15 +25,15 @@
 			<a href="classic.html#contact">Contact</a>
 		</nav>
 		<a class="header-resume" href="/files/Terence_Zhang_Resume.pdf" download>Resume <span aria-hidden="true">↗</span></a>
-		<a class="header-view" href="index.html?view=os">terenceOS <span aria-hidden="true">↗</span></a>
+		<a class="header-view" href="index.html?view=os#project-amazon-source">terenceOS <span aria-hidden="true">↗</span></a>
 	</header>
 
 	<main>
 		<a class="work-crumb" href="classic.html#projects">← All projects</a>
 
-		<section class="work-hero" aria-labelledby="work-title">
+		<section class="work-hero" aria-labelledby="src-title">
 			<p class="eyebrow">Amazon · 2023–2025 · design author &amp; lead engineer</p>
-			<h1 id="work-title">Source: a deterministic lineage layer under <em>44 billion</em> original images.</h1>
+			<h1 id="src-title">Source: a deterministic lineage layer under <em>44 billion</em> original images.</h1>
 			<p class="work-lede">The data and ingestion architecture that stores, sanitizes and indexes every original upload at full fidelity, with two-way lineage to every variant made from it. It replaced eventually consistent index queries with deterministic key lookups inside a live upload pipeline.</p>
 			<ul class="work-tags"><li>Distributed Systems</li><li>Data Modeling</li><li>Concurrency</li><li>Storage Architecture</li></ul>
 		</section>
@@ -45,12 +45,12 @@
 			<div><dt>failed storage requests per 90 days, resolved</dt><dd>~800K</dd></div>
 		</dl>
 
-		<section class="work-section" aria-labelledby="arch-title" data-callouts>
+		<section class="work-section" aria-labelledby="src-arch-title" data-callouts>
 			<p class="eyebrow">01 / architecture</p>
-			<h2 id="arch-title">How it works</h2>
+			<h2 id="src-arch-title">How it works</h2>
 			<div class="work-arch">
-				<svg viewBox="0 0 1000 560" role="img" aria-labelledby="arch-svg-title">
-					<title id="arch-svg-title">Source architecture: the upload pipeline above a new source layer and the existing platform</title>
+				<svg viewBox="0 0 1000 560" role="img" aria-labelledby="src-arch-svg-title">
+					<title id="src-arch-svg-title">Source architecture: the upload pipeline above a new source layer and the existing platform</title>
 					<defs>
 						<marker id="aM" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path class="mk" d="M0 0L10 5L0 10z" /></marker>
 						<marker id="aA" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path class="mk-acc" d="M0 0L10 5L0 10z" /></marker>
@@ -108,7 +108,7 @@
 					<rect class="n" x="50" y="415" width="200" height="95" rx="8" />
 					<text class="t" x="66" y="440">Copies</text>
 					<text class="s" x="66" y="460">display, resized, …</text>
-					<text class="s" x="66" y="478">47B+ assets platform-wide</text>
+					<text class="s" x="66" y="478">50B+ assets platform-wide</text>
 					<rect class="n-bad" x="280" y="415" width="200" height="95" rx="8" />
 					<text class="t" x="296" y="440">Old secondary indexes</text>
 					<text class="s-bad" x="296" y="460">3× storage, 3 writes</text>
@@ -149,9 +149,9 @@
 			</ol>
 		</section>
 
-		<section class="work-section" aria-labelledby="tradeoffs-title">
+		<section class="work-section" aria-labelledby="src-tradeoffs-title">
 			<p class="eyebrow">02 / trade-offs</p>
-			<h2 id="tradeoffs-title">Trade-offs, measured</h2>
+			<h2 id="src-tradeoffs-title">Trade-offs, measured</h2>
 			<div class="work-charts">
 				<div class="work-chart">
 					<h3>Choosing the fingerprint</h3>
@@ -208,9 +208,9 @@
 			</div>
 		</section>
 
-		<section class="work-section" aria-labelledby="decisions-title">
+		<section class="work-section" aria-labelledby="src-decisions-title">
 			<p class="eyebrow">03 / decisions</p>
-			<h2 id="decisions-title">Key decisions</h2>
+			<h2 id="src-decisions-title">Key decisions</h2>
 			<ul class="work-decisions">
 				<li><strong>SHA-1 fingerprints instead of MD5 or SHA-256</strong><span>MD5 reaches a 50% collision chance at around 5 billion records, well below this catalog's size. SHA-1 pushes that past 10<sup>24</sup> while running only about 20% slower than MD5. SHA-256 cost about 60% more, and its extra attack resistance doesn't matter for deduplication. The old MD5 value is kept so existing customers don't break.</span></li>
 				<li><strong>A new record type, not a reused one</strong><span>Storing originals in the existing copies table would have been less work up front. It would also have grown that table by 30%+ and kept the slow index in the critical path. A separate table keyed by fingerprint and file type removes the index from lookups entirely.</span></li>
@@ -218,9 +218,9 @@
 			</ul>
 		</section>
 
-		<section class="work-section" aria-labelledby="impact-title">
+		<section class="work-section" aria-labelledby="src-impact-title">
 			<p class="eyebrow">04 / impact</p>
-			<h2 id="impact-title">Impact</h2>
+			<h2 id="src-impact-title">Impact</h2>
 			<dl class="work-impact">
 				<div><dt>database write and storage overhead, by replacing eventually consistent secondary-index queries with deterministic key lookups</dt><dd>3× → 1×</dd></div>
 				<div><dt>failed storage requests per 90 days, resolved by prefix partitioning</dt><dd>~800K</dd></div>

@@ -57,10 +57,14 @@
 	/* Every "switch view" affordance goes through here, so switching and
 	   remembering can never disagree. The shutdown/boot animation
 	   (assets/js/transition.js) navigates itself when it takes over; without
-	   it, or when it declines, this is a plain navigation. */
-	function switchTo(view) {
+	   it, or when it declines, this is a plain navigation.
+
+	   page, optional, lands somewhere other than the view's front page: the OS
+	   passes amazon-source.html when that write-up's window is the active one.
+	   Only a bare page in this site's root is accepted. */
+	function switchTo(view, page) {
 		if (!writeView(view)) return false;
-		var href = VIEWS[view];
+		var href = (page && /^[a-z0-9-]+\.html$/.test(page)) ? page : VIEWS[view];
 		var tx = window.terenceTransition;
 		if (tx && tx.leave(view, href)) return true;
 		window.location.href = href;

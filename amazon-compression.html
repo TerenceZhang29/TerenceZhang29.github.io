@@ -25,15 +25,15 @@
 			<a href="classic.html#contact">Contact</a>
 		</nav>
 		<a class="header-resume" href="/files/Terence_Zhang_Resume.pdf" download>Resume <span aria-hidden="true">↗</span></a>
-		<a class="header-view" href="index.html?view=os">terenceOS <span aria-hidden="true">↗</span></a>
+		<a class="header-view" href="index.html?view=os#project-amazon-compression">terenceOS <span aria-hidden="true">↗</span></a>
 	</header>
 
 	<main>
 		<a class="work-crumb" href="classic.html#projects">← All projects</a>
 
-		<section class="work-hero" aria-labelledby="work-title">
+		<section class="work-hero" aria-labelledby="pc-title">
 			<p class="eyebrow">Amazon · 2024–2025 · design author &amp; lead engineer</p>
-			<h1 id="work-title">Perceptual compression engine: the smallest file that still <em>looks right.</em></h1>
+			<h1 id="pc-title">Perceptual compression engine: the smallest file that still <em>looks right.</em></h1>
 			<p class="work-lede">An automated optimization pipeline for marketing and storefront graphics. Each image is compressed 60 ways in parallel and scored for how it looks to a human, and the smallest file that clears a quality floor ships.</p>
 			<ul class="work-tags"><li>Serverless</li><li>Concurrency</li><li>Image Processing</li><li>Algorithms</li></ul>
 		</section>
@@ -45,12 +45,12 @@
 			<div><dt>of marketing graphics in scope, across web, desktop and mobile</dt><dd>100%</dd></div>
 		</dl>
 
-		<section class="work-section" aria-labelledby="arch-title" data-callouts>
+		<section class="work-section" aria-labelledby="pc-arch-title" data-callouts>
 			<p class="eyebrow">01 / architecture</p>
-			<h2 id="arch-title">How it works</h2>
+			<h2 id="pc-arch-title">How it works</h2>
 			<div class="work-arch">
-				<svg viewBox="0 0 1000 560" role="img" aria-labelledby="arch-svg-title">
-					<title id="arch-svg-title">Compression engine: a synchronous request path, a 60-way parallel quality search, a size-cap search path, and async lineage</title>
+				<svg viewBox="0 0 1000 560" role="img" aria-labelledby="pc-arch-svg-title">
+					<title id="pc-arch-svg-title">Compression engine: a synchronous request path, a 60-way parallel quality search, a size-cap search path, and async lineage</title>
 					<defs>
 						<marker id="pcM" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path class="mk" d="M0 0L10 5L0 10z" /></marker>
 						<marker id="pcA" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path class="mk-acc" d="M0 0L10 5L0 10z" /></marker>
@@ -139,9 +139,9 @@
 			</ol>
 		</section>
 
-		<section class="work-section" aria-labelledby="tradeoffs-title">
+		<section class="work-section" aria-labelledby="pc-tradeoffs-title">
 			<p class="eyebrow">02 / trade-offs</p>
-			<h2 id="tradeoffs-title">Trade-offs, measured</h2>
+			<h2 id="pc-tradeoffs-title">Trade-offs, measured</h2>
 			<div class="work-chart">
 				<h3>Sizing the worker pool</h3>
 				<p class="sub">Concurrency = requests per second × jobs per request × seconds per job</p>
@@ -182,9 +182,9 @@
 			</div>
 		</section>
 
-		<section class="work-section" aria-labelledby="impact-title">
+		<section class="work-section" aria-labelledby="pc-impact-title">
 			<p class="eyebrow">03 / impact</p>
-			<h2 id="impact-title">Impact</h2>
+			<h2 id="pc-impact-title">Impact</h2>
 			<dl class="work-impact">
 				<div><dt>marketers no longer pre-compress images by hand, which used to degrade them before upload</dt><dd>0 manual steps</dd></div>
 				<div><dt>a guaranteed perceptual quality floor, with the score returned for every file</dt><dd>≥ 80 on every image</dd></div>

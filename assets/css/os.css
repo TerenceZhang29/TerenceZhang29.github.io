@@ -793,6 +793,91 @@ button {
 .linkbtn--primary:hover { background: var(--green-soft); border-color: var(--green); color: var(--green); }
 .linkbtn .icon { height: 0.875rem; width: 0.875rem; }
 
+/* --- Amazon write-ups (project-amazon-*) ---
+   The window content is the traditional view's amazon-*.html markup, laid out
+   by project.css. Here its --work-* tokens take the desktop palette, and its
+   page-sized type and spacing come down to window size. Columns follow the
+   window's own width (a container query), since a window is resized
+   independently of the screen. */
+.filelist__group {
+	color: var(--text-muted);
+	font-family: var(--font-mono);
+	font-size: var(--fs-meta);
+	letter-spacing: 0.06em;
+	padding-top: var(--sp-2);
+	text-transform: uppercase;
+}
+.filelist__group:first-child { padding-top: 0; }
+.file-row__thumb--stat { align-content: center; display: grid; gap: 0.125rem; justify-items: center; opacity: 1; }
+.file-row__thumb--stat b { color: var(--green); font-family: var(--font-mono); font-size: 1.0625rem; font-weight: 500; line-height: 1.1; }
+.file-row__thumb--stat small { color: var(--text-muted); font-family: var(--font-mono); font-size: 0.625rem; }
+
+.win .work-page {
+	--work-bg: var(--bg-alt);
+	--work-surface: var(--elevated);
+	--work-ink: var(--text);
+	--work-secondary: var(--text-2);
+	--work-muted: var(--text-muted);
+	--work-border: var(--border);
+	--work-wash: var(--bg);
+	--work-accent: var(--green);
+	--work-accent-soft: var(--green-soft);
+	--work-on-accent: var(--bg);
+	--work-mod: #FBBF24;
+	--work-mod-soft: rgba(251, 191, 36, 0.12);
+	--work-risk: #F87171;
+	--work-risk-soft: rgba(248, 113, 113, 0.10);
+	--work-font-body: var(--font-body);
+	--work-font-mono: var(--font-mono);
+	--work-font-display: var(--font-ui);
+	container-type: inline-size;
+}
+/* The hover detail is appended to <body>, outside any window. Windows stack
+   upward from z-index 10 as they are raised, so it sits above any of them. */
+.work-tip { --work-ink: var(--text); --work-surface: var(--bg); --work-font-body: var(--font-body); z-index: 100000; }
+
+.win .work-page .eyebrow { color: var(--text-muted); font-family: var(--font-mono); font-size: var(--fs-meta); letter-spacing: 0.06em; text-transform: uppercase; }
+.win .work-page h1, .win .work-page h2, .win .work-page h3 { color: var(--text); }
+.win .work-page em { color: var(--green); font-style: normal; }
+.win .work-page .work-hero { gap: var(--sp-4); padding: 0 0 var(--sp-5); }
+.win .work-page .work-hero h1 { font-size: var(--fs-title); letter-spacing: -0.02em; line-height: 1.2; }
+.win .work-page .work-lede { font-size: var(--fs-body); }
+.win .work-page .work-tags li { border-radius: var(--radius-pill); font-size: var(--fs-meta); padding: 2px 0.625rem; }
+.win .work-page .work-stats { border-radius: var(--radius); }
+.win .work-page .work-stats div { padding: var(--sp-4); }
+.win .work-page .work-stats dd { font-size: 1.5rem; }
+.win .work-page .work-section { gap: var(--sp-4); margin-top: var(--sp-6); padding-top: var(--sp-5); }
+.win .work-page .work-section h2 { font-size: 1.25rem; }
+.win .work-page .work-sub { font-size: var(--fs-body); }
+.win .work-page .work-chart { border-radius: var(--radius); padding: var(--sp-4); }
+.win .work-page .work-impact div { border-radius: var(--radius); padding: var(--sp-4); }
+.win .work-page .work-impact dd { font-size: 1.375rem; }
+
+.work-onward {
+	border-top: var(--hairline);
+	display: flex;
+	flex-wrap: wrap;
+	gap: var(--sp-2);
+	justify-content: space-between;
+	margin-top: var(--sp-6);
+	padding-top: var(--sp-5);
+}
+
+/* The charts' type is drawn at their own scale, so a half-width chart reads
+   too small long before the callouts need to reflow. */
+@container (max-width: 64rem) {
+	.win .work-page .work-charts { grid-template-columns: minmax(0, 1fr); }
+}
+@container (max-width: 50rem) {
+	.win .work-page .work-callouts { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+@container (max-width: 36rem) {
+	.win .work-page .work-stats { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+	.win .work-page .work-stats div:nth-child(3) { border-left: 0; }
+	.win .work-page .work-stats div:nth-child(n+3) { border-top: var(--hairline); }
+	.win .work-page .work-callouts, .win .work-page .work-impact, .win .work-page .flowline { grid-template-columns: minmax(0, 1fr); }
+}
+
 /* --- profile --- */
 .profile { display: grid; gap: 0.875rem; justify-items: start; }
 .profile__portrait {
@@ -1230,6 +1315,7 @@ button {
 
 	.file-row { flex-direction: column; }
 	.file-row__thumb { height: 8.25rem; width: 100%; }
+	.file-row__thumb--stat { align-items: baseline; gap: 0.5rem; grid-auto-flow: column; height: auto; justify-content: start; padding: 0.5rem 0.75rem; }
 	.field { grid-template-columns: minmax(0, 1fr); }
 	.terminal .hero { font-size: clamp(1.75rem, 9vw, 2.375rem); }
 }

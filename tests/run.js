@@ -4,7 +4,7 @@
  *   tests/classic.test.js  traditional view (classic.html)
  *   tests/view.test.js     switching between them (assets/js/view.js)
  *   tests/transition.test.js  the shutdown/boot animation between them (assets/js/transition.js)
- *   tests/amazon.test.js   the Amazon project pages the traditional view links to (amazon-*.html)
+ *   tests/amazon.test.js   the Amazon write-ups: amazon-*.html pages and their terenceOS windows
  *
  * Both view suites check their page against tests/content.js.
  *

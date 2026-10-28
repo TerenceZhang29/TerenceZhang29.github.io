@@ -83,6 +83,11 @@ function load({ path = '/index.html', search = '', hash = '', local = fakeStorag
   assert.equal(local.data.get(KEY), 'os');
   assert.equal(nav.href, 'index.html?view=os', 'the OS link carries ?view=os so the redirect stands down');
   assert.equal(api.switchTo('nowhere'), false, 'unknown views do not navigate');
+  api.switchTo('classic', 'amazon-source.html');
+  assert.equal(nav.href, 'amazon-source.html', 'an Amazon write-up window switches to its own page');
+  assert.equal(local.data.get(KEY), 'classic');
+  api.switchTo('classic', 'https://evil.example/x.html');
+  assert.equal(nav.href, 'classic.html', 'only a bare page in the site root is accepted');
 }
 
 /* Storage ladder: localStorage blocked → sessionStorage; both blocked → memory. */
@@ -218,7 +223,7 @@ assert.match(shell, /viewPrompt\.addEventListener\('keydown'[\s\S]{0,120}e\.key 
 
 /* ------------------------------------ 4. every way out records the choice */
 
-assert.match(shell, /function switchView\(view\) \{\s*if \(window\.terenceView && window\.terenceView\.switchTo\(view\)\) return true;/,
+assert.match(shell, /function switchView\(view\) \{[^}]*?if \(window\.terenceView && window\.terenceView\.switchTo\(view, page\)\) return true;/,
   'switchView must go through the shared module');
 
 /* The raw classic.html URL may appear once, as switchView's fallback for a

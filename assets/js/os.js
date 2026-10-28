@@ -25,6 +25,9 @@
 		{ id: 'experience', name: 'Experience', sub: 'experience.log', icon: 'i-briefcase', group: 'Applications', keys: 'jobs roles career vicino bili amazon millennium' },
 		{ id: 'stack', name: 'Stack', sub: 'stack.json — system information', icon: 'i-layers', group: 'Applications', keys: 'skills tools languages' },
 		{ id: 'contact', name: 'Contact', sub: 'contact.json', icon: 'i-mail', group: 'Applications', keys: 'email hire reach linkedin github' },
+		{ id: 'project-amazon-source', name: 'Source', sub: 'Amazon · lineage for every original image', icon: 'i-box', group: 'Projects', keys: 'amazon lineage originals storage partitions' },
+		{ id: 'project-amazon-takedown', name: 'One-click take-down', sub: 'Amazon · cascading removal in under a second', icon: 'i-box', group: 'Projects', keys: 'amazon takedown removal deletion compliance cdn' },
+		{ id: 'project-amazon-compression', name: 'Perceptual compression engine', sub: 'Amazon · 60 tried, the smallest that looks right ships', icon: 'i-box', group: 'Projects', keys: 'amazon compression image quality serverless' },
 		{ id: 'project-vicino', name: 'Vicino AI Image Editor', sub: 'Product · AI', icon: 'i-box', group: 'Projects', keys: 'shopline image editing' },
 		{ id: 'project-hackamatch', name: 'HackaMatch.com', sub: 'Product · Community', icon: 'i-box', group: 'Projects', keys: 'hackathon teammates cornell' },
 		{ id: 'project-rent', name: 'Rent Calculator', sub: 'Tool · Web app', icon: 'i-box', group: 'Projects', keys: 'rent vercel' },
@@ -60,10 +63,14 @@
 
 	/* Every way out of the OS goes through the shared view module, so switching
 	   and remembering the choice can never disagree. If that module failed to
-	   load, still get the visitor where they asked to go. */
+	   load, still get the visitor where they asked to go. A window that is also
+	   a traditional page (data-page, the Amazon write-ups) leads to that page
+	   when it is the active one, rather than to the top of classic.html. */
 	function switchView(view) {
-		if (window.terenceView && window.terenceView.switchTo(view)) return true;
-		window.location.href = view === 'classic' ? 'classic.html' : 'index.html';
+		var rec = view === 'classic' && active ? windows.get(active) : null;
+		var page = rec && rec.el.dataset.page;
+		if (window.terenceView && window.terenceView.switchTo(view, page)) return true;
+		window.location.href = page || (view === 'classic' ? 'classic.html' : 'index.html');
 		return true;
 	}
 

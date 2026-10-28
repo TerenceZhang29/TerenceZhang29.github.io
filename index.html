@@ -12,6 +12,7 @@
 	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 	<link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700&family=Geist+Mono:wght@400;500&family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
 	<link rel="stylesheet" href="assets/css/os.css" />
+	<link rel="stylesheet" href="assets/css/project.css" />
 	<link rel="stylesheet" href="assets/css/transition.css" />
 	<script>document.documentElement.classList.remove('no-js');</script>
 	<script>
@@ -248,9 +249,41 @@
 						<div class="app-head">
 							<p class="app-path">~/projects</p>
 							<h2 id="projects-title">Selected projects</h2>
-							<p>A few experiments and products where engineering meets a real user need.</p>
+							<p>Systems I designed and built at Amazon, and products of my own where engineering meets a real user need.</p>
 						</div>
 						<ul class="filelist">
+							<li class="filelist__group">amazon/</li>
+							<li>
+								<button class="file-row" type="button" data-launch="project-amazon-source">
+									<span class="file-row__thumb file-row__thumb--stat"><b>44B+</b><small>originals</small></span>
+									<span class="file-row__main">
+										<span class="file-row__name">Source <svg class="icon"><use href="#i-chevron" /></svg></span>
+										<span class="file-row__desc">An origin record for every image, linked to every copy made from it.</span>
+										<span class="file-row__kind">Amazon · 2023–2025 · Lineage</span>
+									</span>
+								</button>
+							</li>
+							<li>
+								<button class="file-row" type="button" data-launch="project-amazon-takedown">
+									<span class="file-row__thumb file-row__thumb--stat"><b>&lt; 1 s</b><small>per take-down</small></span>
+									<span class="file-row__main">
+										<span class="file-row__name">One-click take-down <svg class="icon"><use href="#i-chevron" /></svg></span>
+										<span class="file-row__desc">Removes an image and everything derived from it, from database rows to edge caches.</span>
+										<span class="file-row__kind">Amazon · 2022–2023 · Automation</span>
+									</span>
+								</button>
+							</li>
+							<li>
+								<button class="file-row" type="button" data-launch="project-amazon-compression">
+									<span class="file-row__thumb file-row__thumb--stat"><b>60</b><small>tried / image</small></span>
+									<span class="file-row__main">
+										<span class="file-row__name">Perceptual compression engine <svg class="icon"><use href="#i-chevron" /></svg></span>
+										<span class="file-row__desc">The smallest file that still looks right, chosen from 60 compressions run in parallel.</span>
+										<span class="file-row__kind">Amazon · 2024–2025 · Image systems</span>
+									</span>
+								</button>
+							</li>
+							<li class="filelist__group">side/</li>
 							<li>
 								<button class="file-row" type="button" data-launch="project-vicino">
 									<img class="file-row__thumb" src="images/fulls/vicino.png" width="740" height="434" loading="lazy" decoding="async" alt="Vicino AI image editor project" />
@@ -282,6 +315,565 @@
 								</button>
 							</li>
 						</ul>
+					</div>
+				</section>
+
+				<section class="win" id="project-amazon-source" data-app="project-amazon-source" data-page="amazon-source.html" data-title="amazon/source" data-icon="i-box"
+					data-w="880" data-h="700" data-x="300" data-y="40" aria-labelledby="src-title" hidden>
+					<div class="win__body">
+						<p class="app-path">~/projects/amazon/source</p>
+						<!-- Same write-up as amazon-source.html, kept identical by tests/amazon.test.js. -->
+						<div class="work-page">
+							<section class="work-hero" aria-labelledby="src-title">
+								<p class="eyebrow">Amazon · 2023–2025 · design author &amp; lead engineer</p>
+								<h1 id="src-title">Source: a deterministic lineage layer under <em>44 billion</em> original images.</h1>
+								<p class="work-lede">The data and ingestion architecture that stores, sanitizes and indexes every original upload at full fidelity, with two-way lineage to every variant made from it. It replaced eventually consistent index queries with deterministic key lookups inside a live upload pipeline.</p>
+								<ul class="work-tags"><li>Distributed Systems</li><li>Data Modeling</li><li>Concurrency</li><li>Storage Architecture</li></ul>
+							</section>
+
+							<dl class="work-stats">
+								<div><dt>original assets stored, sanitized and indexed</dt><dd>44B+</dd></div>
+								<div><dt>new originals per year</dt><dd>6–7B</dd></div>
+								<div><dt>database write and storage overhead</dt><dd>3× → 1×</dd></div>
+								<div><dt>failed storage requests per 90 days, resolved</dt><dd>~800K</dd></div>
+							</dl>
+
+							<section class="work-section" aria-labelledby="src-arch-title" data-callouts>
+								<p class="eyebrow">01 / architecture</p>
+								<h2 id="src-arch-title">How it works</h2>
+								<div class="work-arch">
+									<svg viewBox="0 0 1000 560" role="img" aria-labelledby="src-arch-svg-title">
+										<title id="src-arch-svg-title">Source architecture: the upload pipeline above a new source layer and the existing platform</title>
+										<defs>
+											<marker id="aM" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path class="mk" d="M0 0L10 5L0 10z" /></marker>
+											<marker id="aA" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path class="mk-acc" d="M0 0L10 5L0 10z" /></marker>
+										</defs>
+
+										<text class="bl" x="20" y="38">UPLOAD PIPELINE · 8 STEPS · LIVE TRAFFIC</text>
+										<rect class="n" x="20" y="56" width="106" height="60" rx="7" /><text class="ts" x="32" y="82">Check</text><text class="s" x="32" y="100">request</text>
+										<rect class="n-new" x="142" y="56" width="106" height="60" rx="7" /><text class="ts" x="154" y="82">Source</text><text class="s-acc" x="154" y="100">dedup · new</text>
+										<rect class="n-mod" x="264" y="56" width="106" height="60" rx="7" /><text class="ts" x="276" y="82">Validate</text><text class="s" x="276" y="100">original</text>
+										<rect class="n-new" x="386" y="56" width="106" height="60" rx="7" /><text class="ts" x="398" y="82">Clean + store</text><text class="s-acc" x="398" y="100">source · new</text>
+										<rect class="n" x="508" y="56" width="106" height="60" rx="7" /><text class="ts" x="520" y="82">Upload</text><text class="s" x="520" y="100">restrictions</text>
+										<rect class="n" x="630" y="56" width="106" height="60" rx="7" /><text class="ts" x="642" y="82">Copy</text><text class="s" x="642" y="100">dedup</text>
+										<rect class="n-mod" x="752" y="56" width="106" height="60" rx="7" /><text class="ts" x="764" y="82">Generate</text><text class="s" x="764" y="100">copies</text>
+										<rect class="n-mod" x="874" y="56" width="106" height="60" rx="7" /><text class="ts" x="886" y="82">Link copies</text><text class="s" x="886" y="100">to source</text>
+										<path class="ln" d="M126 86 H140" marker-end="url(#aM)" />
+										<path class="ln" d="M248 86 H262" marker-end="url(#aM)" />
+										<path class="ln" d="M370 86 H384" marker-end="url(#aM)" />
+										<path class="ln" d="M492 86 H506" marker-end="url(#aM)" />
+										<path class="ln" d="M614 86 H628" marker-end="url(#aM)" />
+										<path class="ln" d="M736 86 H750" marker-end="url(#aM)" />
+										<path class="ln" d="M858 86 H872" marker-end="url(#aM)" />
+										<path class="ln-dash" d="M195 116 V128 H690 V116" />
+										<text class="s" x="420" y="142">duplicate → skip all processing</text>
+
+										<rect class="band-new" x="20" y="165" width="660" height="185" rx="10" />
+										<text class="bl-acc" x="36" y="188">SOURCE LAYER · NEW</text>
+										<rect class="n-new" x="50" y="200" width="280" height="118" rx="8" />
+										<text class="t" x="66" y="224">Source records</text>
+										<text class="s" x="66" y="244">DynamoDB · strongly consistent reads</text>
+										<text class="s" x="66" y="262">key: SHA-1 fingerprint + file type</text>
+										<text class="s" x="66" y="280">17 fields · copy links + history</text>
+										<text class="s" x="66" y="298">conditional-write lock per record</text>
+										<rect class="n-new" x="370" y="200" width="280" height="118" rx="8" />
+										<text class="t" x="386" y="224">Cleaned originals</text>
+										<text class="s" x="386" y="244">S3 · GPS + private headers stripped</text>
+										<text class="s" x="386" y="262">65,536 prefix partitions</text>
+										<text class="s" x="386" y="280">+ one bucket set per collection</text>
+										<text class="s" x="386" y="298">written once, by the lock holder</text>
+										<path class="ln-acc" d="M195 116 V198" marker-end="url(#aA)" />
+										<text class="s-acc" x="202" y="160">key lookup</text>
+										<path class="ln-acc" d="M439 116 V198" marker-end="url(#aA)" />
+										<text class="s-acc" x="446" y="160">write once</text>
+										<path class="ln-acc" d="M410 116 C400 170 360 200 332 222" marker-end="url(#aA)" />
+										<text class="s-acc" x="300" y="160">lock + put</text>
+
+										<rect class="n-p2" x="830" y="200" width="150" height="118" rx="8" />
+										<text class="ts" x="844" y="224">Phase 2 · designed</text>
+										<text class="s" x="844" y="244">source groups:</text>
+										<text class="s" x="844" y="262">team-defined</text>
+										<text class="s" x="844" y="280">relationships, e.g.</text>
+										<text class="s" x="844" y="298">localized variants</text>
+
+										<rect class="band-old" x="20" y="372" width="960" height="173" rx="10" />
+										<text class="bl" x="36" y="533">EXISTING PLATFORM</text>
+										<rect class="n" x="50" y="415" width="200" height="95" rx="8" />
+										<text class="t" x="66" y="440">Copies</text>
+										<text class="s" x="66" y="460">display, resized, …</text>
+										<text class="s" x="66" y="478">50B+ assets platform-wide</text>
+										<rect class="n-bad" x="280" y="415" width="200" height="95" rx="8" />
+										<text class="t" x="296" y="440">Old secondary indexes</text>
+										<text class="s-bad" x="296" y="460">3× storage, 3 writes</text>
+										<text class="s-bad" x="296" y="478">eventually consistent</text>
+										<text class="s" x="296" y="496">now off the lookup path</text>
+										<rect class="n-dash" x="510" y="415" width="200" height="95" rx="8" />
+										<text class="t" x="526" y="440">Legacy raw originals</text>
+										<text class="s" x="526" y="460">no record, no metadata</text>
+										<text class="s" x="526" y="478">inconsistent naming</text>
+										<rect class="n" x="760" y="415" width="200" height="95" rx="8" />
+										<text class="t" x="776" y="440">Image processing</text>
+										<text class="s" x="776" y="460">resize · compress</text>
+										<text class="s" x="776" y="478">rotate · optimize</text>
+
+										<path class="ln" d="M805 116 V413" marker-end="url(#aM)" />
+										<path class="ln" d="M860 415 V392 H200 V413" marker-end="url(#aM)" />
+										<path class="ln-acc" d="M110 320 V413" marker-start="url(#aA)" marker-end="url(#aA)" />
+										<path class="ln-dash" d="M600 415 V320" marker-end="url(#aM)" />
+										<text class="s" x="608" y="410">backfill</text>
+										<path class="ln-bad" d="M250 462 H280" />
+
+										<g class="co" data-co="1" tabindex="0" role="button" aria-label="Design problem 1"><circle cx="248" cy="56" r="11" /><text x="248" y="60">1</text></g>
+										<g class="co" data-co="2" tabindex="0" role="button" aria-label="Design problem 2"><circle cx="492" cy="56" r="11" /><text x="492" y="60">2</text></g>
+										<g class="co" data-co="3" tabindex="0" role="button" aria-label="Design problem 3"><circle cx="330" cy="200" r="11" /><text x="330" y="204">3</text></g>
+										<g class="co" data-co="4" tabindex="0" role="button" aria-label="Design problem 4"><circle cx="650" cy="200" r="11" /><text x="650" y="204">4</text></g>
+										<g class="co" data-co="5" tabindex="0" role="button" aria-label="Design problem 5"><circle cx="110" cy="362" r="11" /><text x="110" y="366">5</text></g>
+										<g class="co" data-co="6" tabindex="0" role="button" aria-label="Design problem 6"><circle cx="600" cy="362" r="11" /><text x="600" y="366">6</text></g>
+									</svg>
+								</div>
+								<ul class="work-legend"><li><i class="new"></i>New</li><li><i class="mod"></i>Changed</li><li><i></i>Unchanged</li><li><i class="bad"></i>Removed from the lookup path</li></ul>
+								<ol class="work-callouts">
+									<li data-co="1" tabindex="0"><span class="num">1</span><strong>Deterministic compound key</strong><span>Records are keyed on a 160-bit SHA-1 hash plus file type, in one strongly consistent lookup before any processing. Adding the file type resolves zero-byte and cross-format collisions.</span></li>
+									<li data-co="2" tabindex="0"><span class="num">2</span><strong>Sanitize once, inherit everywhere</strong><span>GPS and other sensitive EXIF data are scrubbed at upload. Fixed attributes (aspect ratio, moderation flags, AI-generation markers) are extracted once and inherited by every variant, with no repeated compute.</span></li>
+									<li data-co="3" tabindex="0"><span class="num">3</span><strong>Atomic distributed lock</strong><span>A conditional write acts as a per-record lock, so parallel uploads of the same file produce exactly one record and one stored object, with no race conditions.</span></li>
+									<li data-co="4" tabindex="0"><span class="num">4</span><strong>Prefix-partitioned storage</strong><span>The first 4 hex characters of the hash spread files over 65,536 prefixes. This resolved the staging bottleneck behind ~800,000 failed requests in 90 days.</span></li>
+									<li data-co="5" tabindex="0"><span class="num">5</span><strong>Bidirectional lineage</strong><span>Nested source-to-variant maps plus a transformation history let you trace both ways, from an original to every thumbnail, localized graphic and compressed web format, and back.</span></li>
+									<li data-co="6" tabindex="0"><span class="num">6</span><strong>Backfill billions of originals</strong><span>Every existing original is converted into a record, and duplicate copies left by older bugs are merged along the way.</span></li>
+								</ol>
+							</section>
+
+							<section class="work-section" aria-labelledby="src-tradeoffs-title">
+								<p class="eyebrow">02 / trade-offs</p>
+								<h2 id="src-tradeoffs-title">Trade-offs, measured</h2>
+								<div class="work-charts">
+									<div class="work-chart">
+										<h3>Choosing the fingerprint</h3>
+										<p class="sub">Records needed before a 50% chance of a collision (log scale)</p>
+										<svg viewBox="0 0 640 190" role="img" aria-label="Collision thresholds: MD5 5.1 billion, SHA-1 1.4 times 10 to the 24, SHA-256 4 times 10 to the 38. Catalog size 44 billion.">
+											<line class="ax" x1="110" y1="30" x2="110" y2="150" />
+											<line class="ax" x1="110" y1="150" x2="540" y2="150" />
+											<text class="axl" x="110" y="168" text-anchor="middle">10⁰</text>
+											<text class="axl" x="217.5" y="168" text-anchor="middle">10¹⁰</text>
+											<text class="axl" x="325" y="168" text-anchor="middle">10²⁰</text>
+											<text class="axl" x="432.5" y="168" text-anchor="middle">10³⁰</text>
+											<text class="axl" x="540" y="168" text-anchor="middle">10⁴⁰</text>
+											<text class="rl" x="0" y="54">MD5</text><text class="rs" x="0" y="68">1.0× cost</text>
+											<text class="rl" x="0" y="96">SHA-1 ✓</text><text class="rs" x="0" y="110">1.2× cost</text>
+											<text class="rl" x="0" y="138">SHA-256</text><text class="rs" x="0" y="152">1.6× cost</text>
+											<rect class="bar-mut" x="110" y="45" width="104" height="18" rx="2" data-tip="MD5: 50% collision chance at ~5.1 billion records" />
+											<rect class="bar-acc" x="110" y="87" width="259.6" height="18" rx="2" data-tip="SHA-1 (chosen): 50% collision chance at ~1.4 × 10²⁴ records, 20% slower than MD5" />
+											<rect class="bar-mut" x="110" y="129" width="415" height="18" rx="2" data-tip="SHA-256: ~4 × 10³⁸ records, but 60% slower with no benefit for dedup" />
+											<text class="vl" x="374" y="100">1.4 × 10²⁴</text>
+											<text class="vl" x="530" y="142">4 × 10³⁸</text>
+											<line class="mark" x1="224" y1="22" x2="224" y2="150" />
+											<text class="mark-l" x="230" y="22">catalog size: 44B</text>
+											<text class="vl" x="232" y="58">5.1B, already exceeded</text>
+										</svg>
+										<p class="note">MD5 would already be past a coin-flip chance of a collision at this catalog size. SHA-1 removes that risk for 20% more compute; SHA-256's extra attack resistance doesn't matter for deduplication.</p>
+									</div>
+									<div class="work-chart">
+										<h3>Where the processing went</h3>
+										<p class="sub">Daily image-optimization requests, before Source</p>
+										<div class="split" role="img" aria-label="33% unique images, 67% duplicates">
+											<div class="lead" style="flex: 1" data-tip="Only 33% of daily optimization requests produced a unique image">33% unique</div>
+											<div class="tail" style="flex: 2" data-tip="The other 67% produced an image that already existed, found only after processing">67% duplicates</div>
+										</div>
+										<p class="note">Duplicates were detected only after full processing. Moving deduplication to the second pipeline step stops them before any compute is spent.</p>
+										<h3>Lookup cost per record</h3>
+										<div class="pairs">
+											<div class="pair">
+												<div class="pair-h">Storage footprint <span>table copies kept</span></div>
+												<div class="pair-r"><span>Index</span><div class="track"><div class="fill old" style="width: 100%" data-tip="Two all-attribute indexes: the table is stored 3 times"></div></div><b>3×</b></div>
+												<div class="pair-r"><span>Source</span><div class="track"><div class="fill new" style="width: 33.3%" data-tip="Primary-key lookup, no index needed"></div></div><b>1×</b></div>
+											</div>
+											<div class="pair">
+												<div class="pair-h">Writes per update <span>per record change</span></div>
+												<div class="pair-r"><span>Index</span><div class="track"><div class="fill old" style="width: 100%" data-tip="Every update writes the table and both indexes"></div></div><b>3</b></div>
+												<div class="pair-r"><span>Source</span><div class="track"><div class="fill new" style="width: 33.3%" data-tip="One write per record update"></div></div><b>1</b></div>
+											</div>
+											<div class="pair">
+												<div class="pair-h">Read freshness <span>after an upload</span></div>
+												<div class="pair-r"><span>Index</span><span class="wide">eventually consistent, so new uploads can be missed</span></div>
+												<div class="pair-r"><span>Source</span><span class="wide good">strongly consistent, so they're always found</span></div>
+											</div>
+										</div>
+									</div>
+								</div>
+							</section>
+
+							<section class="work-section" aria-labelledby="src-decisions-title">
+								<p class="eyebrow">03 / decisions</p>
+								<h2 id="src-decisions-title">Key decisions</h2>
+								<ul class="work-decisions">
+									<li><strong>SHA-1 fingerprints instead of MD5 or SHA-256</strong><span>MD5 reaches a 50% collision chance at around 5 billion records, well below this catalog's size. SHA-1 pushes that past 10<sup>24</sup> while running only about 20% slower than MD5. SHA-256 cost about 60% more, and its extra attack resistance doesn't matter for deduplication. The old MD5 value is kept so existing customers don't break.</span></li>
+									<li><strong>A new record type, not a reused one</strong><span>Storing originals in the existing copies table would have been less work up front. It would also have grown that table by 30%+ and kept the slow index in the critical path. A separate table keyed by fingerprint and file type removes the index from lookups entirely.</span></li>
+									<li><strong>Phase 2: customer-defined groups, not hard-coded links</strong><span>For teams that make derived images, such as one product photo localized into many languages, I designed "source groups" where each team defines its own relationship schema. I rejected a simpler option that would have locked every group to one parent image, because that choice would be hard to reverse later.</span></li>
+								</ul>
+							</section>
+
+							<section class="work-section" aria-labelledby="src-impact-title">
+								<p class="eyebrow">04 / impact</p>
+								<h2 id="src-impact-title">Impact</h2>
+								<dl class="work-impact">
+									<div><dt>database write and storage overhead, by replacing eventually consistent secondary-index queries with deterministic key lookups</dt><dd>3× → 1×</dd></div>
+									<div><dt>failed storage requests per 90 days, resolved by prefix partitioning</dt><dd>~800K</dd></div>
+									<div><dt>of daily optimization requests were duplicates; they're now caught before any compute is spent</dt><dd>67%</dd></div>
+								</dl>
+								<h3 class="work-sub">What it unlocked</h3>
+								<ul class="work-unlocks">
+									<li><strong>AI and computer-vision training</strong><span>Full-resolution originals, where before only compressed copies were available</span></li>
+									<li><strong>Storefront rendering</strong><span>Storefronts for multiple tenants can render from the original, not a resized copy</span></li>
+									<li><strong>Compute once, inherit everywhere</strong><span>Moderation flags, AI-generation markers and aspect ratio are computed once per original</span></li>
+									<li><strong>Complete legal take-downs</strong><span>Every thumbnail, localized graphic and web format can be reached from its source</span></li>
+									<li><strong>A base for later systems</strong><span>The perceptual compression engine records its source → variant links in this layer</span></li>
+								</ul>
+							</section>
+						</div>
+						<nav class="work-onward" aria-label="More from Source">
+							<button class="linkbtn linkbtn--primary" type="button" data-launch="project-amazon-takedown">Next at Amazon: One-click take-down<svg class="icon"><use href="#i-arrow-right" /></svg></button>
+							<a class="linkbtn" href="amazon-source.html" target="_blank" rel="noopener">Open as a page<svg class="icon"><use href="#i-external" /></svg></a>
+						</nav>
+					</div>
+				</section>
+
+				<section class="win" id="project-amazon-takedown" data-app="project-amazon-takedown" data-page="amazon-takedown.html" data-title="amazon/one-click-takedown" data-icon="i-box"
+					data-w="880" data-h="700" data-x="320" data-y="56" aria-labelledby="td-title" hidden>
+					<div class="win__body">
+						<p class="app-path">~/projects/amazon/one-click-takedown</p>
+						<!-- Same write-up as amazon-takedown.html, kept identical by tests/amazon.test.js. -->
+						<div class="work-page">
+							<section class="work-hero" aria-labelledby="td-title">
+								<p class="eyebrow">Amazon · 2022–2023 · design &amp; build</p>
+								<h1 id="td-title">One-click take-down: cascading removal across every copy, cache and <em>collection.</em></h1>
+								<p class="work-lede">A state-driven deletion engine that removes a compromised, copyrighted or legally sensitive image and everything derived from it, from database records to edge caches, then blocks it from being uploaded again.</p>
+								<ul class="work-tags"><li>Workflow Orchestration</li><li>Distributed Systems</li><li>Fault Tolerance</li><li>Compliance</li></ul>
+							</section>
+
+							<dl class="work-stats">
+								<div><dt>per take-down, down from 10–15 min of manual tracing</dt><dd>&lt; 1 s</dd></div>
+								<div><dt>take-down requests per week, North America alone</dt><dd>~8,000</dd></div>
+								<div><dt>orphaned originals purged after 2+ years</dt><dd>~20M</dd></div>
+								<div><dt>business goal unblocked</dt><dd>$3.6B</dd></div>
+							</dl>
+
+							<section class="work-section" aria-labelledby="td-arch-title" data-callouts>
+								<p class="eyebrow">01 / architecture</p>
+								<h2 id="td-arch-title">How it works</h2>
+								<div class="work-arch">
+									<svg viewBox="0 0 1000 560" role="img" aria-labelledby="td-arch-svg-title">
+										<title id="td-arch-svg-title">Take-down workflow: six steps, a volume-aware branch for removing links, and seven layers torn down</title>
+										<defs>
+											<marker id="tdM" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path class="mk" d="M0 0L10 5L0 10z" /></marker>
+											<marker id="tdA" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path class="mk-acc" d="M0 0L10 5L0 10z" /></marker>
+										</defs>
+										<text class="bl" x="20" y="38">STATE-DRIVEN WORKFLOW · 6 STEPS</text>
+										<rect class="n" x="20" y="56" width="140" height="60" rx="7" /><text class="ts" x="34" y="82">Validate</text><text class="s" x="34" y="100">id + collection</text>
+										<rect class="n-new" x="183" y="56" width="140" height="60" rx="7" /><text class="ts" x="197" y="82">Block checksum</text><text class="s-acc" x="197" y="100">no re-upload</text>
+										<rect class="n-new" x="346" y="56" width="140" height="60" rx="7" /><text class="ts" x="360" y="82">Discover links</text><text class="s-acc" x="360" y="100">all tenants</text>
+										<rect class="n-new" x="509" y="56" width="140" height="60" rx="7" /><text class="ts" x="523" y="82">Remove links</text><text class="s-acc" x="523" y="100">volume-aware</text>
+										<rect class="n-mod" x="672" y="56" width="140" height="60" rx="7" /><text class="ts" x="686" y="82">Destroy + cascade</text><text class="s" x="686" y="100">variants, originals</text>
+										<rect class="n-new" x="835" y="56" width="140" height="60" rx="7" /><text class="ts" x="849" y="82">Invalidate CDN</text><text class="s-acc" x="849" y="100">edge caches</text>
+										<path class="ln" d="M160 86 H181" marker-end="url(#tdM)" />
+										<path class="ln" d="M323 86 H344" marker-end="url(#tdM)" />
+										<path class="ln" d="M486 86 H507" marker-end="url(#tdM)" />
+										<path class="ln" d="M649 86 H670" marker-end="url(#tdM)" />
+										<path class="ln" d="M812 86 H833" marker-end="url(#tdM)" />
+										<path class="ln-dash" d="M416 56 V44 H742 V54" marker-end="url(#tdM)" />
+										<text class="s" x="540" y="38">no links → skip ahead</text>
+
+										<path class="ln-acc" d="M579 116 V150 M325 150 H665" />
+										<path class="ln-acc" d="M325 150 V198" marker-end="url(#tdA)" />
+										<path class="ln-acc" d="M495 150 V198" marker-end="url(#tdA)" />
+										<path class="ln-acc" d="M665 150 V198" marker-end="url(#tdA)" />
+										<rect class="band-new" x="230" y="165" width="750" height="190" rx="10" />
+										<text class="bl-acc" x="770" y="190">BRANCH BY VOLUME</text>
+										<rect class="n" x="250" y="200" width="150" height="54" rx="7" /><text class="ts" x="264" y="224">No links</text><text class="s" x="264" y="242">skip ahead</text>
+										<rect class="n" x="420" y="200" width="150" height="54" rx="7" /><text class="ts" x="434" y="224">A few</text><text class="s" x="434" y="242">inline, resumable</text>
+										<rect class="n-new" x="590" y="200" width="150" height="54" rx="7" /><text class="ts" x="604" y="224">Many</text><text class="s-acc" x="604" y="242">parallel batch jobs</text>
+										<rect class="n" x="590" y="280" width="150" height="54" rx="7" /><text class="ts" x="604" y="304">Job tracker</text><text class="s" x="604" y="322">≤ 20 polls, report</text>
+										<rect class="n-bad" x="770" y="280" width="160" height="54" rx="7" /><text class="ts" x="784" y="304">Dead-letter bucket</text><text class="s-bad" x="784" y="322">failed deletes, audited</text>
+										<path class="ln" d="M665 254 V278" marker-end="url(#tdM)" />
+										<path class="ln-bad" d="M740 307 H768" marker-end="url(#tdM)" />
+										<path class="ln-bad" d="M495 254 V346 H850 V336" marker-end="url(#tdM)" />
+
+										<path class="ln" d="M955 116 V395 M92 395 H955" />
+										<path class="ln" d="M92 395 V413" marker-end="url(#tdM)" />
+										<path class="ln" d="M229 395 V413" marker-end="url(#tdM)" />
+										<path class="ln" d="M366 395 V413" marker-end="url(#tdM)" />
+										<path class="ln" d="M503 395 V413" marker-end="url(#tdM)" />
+										<path class="ln" d="M640 395 V413" marker-end="url(#tdM)" />
+										<path class="ln" d="M777 395 V413" marker-end="url(#tdM)" />
+										<path class="ln" d="M914 395 V413" marker-end="url(#tdM)" />
+										<rect class="band-old" x="20" y="372" width="960" height="173" rx="10" />
+										<rect class="n" x="30" y="415" width="125" height="62" rx="7" /><text class="ts" x="42" y="440">DB record</text><text class="s" x="42" y="458">metadata row</text>
+										<rect class="n" x="167" y="415" width="125" height="62" rx="7" /><text class="ts" x="179" y="440">Stored object</text><text class="s" x="179" y="458">archived first</text>
+										<rect class="n" x="304" y="415" width="125" height="62" rx="7" /><text class="ts" x="316" y="440">Link maps</text><text class="s" x="316" y="458">all tenants</text>
+										<rect class="n" x="441" y="415" width="125" height="62" rx="7" /><text class="ts" x="453" y="440">Variants</text><text class="s" x="453" y="458">display, resized</text>
+										<rect class="n" x="578" y="415" width="125" height="62" rx="7" /><text class="ts" x="590" y="440">Raw originals</text><text class="s" x="590" y="458">uploaded files</text>
+										<rect class="n" x="715" y="415" width="125" height="62" rx="7" /><text class="ts" x="727" y="440">Localized</text><text class="s" x="727" y="458">translations</text>
+										<rect class="n" x="852" y="415" width="125" height="62" rx="7" /><text class="ts" x="864" y="440">CDN cache</text><text class="s" x="864" y="458">edge locations</text>
+										<text class="bl" x="36" y="530">REMOVED FROM EVERY LAYER</text>
+
+										<g class="co" data-co="1" tabindex="0" role="button" aria-label="Design problem 1"><circle cx="323" cy="56" r="11" /><text x="323" y="60">1</text></g>
+										<g class="co" data-co="2" tabindex="0" role="button" aria-label="Design problem 2"><circle cx="486" cy="56" r="11" /><text x="486" y="60">2</text></g>
+										<g class="co" data-co="3" tabindex="0" role="button" aria-label="Design problem 3"><circle cx="740" cy="200" r="11" /><text x="740" y="204">3</text></g>
+										<g class="co" data-co="4" tabindex="0" role="button" aria-label="Design problem 4"><circle cx="930" cy="280" r="11" /><text x="930" y="284">4</text></g>
+										<g class="co" data-co="5" tabindex="0" role="button" aria-label="Design problem 5"><circle cx="812" cy="56" r="11" /><text x="812" y="60">5</text></g>
+										<g class="co" data-co="6" tabindex="0" role="button" aria-label="Design problem 6"><circle cx="975" cy="56" r="11" /><text x="975" y="60">6</text></g>
+									</svg>
+								</div>
+								<ul class="work-legend"><li><i class="new"></i>New</li><li><i class="mod"></i>Changed</li><li><i></i>Unchanged</li><li><i class="bad"></i>Failure path</li></ul>
+								<ol class="work-callouts">
+									<li data-co="1" tabindex="0"><span class="num">1</span><strong>Block before delete</strong><span>The file's checksum is blocklisted first, so banned media can't be uploaded again while the teardown runs, or after it finishes.</span></li>
+									<li data-co="2" tabindex="0"><span class="num">2</span><strong>Cross-tenant discovery</strong><span>Every reference to the image is found across customer collections and snapshotted to storage before anything is deleted, for audit and resumability.</span></li>
+									<li data-co="3" tabindex="0"><span class="num">3</span><strong>Volume-aware branching</strong><span>No links: skip ahead. A few: remove them inline with a resumable index. Many: fan out to parallel batch deletion jobs.</span></li>
+									<li data-co="4" tabindex="0"><span class="num">4</span><strong>Bounded tracking, dead-letter log</strong><span>A tracker polls batch jobs up to 20 times and reports what failed. Every failed deletion lands in a dead-letter bucket for audit and replay.</span></li>
+									<li data-co="5" tabindex="0"><span class="num">5</span><strong>Cascade to every derivative</strong><span>Related variants are found and destroyed, the workflow confirms they're all gone, and only then removes the stored originals. Translated copies are purged automatically too.</span></li>
+									<li data-co="6" tabindex="0"><span class="num">6</span><strong>Edge to storage, rolled out safely</strong><span>The run ends with CDN invalidation. Because it handles live traffic, the new workflow was dialled up gradually, with a metric and an alarm for every failure scenario.</span></li>
+								</ol>
+							</section>
+
+							<section class="work-section" aria-labelledby="td-tradeoffs-title">
+								<p class="eyebrow">02 / trade-offs</p>
+								<h2 id="td-tradeoffs-title">Trade-offs, measured</h2>
+								<div class="work-charts">
+									<div class="work-chart">
+										<h3>Time to complete one take-down</h3>
+										<p class="sub">Seconds, log scale</p>
+										<svg viewBox="0 0 640 140" role="img" aria-label="Manual take-down 10 to 15 minutes; automated take-down under 1 second">
+											<line class="ax" x1="110" y1="20" x2="110" y2="110" />
+											<line class="ax" x1="110" y1="110" x2="600" y2="110" />
+											<text class="axl" x="110" y="128" text-anchor="middle">0.1 s</text>
+											<text class="axl" x="232.5" y="128" text-anchor="middle">1 s</text>
+											<text class="axl" x="355" y="128" text-anchor="middle">10 s</text>
+											<text class="axl" x="477.5" y="128" text-anchor="middle">100 s</text>
+											<text class="axl" x="600" y="128" text-anchor="middle">1,000 s</text>
+											<text class="rl" x="0" y="50">Manual</text><text class="rs" x="0" y="64">trace + purge</text>
+											<text class="rl" x="0" y="92">Automated</text><text class="rs" x="0" y="106">workflow</text>
+											<rect class="bar-mut" x="110" y="40" width="463" height="18" rx="2" data-tip="Manual: an operator traces every related file and purges each one, 10–15 minutes" />
+											<rect class="bar-mut" x="573" y="40" width="21" height="18" rx="2" opacity="0.6" data-tip="Range: 10 to 15 minutes" />
+											<text class="vl" x="594" y="33" text-anchor="end">10–15 min</text>
+											<rect class="bar-acc" x="110" y="82" width="122" height="18" rx="2" data-tip="Automated: under one second, end to end" />
+											<text class="vl" x="240" y="96">&lt; 1 s · 600×+ faster</text>
+										</svg>
+										<p class="note">The manual process also depended on an operator finding every related file. Missing one left a legally sensitive file live.</p>
+									</div>
+									<div class="work-chart">
+										<h3>Backfill: ~20M orphaned originals</h3>
+										<p class="sub">Originals left behind by take-downs from before the cascade existed, some over 2 years old</p>
+										<ol class="flowline">
+											<li>Partitioned SQL<span>find candidates in the data warehouse</span></li>
+											<li>Verify live<span>confirm through the live API that no active outputs remain</span></li>
+											<li>Archive<span>copy before delete, for recovery</span></li>
+											<li>Purge<span>multithreaded, throttled to protect live traffic</span></li>
+										</ol>
+										<p class="note">The files couldn't be fetched through any existing API, so they had to be found in the data warehouse. Each was then checked against the live system before deletion. The purge ran as a tracked change with monitoring throughout.</p>
+									</div>
+								</div>
+							</section>
+
+							<section class="work-section" aria-labelledby="td-impact-title">
+								<p class="eyebrow">03 / impact</p>
+								<h2 id="td-impact-title">Impact</h2>
+								<dl class="work-impact">
+									<div><dt>take-downs go from a 10–15 minute manual trace to under a second, with no missed files</dt><dd>600×+ faster</dd></div>
+									<div><dt>take-down requests handled automatically in North America alone</dt><dd>~8,000 / wk</dd></div>
+									<div><dt>orphaned originals purged, closing a compliance risk that had been open for 2+ years</dt><dd>~20M</dd></div>
+								</dl>
+								<h3 class="work-sub">What it unlocked</h3>
+								<ul class="work-unlocks">
+									<li><strong>Legal compliance</strong><span>Copyright and legal removals reach every copy, so no derivative is left live</span></li>
+									<li><strong>Collections onboarding</strong><span>Customers who needed take-down support could migrate to customer-managed collections</span></li>
+									<li><strong>A partner team saved 3+ weeks</strong><span>Localized images are now purged automatically when their source is taken down</span></li>
+									<li><strong>Auditability</strong><span>Link snapshots, archives and a dead-letter log record exactly what was removed</span></li>
+								</ul>
+							</section>
+						</div>
+						<nav class="work-onward" aria-label="More from One-click take-down">
+							<button class="linkbtn linkbtn--primary" type="button" data-launch="project-amazon-compression">Next at Amazon: Perceptual compression engine<svg class="icon"><use href="#i-arrow-right" /></svg></button>
+							<a class="linkbtn" href="amazon-takedown.html" target="_blank" rel="noopener">Open as a page<svg class="icon"><use href="#i-external" /></svg></a>
+						</nav>
+					</div>
+				</section>
+
+				<section class="win" id="project-amazon-compression" data-app="project-amazon-compression" data-page="amazon-compression.html" data-title="amazon/perceptual-compression" data-icon="i-box"
+					data-w="880" data-h="700" data-x="340" data-y="72" aria-labelledby="pc-title" hidden>
+					<div class="win__body">
+						<p class="app-path">~/projects/amazon/perceptual-compression</p>
+						<!-- Same write-up as amazon-compression.html, kept identical by tests/amazon.test.js. -->
+						<div class="work-page">
+							<section class="work-hero" aria-labelledby="pc-title">
+								<p class="eyebrow">Amazon · 2024–2025 · design author &amp; lead engineer</p>
+								<h1 id="pc-title">Perceptual compression engine: the smallest file that still <em>looks right.</em></h1>
+								<p class="work-lede">An automated optimization pipeline for marketing and storefront graphics. Each image is compressed 60 ways in parallel and scored for how it looks to a human, and the smallest file that clears a quality floor ships.</p>
+								<ul class="work-tags"><li>Serverless</li><li>Concurrency</li><li>Image Processing</li><li>Algorithms</li></ul>
+							</section>
+
+							<dl class="work-stats">
+								<div><dt>compressions tried in parallel per image</dt><dd>60</dd></div>
+								<div><dt>SSIMULACRA 2 perceptual quality floor</dt><dd>≥ 80</dd></div>
+								<div><dt>peak concurrent workers, sized from first principles</dt><dd>2,500</dd></div>
+								<div><dt>of marketing graphics in scope, across web, desktop and mobile</dt><dd>100%</dd></div>
+							</dl>
+
+							<section class="work-section" aria-labelledby="pc-arch-title" data-callouts>
+								<p class="eyebrow">01 / architecture</p>
+								<h2 id="pc-arch-title">How it works</h2>
+								<div class="work-arch">
+									<svg viewBox="0 0 1000 560" role="img" aria-labelledby="pc-arch-svg-title">
+										<title id="pc-arch-svg-title">Compression engine: a synchronous request path, a 60-way parallel quality search, a size-cap search path, and async lineage</title>
+										<defs>
+											<marker id="pcM" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path class="mk" d="M0 0L10 5L0 10z" /></marker>
+											<marker id="pcA" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path class="mk-acc" d="M0 0L10 5L0 10z" /></marker>
+										</defs>
+										<text class="bl" x="20" y="38">SYNCHRONOUS PATH · UP TO 250 REQUESTS / MIN</text>
+										<rect class="n" x="20" y="56" width="140" height="60" rx="7" /><text class="ts" x="34" y="82">Marketing tools</text><text class="s" x="34" y="100">raw upload</text>
+										<rect class="n-mod" x="183" y="56" width="140" height="60" rx="7" /><text class="ts" x="197" y="82">Optimize API</text><text class="s" x="197" y="100">quality or size cap</text>
+										<rect class="n" x="346" y="56" width="140" height="60" rx="7" /><text class="ts" x="360" y="82">Stage original</text><text class="s" x="360" y="100">temp, 30-day TTL</text>
+										<rect class="n-new" x="509" y="56" width="140" height="60" rx="7" /><text class="ts" x="523" y="82">Fan-out engine</text><text class="s-acc" x="523" y="100">60 parallel jobs</text>
+										<rect class="n-new" x="672" y="56" width="140" height="60" rx="7" /><text class="ts" x="686" y="82">Select winner</text><text class="s-acc" x="686" y="100">smallest ≥ 80</text>
+										<rect class="n" x="835" y="56" width="140" height="60" rx="7" /><text class="ts" x="849" y="82">Publish</text><text class="s" x="849" y="100">URL + score</text>
+										<path class="ln" d="M160 86 H181" marker-end="url(#pcM)" />
+										<path class="ln" d="M323 86 H344" marker-end="url(#pcM)" />
+										<path class="ln" d="M486 86 H507" marker-end="url(#pcM)" />
+										<path class="ln" d="M649 86 H670" marker-end="url(#pcM)" />
+										<path class="ln" d="M812 86 H833" marker-end="url(#pcM)" />
+
+										<rect class="band-new" x="20" y="165" width="960" height="195" rx="10" />
+										<text class="bl-acc" x="300" y="190">PARALLEL QUALITY SEARCH · 60 WORKERS PER IMAGE</text>
+										<path class="ln-acc" d="M579 116 V163" marker-end="url(#pcA)" />
+										<text class="s-acc" x="586" y="148">fan out</text>
+										<path class="ln-acc" d="M760 165 V118" marker-end="url(#pcA)" />
+										<text class="s-acc" x="768" y="148">60 scores</text>
+										<text class="s" x="36" y="230">chroma subsampling</text><text class="s" x="36" y="244">on</text>
+										<text class="s" x="36" y="300">chroma subsampling</text><text class="s" x="36" y="314">off</text>
+										<rect class="n" x="300" y="208" width="70" height="44" rx="6" /><text class="tc" x="335" y="228">Q99</text><text class="sc" x="335" y="243">score</text>
+										<rect class="n" x="380" y="208" width="70" height="44" rx="6" /><text class="tc" x="415" y="228">Q98</text><text class="sc" x="415" y="243">score</text>
+										<text class="tc" x="495" y="236">…</text>
+										<rect class="n-win" x="540" y="208" width="70" height="44" rx="6" /><text class="tc" x="575" y="228">Q86</text><text class="sc" x="575" y="243">≥ 80 ✓</text>
+										<text class="tc" x="655" y="236">…</text>
+										<rect class="n" x="700" y="208" width="70" height="44" rx="6" /><text class="tc" x="735" y="228">Q71</text><text class="sc" x="735" y="243">score</text>
+										<rect class="n" x="780" y="208" width="70" height="44" rx="6" /><text class="tc" x="815" y="228">Q70</text><text class="sc" x="815" y="243">score</text>
+										<text class="s-acc" x="540" y="268">example winner</text>
+										<rect class="n" x="300" y="278" width="70" height="44" rx="6" /><text class="tc" x="335" y="298">Q99</text><text class="sc" x="335" y="313">score</text>
+										<rect class="n" x="380" y="278" width="70" height="44" rx="6" /><text class="tc" x="415" y="298">Q98</text><text class="sc" x="415" y="313">score</text>
+										<text class="tc" x="495" y="306">…</text>
+										<rect class="n" x="540" y="278" width="70" height="44" rx="6" /><text class="tc" x="575" y="298">Q86</text><text class="sc" x="575" y="313">score</text>
+										<text class="tc" x="655" y="306">…</text>
+										<rect class="n" x="700" y="278" width="70" height="44" rx="6" /><text class="tc" x="735" y="298">Q71</text><text class="sc" x="735" y="313">score</text>
+										<rect class="n" x="780" y="278" width="70" height="44" rx="6" /><text class="tc" x="815" y="298">Q70</text><text class="sc" x="815" y="313">score</text>
+										<rect class="n" x="870" y="208" width="95" height="114" rx="7" /><text class="ts" x="882" y="232">Scorer</text><text class="s" x="882" y="252">SSIMULACRA 2</text><text class="s" x="882" y="270">binary in</text><text class="s" x="882" y="288">runtime layer</text>
+										<text class="s" x="300" y="346">each worker compresses at one level, then scores the result against the original</text>
+
+										<path class="ln-dash" d="M253 116 V408" marker-end="url(#pcM)" />
+										<text class="s" x="260" y="148">size cap set</text>
+										<path class="ln-acc" d="M975 86 H990 V455 H962" marker-end="url(#pcA)" />
+										<rect class="band-old" x="20" y="380" width="960" height="165" rx="10" />
+										<rect class="n-mod" x="130" y="410" width="250" height="100" rx="8" />
+										<text class="t" x="146" y="434">Bounded binary search</text>
+										<text class="s" x="146" y="454">range Q0 → default level</text>
+										<text class="s" x="146" y="472">at most 3 iterations</text>
+										<text class="s" x="146" y="490">stop when range ≤ 5 levels</text>
+										<rect class="n" x="430" y="410" width="160" height="100" rx="8" />
+										<text class="t" x="446" y="434">Variants</text>
+										<text class="s" x="446" y="454">every level kept</text>
+										<text class="s" x="446" y="472">AI lifestyle edits</text>
+										<rect class="n-new" x="630" y="410" width="170" height="100" rx="8" />
+										<text class="t" x="646" y="434">Source record</text>
+										<text class="s" x="646" y="454">uncompressed original</text>
+										<text class="s-acc" x="646" y="472">uses Source</text>
+										<rect class="n" x="830" y="410" width="130" height="100" rx="8" />
+										<text class="t" x="846" y="434">Background job</text>
+										<text class="s" x="846" y="454">after response</text>
+										<text class="s" x="846" y="472">0 added latency</text>
+										<path class="ln-acc" d="M830 460 H802" marker-end="url(#pcA)" />
+										<path class="ln-acc" d="M630 460 H592" marker-start="url(#pcA)" marker-end="url(#pcA)" />
+										<text class="bl" x="130" y="533">SIZE-CAP PATH · 5% OF TRAFFIC</text>
+										<text class="bl" x="430" y="533">ASYNC LINEAGE · OFF THE REQUEST PATH</text>
+
+										<g class="co" data-co="1" tabindex="0" role="button" aria-label="Design problem 1"><circle cx="649" cy="56" r="11" /><text x="649" y="60">1</text></g>
+										<g class="co" data-co="2" tabindex="0" role="button" aria-label="Design problem 2"><circle cx="965" cy="208" r="11" /><text x="965" y="212">2</text></g>
+										<g class="co" data-co="3" tabindex="0" role="button" aria-label="Design problem 3"><circle cx="812" cy="56" r="11" /><text x="812" y="60">3</text></g>
+										<g class="co" data-co="4" tabindex="0" role="button" aria-label="Design problem 4"><circle cx="380" cy="410" r="11" /><text x="380" y="414">4</text></g>
+										<g class="co" data-co="5" tabindex="0" role="button" aria-label="Design problem 5"><circle cx="800" cy="410" r="11" /><text x="800" y="414">5</text></g>
+										<g class="co" data-co="6" tabindex="0" role="button" aria-label="Design problem 6"><circle cx="323" cy="56" r="11" /><text x="323" y="60">6</text></g>
+									</svg>
+								</div>
+								<ul class="work-legend"><li><i class="new"></i>New</li><li><i class="mod"></i>Changed</li><li><i></i>Existing</li></ul>
+								<ol class="work-callouts">
+									<li data-co="1" tabindex="0"><span class="num">1</span><strong>Parallel enumeration</strong><span>30 quality levels (99 down to 70) × chroma subsampling on and off gives 60 compressions per image, all run at once. The whole space is searched in one round-trip of about 10 s.</span></li>
+									<li data-co="2" tabindex="0"><span class="num">2</span><strong>Perceptual scoring at scale</strong><span>The SSIMULACRA 2 binary is packaged into the serverless runtime. Each worker downloads the original and its candidate, scores them, and returns size and score.</span></li>
+									<li data-co="3" tabindex="0"><span class="num">3</span><strong>Selection rule</strong><span>By default, the smallest file scoring at least 80 wins. The chosen level and score go back in the response, so marketers see the quality cost of every file.</span></li>
+									<li data-co="4" tabindex="0"><span class="num">4</span><strong>Bounded binary search</strong><span>For the ~5% of requests with a hard file-size cap, a search from Q0 up to the default level runs at most 3 iterations and stops once the range is 5 levels or fewer. This caps latency and rendering cost.</span></li>
+									<li data-co="5" tabindex="0"><span class="num">5</span><strong>Async lineage</strong><span>After the response, a background job records the original as a source and each output as a variant, using Source. Lineage adds no latency, and repeat requests can reuse results.</span></li>
+									<li data-co="6" tabindex="0"><span class="num">6</span><strong>Backward-compatible API</strong><span>A new quality mode and max-file-size field on the existing optimize API. Marketing tools preview the default result through a 30-day temporary URL and set a size cap only when they need one.</span></li>
+								</ol>
+							</section>
+
+							<section class="work-section" aria-labelledby="pc-tradeoffs-title">
+								<p class="eyebrow">02 / trade-offs</p>
+								<h2 id="pc-tradeoffs-title">Trade-offs, measured</h2>
+								<div class="work-chart">
+									<h3>Sizing the worker pool</h3>
+									<p class="sub">Concurrency = requests per second × jobs per request × seconds per job</p>
+									<div class="calc">
+										<div class="term"><b>250 / min</b><span>peak request rate</span></div><span class="op">÷ 60 ×</span>
+										<div class="term"><b>60</b><span>jobs per image</span></div><span class="op">×</span>
+										<div class="term"><b>10 s</b><span>per compress + score</span></div><span class="op">=</span>
+										<div class="term res"><b>2,500</b><span>concurrent workers</span></div>
+									</div>
+									<p class="note">10 s per job is a conservative budget; the existing optimize API's p99 was about 8 s. Estimated running cost was about $1K per 100M renderings, which made full enumeration affordable.</p>
+								</div>
+								<div class="work-charts">
+									<div class="work-chart">
+										<h3>Which path requests take</h3>
+										<p class="sub">Share of marketing image requests</p>
+										<div class="split" role="img" aria-label="95% default quality path, 5% file-size cap path">
+											<div class="lead" style="flex: 19" data-tip="About 95% of requests: smallest file with quality ≥ 80">95% · quality floor</div>
+											<div class="tail" style="flex: 1.6" data-tip="About 5% of requests: a hard file-size cap set by the marketer">5%</div>
+										</div>
+										<p class="note">The size-cap path serves a small, shrinking share of traffic, so it was designed to spend as little compute as possible rather than search exhaustively.</p>
+									</div>
+									<div class="work-chart">
+										<h3>Two algorithms for the size-cap path</h3>
+										<div class="pairs">
+											<div class="pair">
+												<div class="pair-h">Compressions per request <span>compute cost</span></div>
+												<div class="pair-r"><span>Enumerate</span><div class="track"><div class="fill old" style="width: 100%" data-tip="Every 5th level from the default down to 0, both chroma settings"></div></div><b>40</b></div>
+												<div class="pair-r"><span>Binary</span><div class="track"><div class="fill new" style="width: 25%" data-tip="Bounded binary search"></div></div><b>10</b></div>
+											</div>
+											<div class="pair">
+												<div class="pair-h">Sequential rounds <span>latency</span></div>
+												<div class="pair-r"><span>Enumerate</span><div class="track"><div class="fill new" style="width: 33.3%" data-tip="All candidates in one parallel round"></div></div><b>1</b></div>
+												<div class="pair-r"><span>Binary</span><div class="track"><div class="fill old" style="width: 100%" data-tip="Up to 3 rounds, one after another"></div></div><b>≤ 3</b></div>
+											</div>
+										</div>
+										<p class="note">Enumeration wins on latency and binary search wins on cost. Both are designed for this path; binary search is the fallback that caps compute.</p>
+									</div>
+								</div>
+							</section>
+
+							<section class="work-section" aria-labelledby="pc-impact-title">
+								<p class="eyebrow">03 / impact</p>
+								<h2 id="pc-impact-title">Impact</h2>
+								<dl class="work-impact">
+									<div><dt>marketers no longer pre-compress images by hand, which used to degrade them before upload</dt><dd>0 manual steps</dd></div>
+									<div><dt>a guaranteed perceptual quality floor, with the score returned for every file</dt><dd>≥ 80 on every image</dd></div>
+									<div><dt>the full 60-candidate search finishes in about 10 s at a peak of 250 requests/min</dt><dd>1 round-trip</dd></div>
+								</dl>
+								<h3 class="work-sub">What it unlocked</h3>
+								<ul class="work-unlocks">
+									<li><strong>Lighter pages</strong><span>Smaller payloads and less bandwidth across web, desktop and mobile storefronts</span></li>
+									<li><strong>Personalized creatives</strong><span>Source-to-variant links let ranking pick between product shots and AI-generated lifestyle edits</span></li>
+									<li><strong>Reuse, not recompute</strong><span>Every output is recorded, so repeat requests can be deduplicated</span></li>
+									<li><strong>Quality you can measure</strong><span>Each file carries its level and score, so the cost of compression shows up in metrics</span></li>
+								</ul>
+							</section>
+						</div>
+						<nav class="work-onward" aria-label="More from Perceptual compression engine">
+							<button class="linkbtn linkbtn--primary" type="button" data-launch="project-amazon-source">Next at Amazon: Source<svg class="icon"><use href="#i-arrow-right" /></svg></button>
+							<a class="linkbtn" href="amazon-compression.html" target="_blank" rel="noopener">Open as a page<svg class="icon"><use href="#i-external" /></svg></a>
+						</nav>
 					</div>
 				</section>
 
@@ -513,6 +1105,7 @@
 	</div>
 
 	<script src="assets/js/view.js"></script>
+	<script src="assets/js/project.js"></script>
 	<script src="assets/js/os.js"></script>
 </body>
 
