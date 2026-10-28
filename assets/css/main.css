@@ -217,6 +217,21 @@ ul.double {
 	.portfolio-page .project-content h3 { font-size: 1.25rem; }
 	.portfolio-page .project-content h3 span { color: var(--portfolio-blue); float: right; }
 	.portfolio-page .project-content p:last-child { font-size: 0.85rem; margin: 0; }
+	/* Amazon work sits in its own row above the side projects. Its cards are the same
+	   card, but lead with a headline figure where a side project shows a screenshot,
+	   and close on three numbers. Each opens a project page (amazon-*.html). */
+	.portfolio-page .project-group { align-items: center; color: var(--portfolio-muted); display: flex; font-family: 'JetBrains Mono', monospace; font-size: 0.78rem; gap: 1rem; margin: 4rem 0 0; text-transform: uppercase; }
+	.portfolio-page .project-group::after { background: var(--portfolio-border); content: ""; flex: 1; height: 1px; }
+	.portfolio-page .project-group + .project-grid { margin-top: 1.5rem; }
+	.portfolio-page .project-cover { aspect-ratio: 1.7; background: var(--portfolio-blue-bg); border-bottom: 1px solid var(--portfolio-border); display: flex; flex-direction: column; justify-content: space-between; padding: 1.25rem 1.5rem; }
+	.portfolio-page .project-cover small { color: var(--portfolio-blue); font-family: 'JetBrains Mono', monospace; font-size: 0.7rem; letter-spacing: 0.04em; text-transform: uppercase; }
+	.portfolio-page .project-cover strong { color: var(--portfolio-ink); display: block; font-family: 'Manrope', sans-serif; font-size: 2.3rem; font-weight: 700; letter-spacing: -0.03em; line-height: 1.05; }
+	.portfolio-page .project-cover span { color: var(--portfolio-secondary); display: block; font-size: 0.8rem; line-height: 1.45; margin-top: 0.4rem; }
+	.portfolio-page .project-content .project-summary { font-size: 0.85rem; margin: 0; }
+	.portfolio-page .project-stats { border-top: 1px solid var(--portfolio-border); display: grid; gap: 0.5rem; grid-template-columns: repeat(3, minmax(0, 1fr)); margin: 1rem 0 0; padding-top: 0.9rem; }
+	.portfolio-page .project-stats div { display: flex; flex-direction: column-reverse; justify-content: flex-end; }
+	.portfolio-page .project-stats dd { color: var(--portfolio-ink); font-family: 'Manrope', sans-serif; font-size: 1rem; font-weight: 700; margin: 0; }
+	.portfolio-page .project-stats dt { color: var(--portfolio-muted); font-size: 0.7rem; line-height: 1.35; margin: 0.15rem 0 0; }
 	.portfolio-page .outside-list { border-top: 1px solid var(--portfolio-border); }
 	.portfolio-page .outside-list div { border-bottom: 1px solid var(--portfolio-border); display: flex; gap: 2rem; justify-content: space-between; padding: 1.35rem 0; }
 	.portfolio-page .outside-list strong { color: var(--portfolio-ink); font-size: 1.1rem; }
@@ -261,6 +276,8 @@ ul.double {
 		.portfolio-page .section-note { margin-top: 2rem; max-width: none; text-align: left; }
 		.portfolio-page .project-grid { display: block; margin-top: 2.5rem; }
 		.portfolio-page .project-card { margin-bottom: 1.25rem; }
+		.portfolio-page .project-group { margin-top: 2.5rem; }
+		.portfolio-page .project-group + .project-grid { margin-top: 1.25rem; }
 		.portfolio-page .outside-content { margin-top: 2.5rem; }
 		.portfolio-page .outside-list div { align-items: flex-start; flex-direction: column; gap: 0.25rem; }
 		.portfolio-page .outside-list span { text-align: left; }

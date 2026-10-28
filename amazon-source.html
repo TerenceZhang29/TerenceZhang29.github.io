@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="en" class="portfolio-root">
+
+<head>
+	<title>Source · Amazon | Terence Zhang</title>
+	<link rel="icon" type="image/svg+xml" href="favicon.svg" />
+	<meta charset="utf-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1" />
+	<meta name="description" content="Source: a deterministic lineage layer under 44 billion original images, designed and built by Terence Zhang at Amazon." />
+	<link rel="canonical" href="https://terencezhang.is-a.dev/amazon-source.html" />
+	<link rel="preconnect" href="https://fonts.googleapis.com" />
+	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+	<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&family=Manrope:wght@600;700&display=swap" rel="stylesheet" />
+	<link rel="stylesheet" href="assets/css/main.css" />
+	<link rel="stylesheet" href="assets/css/project.css" />
+</head>
+
+<body class="portfolio-page work-page" id="top">
+	<header class="site-header">
+		<a class="wordmark" href="classic.html">TZ<span>.</span></a>
+		<nav aria-label="Primary navigation">
+			<a href="classic.html#about">About</a>
+			<a href="classic.html#experience">Experience</a>
+			<a href="classic.html#projects">Projects</a>
+			<a href="classic.html#contact">Contact</a>
+		</nav>
+		<a class="header-resume" href="/files/Terence_Zhang_Resume.pdf" download>Resume <span aria-hidden="true">↗</span></a>
+		<a class="header-view" href="index.html?view=os">terenceOS <span aria-hidden="true">↗</span></a>
+	</header>
+
+	<main>
+		<a class="work-crumb" href="classic.html#projects">← All projects</a>
+
+		<section class="work-hero" aria-labelledby="work-title">
+			<p class="eyebrow">Amazon · 2023–2025 · design author &amp; lead engineer</p>
+			<h1 id="work-title">Source: a deterministic lineage layer under <em>44 billion</em> original images.</h1>
+			<p class="work-lede">The data and ingestion architecture that stores, sanitizes and indexes every original upload at full fidelity, with two-way lineage to every variant made from it. It replaced eventually consistent index queries with deterministic key lookups inside a live upload pipeline.</p>
+			<ul class="work-tags"><li>Distributed Systems</li><li>Data Modeling</li><li>Concurrency</li><li>Storage Architecture</li></ul>
+		</section>
+
+		<dl class="work-stats">
+			<div><dt>original assets stored, sanitized and indexed</dt><dd>44B+</dd></div>
+			<div><dt>new originals per year</dt><dd>6–7B</dd></div>
+			<div><dt>database write and storage overhead</dt><dd>3× → 1×</dd></div>
+			<div><dt>failed storage requests per 90 days, resolved</dt><dd>~800K</dd></div>
+		</dl>
+
+		<section class="work-section" aria-labelledby="arch-title" data-callouts>
+			<p class="eyebrow">01 / architecture</p>
+			<h2 id="arch-title">How it works</h2>
+			<div class="work-arch">
+				<svg viewBox="0 0 1000 560" role="img" aria-labelledby="arch-svg-title">
+					<title id="arch-svg-title">Source architecture: the upload pipeline above a new source layer and the existing platform</title>
+					<defs>
+						<marker id="aM" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path class="mk" d="M0 0L10 5L0 10z" /></marker>
+						<marker id="aA" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path class="mk-acc" d="M0 0L10 5L0 10z" /></marker>
+					</defs>
+
+					<text class="bl" x="20" y="38">UPLOAD PIPELINE · 8 STEPS · LIVE TRAFFIC</text>
+					<rect class="n" x="20" y="56" width="106" height="60" rx="7" /><text class="ts" x="32" y="82">Check</text><text class="s" x="32" y="100">request</text>
+					<rect class="n-new" x="142" y="56" width="106" height="60" rx="7" /><text class="ts" x="154" y="82">Source</text><text class="s-acc" x="154" y="100">dedup · new</text>
+					<rect class="n-mod" x="264" y="56" width="106" height="60" rx="7" /><text class="ts" x="276" y="82">Validate</text><text class="s" x="276" y="100">original</text>
+					<rect class="n-new" x="386" y="56" width="106" height="60" rx="7" /><text class="ts" x="398" y="82">Clean + store</text><text class="s-acc" x="398" y="100">source · new</text>
+					<rect class="n" x="508" y="56" width="106" height="60" rx="7" /><text class="ts" x="520" y="82">Upload</text><text class="s" x="520" y="100">restrictions</text>
+					<rect class="n" x="630" y="56" width="106" height="60" rx="7" /><text class="ts" x="642" y="82">Copy</text><text class="s" x="642" y="100">dedup</text>
+					<rect class="n-mod" x="752" y="56" width="106" height="60" rx="7" /><text class="ts" x="764" y="82">Generate</text><text class="s" x="764" y="100">copies</text>
+					<rect class="n-mod" x="874" y="56" width="106" height="60" rx="7" /><text class="ts" x="886" y="82">Link copies</text><text class="s" x="886" y="100">to source</text>
+					<path class="ln" d="M126 86 H140" marker-end="url(#aM)" />
+					<path class="ln" d="M248 86 H262" marker-end="url(#aM)" />
+					<path class="ln" d="M370 86 H384" marker-end="url(#aM)" />
+					<path class="ln" d="M492 86 H506" marker-end="url(#aM)" />
+					<path class="ln" d="M614 86 H628" marker-end="url(#aM)" />
+					<path class="ln" d="M736 86 H750" marker-end="url(#aM)" />
+					<path class="ln" d="M858 86 H872" marker-end="url(#aM)" />
+					<path class="ln-dash" d="M195 116 V128 H690 V116" />
+					<text class="s" x="420" y="142">duplicate → skip all processing</text>
+
+					<rect class="band-new" x="20" y="165" width="660" height="185" rx="10" />
+					<text class="bl-acc" x="36" y="188">SOURCE LAYER · NEW</text>
+					<rect class="n-new" x="50" y="200" width="280" height="118" rx="8" />
+					<text class="t" x="66" y="224">Source records</text>
+					<text class="s" x="66" y="244">DynamoDB · strongly consistent reads</text>
+					<text class="s" x="66" y="262">key: SHA-1 fingerprint + file type</text>
+					<text class="s" x="66" y="280">17 fields · copy links + history</text>
+					<text class="s" x="66" y="298">conditional-write lock per record</text>
+					<rect class="n-new" x="370" y="200" width="280" height="118" rx="8" />
+					<text class="t" x="386" y="224">Cleaned originals</text>
+					<text class="s" x="386" y="244">S3 · GPS + private headers stripped</text>
+					<text class="s" x="386" y="262">65,536 prefix partitions</text>
+					<text class="s" x="386" y="280">+ one bucket set per collection</text>
+					<text class="s" x="386" y="298">written once, by the lock holder</text>
+					<path class="ln-acc" d="M195 116 V198" marker-end="url(#aA)" />
+					<text class="s-acc" x="202" y="160">key lookup</text>
+					<path class="ln-acc" d="M439 116 V198" marker-end="url(#aA)" />
+					<text class="s-acc" x="446" y="160">write once</text>
+					<path class="ln-acc" d="M410 116 C400 170 360 200 332 222" marker-end="url(#aA)" />
+					<text class="s-acc" x="300" y="160">lock + put</text>
+
+					<rect class="n-p2" x="830" y="200" width="150" height="118" rx="8" />
+					<text class="ts" x="844" y="224">Phase 2 · designed</text>
+					<text class="s" x="844" y="244">source groups:</text>
+					<text class="s" x="844" y="262">team-defined</text>
+					<text class="s" x="844" y="280">relationships, e.g.</text>
+					<text class="s" x="844" y="298">localized variants</text>
+
+					<rect class="band-old" x="20" y="372" width="960" height="173" rx="10" />
+					<text class="bl" x="36" y="533">EXISTING PLATFORM</text>
+					<rect class="n" x="50" y="415" width="200" height="95" rx="8" />
+					<text class="t" x="66" y="440">Copies</text>
+					<text class="s" x="66" y="460">display, resized, …</text>
+					<text class="s" x="66" y="478">47B+ assets platform-wide</text>
+					<rect class="n-bad" x="280" y="415" width="200" height="95" rx="8" />
+					<text class="t" x="296" y="440">Old secondary indexes</text>
+					<text class="s-bad" x="296" y="460">3× storage, 3 writes</text>
+					<text class="s-bad" x="296" y="478">eventually consistent</text>
+					<text class="s" x="296" y="496">now off the lookup path</text>
+					<rect class="n-dash" x="510" y="415" width="200" height="95" rx="8" />
+					<text class="t" x="526" y="440">Legacy raw originals</text>
+					<text class="s" x="526" y="460">no record, no metadata</text>
+					<text class="s" x="526" y="478">inconsistent naming</text>
+					<rect class="n" x="760" y="415" width="200" height="95" rx="8" />
+					<text class="t" x="776" y="440">Image processing</text>
+					<text class="s" x="776" y="460">resize · compress</text>
+					<text class="s" x="776" y="478">rotate · optimize</text>
+
+					<path class="ln" d="M805 116 V413" marker-end="url(#aM)" />
+					<path class="ln" d="M860 415 V392 H200 V413" marker-end="url(#aM)" />
+					<path class="ln-acc" d="M110 320 V413" marker-start="url(#aA)" marker-end="url(#aA)" />
+					<path class="ln-dash" d="M600 415 V320" marker-end="url(#aM)" />
+					<text class="s" x="608" y="410">backfill</text>
+					<path class="ln-bad" d="M250 462 H280" />
+
+					<g class="co" data-co="1" tabindex="0" role="button" aria-label="Design problem 1"><circle cx="248" cy="56" r="11" /><text x="248" y="60">1</text></g>
+					<g class="co" data-co="2" tabindex="0" role="button" aria-label="Design problem 2"><circle cx="492" cy="56" r="11" /><text x="492" y="60">2</text></g>
+					<g class="co" data-co="3" tabindex="0" role="button" aria-label="Design problem 3"><circle cx="330" cy="200" r="11" /><text x="330" y="204">3</text></g>
+					<g class="co" data-co="4" tabindex="0" role="button" aria-label="Design problem 4"><circle cx="650" cy="200" r="11" /><text x="650" y="204">4</text></g>
+					<g class="co" data-co="5" tabindex="0" role="button" aria-label="Design problem 5"><circle cx="110" cy="362" r="11" /><text x="110" y="366">5</text></g>
+					<g class="co" data-co="6" tabindex="0" role="button" aria-label="Design problem 6"><circle cx="600" cy="362" r="11" /><text x="600" y="366">6</text></g>
+				</svg>
+			</div>
+			<ul class="work-legend"><li><i class="new"></i>New</li><li><i class="mod"></i>Changed</li><li><i></i>Unchanged</li><li><i class="bad"></i>Removed from the lookup path</li></ul>
+			<ol class="work-callouts">
+				<li data-co="1" tabindex="0"><span class="num">1</span><strong>Deterministic compound key</strong><span>Records are keyed on a 160-bit SHA-1 hash plus file type, in one strongly consistent lookup before any processing. Adding the file type resolves zero-byte and cross-format collisions.</span></li>
+				<li data-co="2" tabindex="0"><span class="num">2</span><strong>Sanitize once, inherit everywhere</strong><span>GPS and other sensitive EXIF data are scrubbed at upload. Fixed attributes (aspect ratio, moderation flags, AI-generation markers) are extracted once and inherited by every variant, with no repeated compute.</span></li>
+				<li data-co="3" tabindex="0"><span class="num">3</span><strong>Atomic distributed lock</strong><span>A conditional write acts as a per-record lock, so parallel uploads of the same file produce exactly one record and one stored object, with no race conditions.</span></li>
+				<li data-co="4" tabindex="0"><span class="num">4</span><strong>Prefix-partitioned storage</strong><span>The first 4 hex characters of the hash spread files over 65,536 prefixes. This resolved the staging bottleneck behind ~800,000 failed requests in 90 days.</span></li>
+				<li data-co="5" tabindex="0"><span class="num">5</span><strong>Bidirectional lineage</strong><span>Nested source-to-variant maps plus a transformation history let you trace both ways, from an original to every thumbnail, localized graphic and compressed web format, and back.</span></li>
+				<li data-co="6" tabindex="0"><span class="num">6</span><strong>Backfill billions of originals</strong><span>Every existing original is converted into a record, and duplicate copies left by older bugs are merged along the way.</span></li>
+			</ol>
+		</section>
+
+		<section class="work-section" aria-labelledby="tradeoffs-title">
+			<p class="eyebrow">02 / trade-offs</p>
+			<h2 id="tradeoffs-title">Trade-offs, measured</h2>
+			<div class="work-charts">
+				<div class="work-chart">
+					<h3>Choosing the fingerprint</h3>
+					<p class="sub">Records needed before a 50% chance of a collision (log scale)</p>
+					<svg viewBox="0 0 640 190" role="img" aria-label="Collision thresholds: MD5 5.1 billion, SHA-1 1.4 times 10 to the 24, SHA-256 4 times 10 to the 38. Catalog size 44 billion.">
+						<line class="ax" x1="110" y1="30" x2="110" y2="150" />
+						<line class="ax" x1="110" y1="150" x2="540" y2="150" />
+						<text class="axl" x="110" y="168" text-anchor="middle">10⁰</text>
+						<text class="axl" x="217.5" y="168" text-anchor="middle">10¹⁰</text>
+						<text class="axl" x="325" y="168" text-anchor="middle">10²⁰</text>
+						<text class="axl" x="432.5" y="168" text-anchor="middle">10³⁰</text>
+						<text class="axl" x="540" y="168" text-anchor="middle">10⁴⁰</text>
+						<text class="rl" x="0" y="54">MD5</text><text class="rs" x="0" y="68">1.0× cost</text>
+						<text class="rl" x="0" y="96">SHA-1 ✓</text><text class="rs" x="0" y="110">1.2× cost</text>
+						<text class="rl" x="0" y="138">SHA-256</text><text class="rs" x="0" y="152">1.6× cost</text>
+						<rect class="bar-mut" x="110" y="45" width="104" height="18" rx="2" data-tip="MD5: 50% collision chance at ~5.1 billion records" />
+						<rect class="bar-acc" x="110" y="87" width="259.6" height="18" rx="2" data-tip="SHA-1 (chosen): 50% collision chance at ~1.4 × 10²⁴ records, 20% slower than MD5" />
+						<rect class="bar-mut" x="110" y="129" width="415" height="18" rx="2" data-tip="SHA-256: ~4 × 10³⁸ records, but 60% slower with no benefit for dedup" />
+						<text class="vl" x="374" y="100">1.4 × 10²⁴</text>
+						<text class="vl" x="530" y="142">4 × 10³⁸</text>
+						<line class="mark" x1="224" y1="22" x2="224" y2="150" />
+						<text class="mark-l" x="230" y="22">catalog size: 44B</text>
+						<text class="vl" x="232" y="58">5.1B, already exceeded</text>
+					</svg>
+					<p class="note">MD5 would already be past a coin-flip chance of a collision at this catalog size. SHA-1 removes that risk for 20% more compute; SHA-256's extra attack resistance doesn't matter for deduplication.</p>
+				</div>
+				<div class="work-chart">
+					<h3>Where the processing went</h3>
+					<p class="sub">Daily image-optimization requests, before Source</p>
+					<div class="split" role="img" aria-label="33% unique images, 67% duplicates">
+						<div class="lead" style="flex: 1" data-tip="Only 33% of daily optimization requests produced a unique image">33% unique</div>
+						<div class="tail" style="flex: 2" data-tip="The other 67% produced an image that already existed, found only after processing">67% duplicates</div>
+					</div>
+					<p class="note">Duplicates were detected only after full processing. Moving deduplication to the second pipeline step stops them before any compute is spent.</p>
+					<h3>Lookup cost per record</h3>
+					<div class="pairs">
+						<div class="pair">
+							<div class="pair-h">Storage footprint <span>table copies kept</span></div>
+							<div class="pair-r"><span>Index</span><div class="track"><div class="fill old" style="width: 100%" data-tip="Two all-attribute indexes: the table is stored 3 times"></div></div><b>3×</b></div>
+							<div class="pair-r"><span>Source</span><div class="track"><div class="fill new" style="width: 33.3%" data-tip="Primary-key lookup, no index needed"></div></div><b>1×</b></div>
+						</div>
+						<div class="pair">
+							<div class="pair-h">Writes per update <span>per record change</span></div>
+							<div class="pair-r"><span>Index</span><div class="track"><div class="fill old" style="width: 100%" data-tip="Every update writes the table and both indexes"></div></div><b>3</b></div>
+							<div class="pair-r"><span>Source</span><div class="track"><div class="fill new" style="width: 33.3%" data-tip="One write per record update"></div></div><b>1</b></div>
+						</div>
+						<div class="pair">
+							<div class="pair-h">Read freshness <span>after an upload</span></div>
+							<div class="pair-r"><span>Index</span><span class="wide">eventually consistent, so new uploads can be missed</span></div>
+							<div class="pair-r"><span>Source</span><span class="wide good">strongly consistent, so they're always found</span></div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</section>
+
+		<section class="work-section" aria-labelledby="decisions-title">
+			<p class="eyebrow">03 / decisions</p>
+			<h2 id="decisions-title">Key decisions</h2>
+			<ul class="work-decisions">
+				<li><strong>SHA-1 fingerprints instead of MD5 or SHA-256</strong><span>MD5 reaches a 50% collision chance at around 5 billion records, well below this catalog's size. SHA-1 pushes that past 10<sup>24</sup> while running only about 20% slower than MD5. SHA-256 cost about 60% more, and its extra attack resistance doesn't matter for deduplication. The old MD5 value is kept so existing customers don't break.</span></li>
+				<li><strong>A new record type, not a reused one</strong><span>Storing originals in the existing copies table would have been less work up front. It would also have grown that table by 30%+ and kept the slow index in the critical path. A separate table keyed by fingerprint and file type removes the index from lookups entirely.</span></li>
+				<li><strong>Phase 2: customer-defined groups, not hard-coded links</strong><span>For teams that make derived images, such as one product photo localized into many languages, I designed "source groups" where each team defines its own relationship schema. I rejected a simpler option that would have locked every group to one parent image, because that choice would be hard to reverse later.</span></li>
+			</ul>
+		</section>
+
+		<section class="work-section" aria-labelledby="impact-title">
+			<p class="eyebrow">04 / impact</p>
+			<h2 id="impact-title">Impact</h2>
+			<dl class="work-impact">
+				<div><dt>database write and storage overhead, by replacing eventually consistent secondary-index queries with deterministic key lookups</dt><dd>3× → 1×</dd></div>
+				<div><dt>failed storage requests per 90 days, resolved by prefix partitioning</dt><dd>~800K</dd></div>
+				<div><dt>of daily optimization requests were duplicates; they're now caught before any compute is spent</dt><dd>67%</dd></div>
+			</dl>
+			<h3 class="work-sub">What it unlocked</h3>
+			<ul class="work-unlocks">
+				<li><strong>AI and computer-vision training</strong><span>Full-resolution originals, where before only compressed copies were available</span></li>
+				<li><strong>Storefront rendering</strong><span>Storefronts for multiple tenants can render from the original, not a resized copy</span></li>
+				<li><strong>Compute once, inherit everywhere</strong><span>Moderation flags, AI-generation markers and aspect ratio are computed once per original</span></li>
+				<li><strong>Complete legal take-downs</strong><span>Every thumbnail, localized graphic and web format can be reached from its source</span></li>
+				<li><strong>A base for later systems</strong><span>The perceptual compression engine records its source → variant links in this layer</span></li>
+			</ul>
+		</section>
+
+		<nav class="work-next" aria-label="Next project">
+			<span>Next at Amazon</span>
+			<a href="amazon-takedown.html">One-click take-down →</a>
+		</nav>
+	</main>
+
+	<footer class="site-footer"><span>© 2026 Terence Zhang</span><span>Designed &amp; built with intent.</span></footer>
+	<script src="assets/js/scale.js"></script>
+	<script src="assets/js/project.js"></script>
+</body>
+
+</html>

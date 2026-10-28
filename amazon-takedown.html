@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en" class="portfolio-root">
+
+<head>
+	<title>One-click take-down · Amazon | Terence Zhang</title>
+	<link rel="icon" type="image/svg+xml" href="favicon.svg" />
+	<meta charset="utf-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1" />
+	<meta name="description" content="One-click take-down: a cascading deletion engine that removes an image and everything derived from it in under a second, built by Terence Zhang at Amazon." />
+	<link rel="canonical" href="https://terencezhang.is-a.dev/amazon-takedown.html" />
+	<link rel="preconnect" href="https://fonts.googleapis.com" />
+	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+	<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&family=Manrope:wght@600;700&display=swap" rel="stylesheet" />
+	<link rel="stylesheet" href="assets/css/main.css" />
+	<link rel="stylesheet" href="assets/css/project.css" />
+</head>
+
+<body class="portfolio-page work-page" id="top">
+	<header class="site-header">
+		<a class="wordmark" href="classic.html">TZ<span>.</span></a>
+		<nav aria-label="Primary navigation">
+			<a href="classic.html#about">About</a>
+			<a href="classic.html#experience">Experience</a>
+			<a href="classic.html#projects">Projects</a>
+			<a href="classic.html#contact">Contact</a>
+		</nav>
+		<a class="header-resume" href="/files/Terence_Zhang_Resume.pdf" download>Resume <span aria-hidden="true">↗</span></a>
+		<a class="header-view" href="index.html?view=os">terenceOS <span aria-hidden="true">↗</span></a>
+	</header>
+
+	<main>
+		<a class="work-crumb" href="classic.html#projects">← All projects</a>
+
+		<section class="work-hero" aria-labelledby="work-title">
+			<p class="eyebrow">Amazon · 2022–2023 · design &amp; build</p>
+			<h1 id="work-title">One-click take-down: cascading removal across every copy, cache and <em>collection.</em></h1>
+			<p class="work-lede">A state-driven deletion engine that removes a compromised, copyrighted or legally sensitive image and everything derived from it, from database records to edge caches, then blocks it from being uploaded again.</p>
+			<ul class="work-tags"><li>Workflow Orchestration</li><li>Distributed Systems</li><li>Fault Tolerance</li><li>Compliance</li></ul>
+		</section>
+
+		<dl class="work-stats">
+			<div><dt>per take-down, down from 10–15 min of manual tracing</dt><dd>&lt; 1 s</dd></div>
+			<div><dt>take-down requests per week, North America alone</dt><dd>~8,000</dd></div>
+			<div><dt>orphaned originals purged after 2+ years</dt><dd>~20M</dd></div>
+			<div><dt>business goal unblocked</dt><dd>$3.6B</dd></div>
+		</dl>
+
+		<section class="work-section" aria-labelledby="arch-title" data-callouts>
+			<p class="eyebrow">01 / architecture</p>
+			<h2 id="arch-title">How it works</h2>
+			<div class="work-arch">
+				<svg viewBox="0 0 1000 560" role="img" aria-labelledby="arch-svg-title">
+					<title id="arch-svg-title">Take-down workflow: six steps, a volume-aware branch for removing links, and seven layers torn down</title>
+					<defs>
+						<marker id="tdM" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path class="mk" d="M0 0L10 5L0 10z" /></marker>
+						<marker id="tdA" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path class="mk-acc" d="M0 0L10 5L0 10z" /></marker>
+					</defs>
+					<text class="bl" x="20" y="38">STATE-DRIVEN WORKFLOW · 6 STEPS</text>
+					<rect class="n" x="20" y="56" width="140" height="60" rx="7" /><text class="ts" x="34" y="82">Validate</text><text class="s" x="34" y="100">id + collection</text>
+					<rect class="n-new" x="183" y="56" width="140" height="60" rx="7" /><text class="ts" x="197" y="82">Block checksum</text><text class="s-acc" x="197" y="100">no re-upload</text>
+					<rect class="n-new" x="346" y="56" width="140" height="60" rx="7" /><text class="ts" x="360" y="82">Discover links</text><text class="s-acc" x="360" y="100">all tenants</text>
+					<rect class="n-new" x="509" y="56" width="140" height="60" rx="7" /><text class="ts" x="523" y="82">Remove links</text><text class="s-acc" x="523" y="100">volume-aware</text>
+					<rect class="n-mod" x="672" y="56" width="140" height="60" rx="7" /><text class="ts" x="686" y="82">Destroy + cascade</text><text class="s" x="686" y="100">variants, originals</text>
+					<rect class="n-new" x="835" y="56" width="140" height="60" rx="7" /><text class="ts" x="849" y="82">Invalidate CDN</text><text class="s-acc" x="849" y="100">edge caches</text>
+					<path class="ln" d="M160 86 H181" marker-end="url(#tdM)" />
+					<path class="ln" d="M323 86 H344" marker-end="url(#tdM)" />
+					<path class="ln" d="M486 86 H507" marker-end="url(#tdM)" />
+					<path class="ln" d="M649 86 H670" marker-end="url(#tdM)" />
+					<path class="ln" d="M812 86 H833" marker-end="url(#tdM)" />
+					<path class="ln-dash" d="M416 56 V44 H742 V54" marker-end="url(#tdM)" />
+					<text class="s" x="540" y="38">no links → skip ahead</text>
+
+					<path class="ln-acc" d="M579 116 V150 M325 150 H665" />
+					<path class="ln-acc" d="M325 150 V198" marker-end="url(#tdA)" />
+					<path class="ln-acc" d="M495 150 V198" marker-end="url(#tdA)" />
+					<path class="ln-acc" d="M665 150 V198" marker-end="url(#tdA)" />
+					<rect class="band-new" x="230" y="165" width="750" height="190" rx="10" />
+					<text class="bl-acc" x="770" y="190">BRANCH BY VOLUME</text>
+					<rect class="n" x="250" y="200" width="150" height="54" rx="7" /><text class="ts" x="264" y="224">No links</text><text class="s" x="264" y="242">skip ahead</text>
+					<rect class="n" x="420" y="200" width="150" height="54" rx="7" /><text class="ts" x="434" y="224">A few</text><text class="s" x="434" y="242">inline, resumable</text>
+					<rect class="n-new" x="590" y="200" width="150" height="54" rx="7" /><text class="ts" x="604" y="224">Many</text><text class="s-acc" x="604" y="242">parallel batch jobs</text>
+					<rect class="n" x="590" y="280" width="150" height="54" rx="7" /><text class="ts" x="604" y="304">Job tracker</text><text class="s" x="604" y="322">≤ 20 polls, report</text>
+					<rect class="n-bad" x="770" y="280" width="160" height="54" rx="7" /><text class="ts" x="784" y="304">Dead-letter bucket</text><text class="s-bad" x="784" y="322">failed deletes, audited</text>
+					<path class="ln" d="M665 254 V278" marker-end="url(#tdM)" />
+					<path class="ln-bad" d="M740 307 H768" marker-end="url(#tdM)" />
+					<path class="ln-bad" d="M495 254 V346 H850 V336" marker-end="url(#tdM)" />
+
+					<path class="ln" d="M955 116 V395 M92 395 H955" />
+					<path class="ln" d="M92 395 V413" marker-end="url(#tdM)" />
+					<path class="ln" d="M229 395 V413" marker-end="url(#tdM)" />
+					<path class="ln" d="M366 395 V413" marker-end="url(#tdM)" />
+					<path class="ln" d="M503 395 V413" marker-end="url(#tdM)" />
+					<path class="ln" d="M640 395 V413" marker-end="url(#tdM)" />
+					<path class="ln" d="M777 395 V413" marker-end="url(#tdM)" />
+					<path class="ln" d="M914 395 V413" marker-end="url(#tdM)" />
+					<rect class="band-old" x="20" y="372" width="960" height="173" rx="10" />
+					<rect class="n" x="30" y="415" width="125" height="62" rx="7" /><text class="ts" x="42" y="440">DB record</text><text class="s" x="42" y="458">metadata row</text>
+					<rect class="n" x="167" y="415" width="125" height="62" rx="7" /><text class="ts" x="179" y="440">Stored object</text><text class="s" x="179" y="458">archived first</text>
+					<rect class="n" x="304" y="415" width="125" height="62" rx="7" /><text class="ts" x="316" y="440">Link maps</text><text class="s" x="316" y="458">all tenants</text>
+					<rect class="n" x="441" y="415" width="125" height="62" rx="7" /><text class="ts" x="453" y="440">Variants</text><text class="s" x="453" y="458">display, resized</text>
+					<rect class="n" x="578" y="415" width="125" height="62" rx="7" /><text class="ts" x="590" y="440">Raw originals</text><text class="s" x="590" y="458">uploaded files</text>
+					<rect class="n" x="715" y="415" width="125" height="62" rx="7" /><text class="ts" x="727" y="440">Localized</text><text class="s" x="727" y="458">translations</text>
+					<rect class="n" x="852" y="415" width="125" height="62" rx="7" /><text class="ts" x="864" y="440">CDN cache</text><text class="s" x="864" y="458">edge locations</text>
+					<text class="bl" x="36" y="530">REMOVED FROM EVERY LAYER</text>
+
+					<g class="co" data-co="1" tabindex="0" role="button" aria-label="Design problem 1"><circle cx="323" cy="56" r="11" /><text x="323" y="60">1</text></g>
+					<g class="co" data-co="2" tabindex="0" role="button" aria-label="Design problem 2"><circle cx="486" cy="56" r="11" /><text x="486" y="60">2</text></g>
+					<g class="co" data-co="3" tabindex="0" role="button" aria-label="Design problem 3"><circle cx="740" cy="200" r="11" /><text x="740" y="204">3</text></g>
+					<g class="co" data-co="4" tabindex="0" role="button" aria-label="Design problem 4"><circle cx="930" cy="280" r="11" /><text x="930" y="284">4</text></g>
+					<g class="co" data-co="5" tabindex="0" role="button" aria-label="Design problem 5"><circle cx="812" cy="56" r="11" /><text x="812" y="60">5</text></g>
+					<g class="co" data-co="6" tabindex="0" role="button" aria-label="Design problem 6"><circle cx="975" cy="56" r="11" /><text x="975" y="60">6</text></g>
+				</svg>
+			</div>
+			<ul class="work-legend"><li><i class="new"></i>New</li><li><i class="mod"></i>Changed</li><li><i></i>Unchanged</li><li><i class="bad"></i>Failure path</li></ul>
+			<ol class="work-callouts">
+				<li data-co="1" tabindex="0"><span class="num">1</span><strong>Block before delete</strong><span>The file's checksum is blocklisted first, so banned media can't be uploaded again while the teardown runs, or after it finishes.</span></li>
+				<li data-co="2" tabindex="0"><span class="num">2</span><strong>Cross-tenant discovery</strong><span>Every reference to the image is found across customer collections and snapshotted to storage before anything is deleted, for audit and resumability.</span></li>
+				<li data-co="3" tabindex="0"><span class="num">3</span><strong>Volume-aware branching</strong><span>No links: skip ahead. A few: remove them inline with a resumable index. Many: fan out to parallel batch deletion jobs.</span></li>
+				<li data-co="4" tabindex="0"><span class="num">4</span><strong>Bounded tracking, dead-letter log</strong><span>A tracker polls batch jobs up to 20 times and reports what failed. Every failed deletion lands in a dead-letter bucket for audit and replay.</span></li>
+				<li data-co="5" tabindex="0"><span class="num">5</span><strong>Cascade to every derivative</strong><span>Related variants are found and destroyed, the workflow confirms they're all gone, and only then removes the stored originals. Translated copies are purged automatically too.</span></li>
+				<li data-co="6" tabindex="0"><span class="num">6</span><strong>Edge to storage, rolled out safely</strong><span>The run ends with CDN invalidation. Because it handles live traffic, the new workflow was dialled up gradually, with a metric and an alarm for every failure scenario.</span></li>
+			</ol>
+		</section>
+
+		<section class="work-section" aria-labelledby="tradeoffs-title">
+			<p class="eyebrow">02 / trade-offs</p>
+			<h2 id="tradeoffs-title">Trade-offs, measured</h2>
+			<div class="work-charts">
+				<div class="work-chart">
+					<h3>Time to complete one take-down</h3>
+					<p class="sub">Seconds, log scale</p>
+					<svg viewBox="0 0 640 140" role="img" aria-label="Manual take-down 10 to 15 minutes; automated take-down under 1 second">
+						<line class="ax" x1="110" y1="20" x2="110" y2="110" />
+						<line class="ax" x1="110" y1="110" x2="600" y2="110" />
+						<text class="axl" x="110" y="128" text-anchor="middle">0.1 s</text>
+						<text class="axl" x="232.5" y="128" text-anchor="middle">1 s</text>
+						<text class="axl" x="355" y="128" text-anchor="middle">10 s</text>
+						<text class="axl" x="477.5" y="128" text-anchor="middle">100 s</text>
+						<text class="axl" x="600" y="128" text-anchor="middle">1,000 s</text>
+						<text class="rl" x="0" y="50">Manual</text><text class="rs" x="0" y="64">trace + purge</text>
+						<text class="rl" x="0" y="92">Automated</text><text class="rs" x="0" y="106">workflow</text>
+						<rect class="bar-mut" x="110" y="40" width="463" height="18" rx="2" data-tip="Manual: an operator traces every related file and purges each one, 10–15 minutes" />
+						<rect class="bar-mut" x="573" y="40" width="21" height="18" rx="2" opacity="0.6" data-tip="Range: 10 to 15 minutes" />
+						<text class="vl" x="594" y="33" text-anchor="end">10–15 min</text>
+						<rect class="bar-acc" x="110" y="82" width="122" height="18" rx="2" data-tip="Automated: under one second, end to end" />
+						<text class="vl" x="240" y="96">&lt; 1 s · 600×+ faster</text>
+					</svg>
+					<p class="note">The manual process also depended on an operator finding every related file. Missing one left a legally sensitive file live.</p>
+				</div>
+				<div class="work-chart">
+					<h3>Backfill: ~20M orphaned originals</h3>
+					<p class="sub">Originals left behind by take-downs from before the cascade existed, some over 2 years old</p>
+					<ol class="flowline">
+						<li>Partitioned SQL<span>find candidates in the data warehouse</span></li>
+						<li>Verify live<span>confirm through the live API that no active outputs remain</span></li>
+						<li>Archive<span>copy before delete, for recovery</span></li>
+						<li>Purge<span>multithreaded, throttled to protect live traffic</span></li>
+					</ol>
+					<p class="note">The files couldn't be fetched through any existing API, so they had to be found in the data warehouse. Each was then checked against the live system before deletion. The purge ran as a tracked change with monitoring throughout.</p>
+				</div>
+			</div>
+		</section>
+
+		<section class="work-section" aria-labelledby="impact-title">
+			<p class="eyebrow">03 / impact</p>
+			<h2 id="impact-title">Impact</h2>
+			<dl class="work-impact">
+				<div><dt>take-downs go from a 10–15 minute manual trace to under a second, with no missed files</dt><dd>600×+ faster</dd></div>
+				<div><dt>take-down requests handled automatically in North America alone</dt><dd>~8,000 / wk</dd></div>
+				<div><dt>orphaned originals purged, closing a compliance risk that had been open for 2+ years</dt><dd>~20M</dd></div>
+			</dl>
+			<h3 class="work-sub">What it unlocked</h3>
+			<ul class="work-unlocks">
+				<li><strong>Legal compliance</strong><span>Copyright and legal removals reach every copy, so no derivative is left live</span></li>
+				<li><strong>Collections onboarding</strong><span>Customers who needed take-down support could migrate to customer-managed collections</span></li>
+				<li><strong>A partner team saved 3+ weeks</strong><span>Localized images are now purged automatically when their source is taken down</span></li>
+				<li><strong>Auditability</strong><span>Link snapshots, archives and a dead-letter log record exactly what was removed</span></li>
+			</ul>
+		</section>
+
+		<nav class="work-next" aria-label="Next project">
+			<span>Next at Amazon</span>
+			<a href="amazon-compression.html">Perceptual compression engine →</a>
+		</nav>
+	</main>
+
+	<footer class="site-footer"><span>© 2026 Terence Zhang</span><span>Designed &amp; built with intent.</span></footer>
+	<script src="assets/js/scale.js"></script>
+	<script src="assets/js/project.js"></script>
+</body>
+
+</html>

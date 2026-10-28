@@ -1,0 +1,198 @@
+/* ============================================================================
+   Amazon project pages (amazon-*.html) — the traditional view's write-ups.
+   ----------------------------------------------------------------------------
+   Loaded after main.css, on those pages only. They reuse the portfolio page's
+   tokens, header, footer and rem scaling (scale.js), and add the pieces a
+   systems write-up needs: a stats band, an architecture diagram with numbered
+   design problems, trade-off charts, and impact.
+
+   main.css still carries the old template's base rules (p, ul, ol, h4 margins,
+   list bullets, a:hover colour), so every block here sets its own spacing
+   rather than inheriting them.
+   ========================================================================= */
+
+.work-page {
+	--work-accent: var(--portfolio-blue);
+	--work-accent-soft: var(--portfolio-blue-bg);
+	--work-mod: #B45309;
+	--work-mod-soft: rgba(180, 83, 9, 0.10);
+	--work-risk: #C2410C;
+	--work-risk-soft: rgba(194, 65, 12, 0.08);
+	--work-wash: #F4F4F5;
+}
+
+.work-page p, .work-page ul, .work-page ol, .work-page dl, .work-page h4 { margin: 0; }
+.work-page ul, .work-page ol { list-style: none; padding: 0; }
+.work-page ul li, .work-page ol li { padding: 0; }
+.work-page h2, .work-page h3, .work-page h4 { text-wrap: balance; }
+/* Grid items default to min-width: auto, so a wide diagram would stretch its
+   column past a phone's screen instead of scrolling inside its own box. */
+.work-page .work-hero > *, .work-page .work-section > *, .work-page .work-charts > * { min-width: 0; }
+
+/* ------------------------------------------------------------------ hero */
+
+.work-page .work-crumb { border: 0; color: var(--portfolio-blue); display: inline-block; font-size: 0.8rem; font-weight: 600; margin-top: 3rem; }
+.work-page .work-hero { display: grid; gap: 1.25rem; padding: 2.5rem 0 3rem; }
+.work-page .work-hero .eyebrow { margin: 0; }
+.work-page .work-hero h1 { font-size: 3.2rem; letter-spacing: -0.035em; line-height: 1.08; margin: 0; max-width: 52rem; }
+.work-page .work-lede { color: var(--portfolio-secondary); font-size: 1.1rem; line-height: 1.6; max-width: 46rem; }
+.work-page .work-tags { display: flex; flex-wrap: wrap; gap: 0.5rem; }
+.work-page .work-tags li { background: var(--work-wash); border: 1px solid var(--portfolio-border); border-radius: 0.375rem; color: var(--portfolio-secondary); font-family: 'JetBrains Mono', monospace; font-size: 0.72rem; padding: 0.3rem 0.55rem; }
+
+.work-page .work-stats { border: 1px solid var(--portfolio-border); border-radius: 0.75rem; display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); overflow: hidden; }
+.work-page .work-stats div { background: var(--portfolio-surface); display: flex; flex-direction: column-reverse; justify-content: flex-end; gap: 0.35rem; padding: 1.25rem 1.4rem; }
+.work-page .work-stats div + div { border-left: 1px solid var(--portfolio-border); }
+.work-page .work-stats dd { color: var(--portfolio-ink); font-family: 'Manrope', sans-serif; font-size: 2rem; font-weight: 700; letter-spacing: -0.03em; line-height: 1; margin: 0; font-variant-numeric: tabular-nums; }
+.work-page .work-stats dt { color: var(--portfolio-muted); font-size: 0.78rem; line-height: 1.45; }
+
+/* --------------------------------------------------------------- sections */
+
+.work-page .work-section { border-top: 1px solid var(--portfolio-border); display: grid; gap: 1.5rem; margin-top: 4rem; padding-top: 3.5rem; }
+.work-page .work-section .eyebrow { margin: 0; }
+.work-page .work-section h2 { font-size: 2rem; }
+.work-page .work-sub { color: var(--portfolio-ink); font-family: 'Manrope', sans-serif; font-size: 1.05rem; font-weight: 700; }
+
+/* ------------------------------------------------------------ architecture */
+
+.work-page .work-arch { background: var(--portfolio-bg); border: 1px solid var(--portfolio-border); border-radius: 0.75rem; overflow-x: auto; }
+.work-page .work-arch svg { display: block; height: auto; min-width: 46rem; width: 100%; }
+.work-arch .band-new { fill: var(--work-accent-soft); stroke: var(--work-accent); stroke-width: 1.2; }
+.work-arch .band-old { fill: none; stroke: var(--portfolio-border); stroke-dasharray: 6 5; stroke-width: 1.2; }
+.work-arch .bl { fill: var(--portfolio-muted); font: 600 10.5px 'JetBrains Mono', monospace; letter-spacing: 0.08em; }
+.work-arch .bl-acc { fill: var(--work-accent); font: 600 10.5px 'JetBrains Mono', monospace; letter-spacing: 0.08em; }
+.work-arch .n { fill: var(--portfolio-surface); stroke: var(--portfolio-border); stroke-width: 1.2; }
+.work-arch .n-new { fill: var(--portfolio-surface); stroke: var(--work-accent); stroke-width: 1.8; }
+.work-arch .n-mod { fill: var(--portfolio-surface); stroke: var(--work-mod); stroke-width: 1.6; }
+.work-arch .n-bad { fill: var(--work-risk-soft); stroke: var(--work-risk); stroke-dasharray: 5 4; stroke-width: 1.2; }
+.work-arch .n-dash { fill: var(--portfolio-surface); stroke: var(--portfolio-muted); stroke-dasharray: 5 4; stroke-width: 1.2; }
+.work-arch .n-p2 { fill: none; stroke: var(--work-accent); stroke-dasharray: 4 4; stroke-width: 1.2; }
+.work-arch .n-win { fill: var(--work-accent-soft); stroke: var(--work-accent); stroke-width: 2; }
+.work-arch .t { fill: var(--portfolio-ink); font: 600 12.5px 'Inter', sans-serif; }
+.work-arch .ts { fill: var(--portfolio-ink); font: 600 11.5px 'Inter', sans-serif; }
+.work-arch .tc { fill: var(--portfolio-ink); font: 600 12px 'Inter', sans-serif; text-anchor: middle; }
+.work-arch .s { fill: var(--portfolio-muted); font: 400 10.5px 'JetBrains Mono', monospace; }
+.work-arch .sc { fill: var(--portfolio-muted); font: 400 10px 'JetBrains Mono', monospace; text-anchor: middle; }
+.work-arch .s-acc { fill: var(--work-accent); font: 500 10.5px 'JetBrains Mono', monospace; }
+.work-arch .s-bad { fill: var(--work-risk); font: 500 10.5px 'JetBrains Mono', monospace; }
+.work-arch .ln { fill: none; stroke: var(--portfolio-muted); stroke-width: 1.4; }
+.work-arch .ln-acc { fill: none; stroke: var(--work-accent); stroke-width: 1.8; }
+.work-arch .ln-dash { fill: none; stroke: var(--portfolio-muted); stroke-dasharray: 5 4; stroke-width: 1.4; }
+.work-arch .ln-bad { fill: none; stroke: var(--work-risk); stroke-dasharray: 4 4; stroke-width: 1.2; }
+.work-arch .mk { fill: var(--portfolio-muted); }
+.work-arch .mk-acc { fill: var(--work-accent); }
+.work-arch .co { cursor: pointer; }
+.work-arch .co circle { fill: var(--portfolio-ink); stroke: var(--portfolio-surface); stroke-width: 2; }
+.work-arch .co text { fill: var(--portfolio-surface); font: 700 11px 'Inter', sans-serif; text-anchor: middle; }
+.work-arch .co.is-on circle { fill: var(--work-accent); }
+.work-arch .co:focus { outline: none; }
+.work-arch .co:focus-visible circle { stroke: var(--work-accent); stroke-width: 3; }
+
+.work-page .work-legend { color: var(--portfolio-muted); display: flex; flex-wrap: wrap; font-size: 0.75rem; gap: 0.4rem 1.2rem; }
+.work-page .work-legend li { align-items: center; display: inline-flex; gap: 0.4rem; }
+.work-page .work-legend i { border: 1.5px solid var(--portfolio-border); border-radius: 0.2rem; display: inline-block; height: 0.6rem; width: 0.85rem; }
+.work-page .work-legend i.new { border-color: var(--work-accent); }
+.work-page .work-legend i.mod { border-color: var(--work-mod); }
+.work-page .work-legend i.bad { background: var(--work-risk-soft); border-color: var(--work-risk); border-style: dashed; }
+
+.work-page .work-callouts { display: grid; gap: 0.75rem; grid-template-columns: repeat(3, minmax(0, 1fr)); }
+.work-page .work-callouts li { background: var(--portfolio-surface); border: 1px solid var(--portfolio-border); border-radius: 0.6rem; cursor: pointer; display: grid; gap: 0.3rem 0.7rem; grid-template-columns: auto minmax(0, 1fr); padding: 0.9rem 1rem; transition: border-color 150ms ease, background 150ms ease; }
+.work-page .work-callouts li:focus-visible { outline: 2px solid var(--work-accent); outline-offset: 2px; }
+.work-page .work-callouts li.is-on { background: var(--work-accent-soft); border-color: var(--work-accent); }
+.work-page .work-callouts .num { background: var(--portfolio-ink); border-radius: 50%; color: var(--portfolio-surface); font-size: 0.65rem; font-weight: 700; grid-row: span 2; height: 1.3rem; line-height: 1.3rem; text-align: center; width: 1.3rem; }
+.work-page .work-callouts li.is-on .num { background: var(--work-accent); }
+.work-page .work-callouts strong { color: var(--portfolio-ink); font-size: 0.85rem; font-weight: 700; }
+.work-page .work-callouts span:not(.num) { color: var(--portfolio-secondary); font-size: 0.78rem; line-height: 1.5; }
+
+/* ---------------------------------------------------------------- charts */
+
+.work-page .work-charts { display: grid; gap: 1rem; grid-template-columns: repeat(2, minmax(0, 1fr)); }
+.work-page .work-chart { background: var(--portfolio-surface); border: 1px solid var(--portfolio-border); border-radius: 0.75rem; display: grid; gap: 0.8rem; align-content: start; min-width: 0; padding: 1.25rem 1.4rem; }
+.work-page .work-chart h3 { font-size: 1rem; margin: 0; }
+.work-page .work-chart .sub { color: var(--portfolio-muted); font-size: 0.78rem; margin-top: -0.5rem; }
+.work-page .work-chart .note { color: var(--portfolio-muted); font-size: 0.78rem; line-height: 1.55; }
+.work-page .work-chart svg { display: block; height: auto; width: 100%; }
+.work-chart .ax { stroke: var(--portfolio-border); stroke-width: 1; }
+.work-chart .axl { fill: var(--portfolio-muted); font: 400 10.5px 'JetBrains Mono', monospace; }
+.work-chart .rl { fill: var(--portfolio-ink); font: 600 12px 'Inter', sans-serif; }
+.work-chart .rs { fill: var(--portfolio-muted); font: 400 10.5px 'JetBrains Mono', monospace; }
+.work-chart .vl { fill: var(--portfolio-ink); font: 500 11px 'JetBrains Mono', monospace; }
+.work-chart .bar-acc { fill: var(--work-accent); }
+.work-chart .bar-mut { fill: var(--portfolio-muted); opacity: 0.45; }
+.work-chart .mark { stroke: var(--work-risk); stroke-dasharray: 4 3; stroke-width: 1.6; }
+.work-chart .mark-l { fill: var(--work-risk); font: 600 11px 'Inter', sans-serif; }
+
+.work-page .split { border-radius: 0.4rem; display: flex; gap: 2px; height: 2rem; overflow: hidden; }
+.work-page .split div { align-items: center; display: flex; font-size: 0.72rem; font-weight: 600; padding: 0 0.6rem; white-space: nowrap; }
+.work-page .split .lead { background: var(--work-accent); color: #FFFFFF; }
+.work-page .split .tail { background: var(--work-mod-soft); border: 1.5px dashed var(--work-mod); border-radius: 0 0.4rem 0.4rem 0; color: var(--work-mod); justify-content: center; }
+
+.work-page .pairs { display: grid; gap: 0.9rem; }
+.work-page .pair { display: grid; gap: 0.3rem; }
+.work-page .pair-h { color: var(--portfolio-ink); display: flex; font-size: 0.78rem; font-weight: 600; justify-content: space-between; }
+.work-page .pair-h span { color: var(--portfolio-muted); font-family: 'JetBrains Mono', monospace; font-size: 0.68rem; font-weight: 400; }
+.work-page .pair-r { align-items: center; color: var(--portfolio-muted); display: grid; font-size: 0.72rem; gap: 0.5rem; grid-template-columns: 4.2rem minmax(0, 1fr) 3.2rem; }
+.work-page .pair-r .track { background: var(--work-wash); border-radius: 0.2rem; height: 0.7rem; overflow: hidden; }
+.work-page .pair-r .fill { border-radius: 0 0.25rem 0.25rem 0; height: 100%; }
+.work-page .pair-r .fill.old { background: var(--portfolio-muted); opacity: 0.5; }
+.work-page .pair-r .fill.new { background: var(--work-accent); }
+.work-page .pair-r b { color: var(--portfolio-ink); font-family: 'JetBrains Mono', monospace; font-size: 0.72rem; font-weight: 600; text-align: right; }
+.work-page .pair-r .wide { grid-column: span 2; }
+.work-page .pair-r .good { color: var(--work-accent); font-weight: 600; }
+
+.work-page .calc { align-items: center; color: var(--portfolio-muted); display: flex; flex-wrap: wrap; gap: 0.5rem 0.6rem; }
+.work-page .calc .term { background: var(--portfolio-bg); border: 1px solid var(--portfolio-border); border-radius: 0.5rem; display: grid; gap: 0.1rem; padding: 0.5rem 0.75rem; }
+.work-page .calc .term b { color: var(--portfolio-ink); font-family: 'Manrope', sans-serif; font-size: 1.1rem; font-weight: 700; }
+.work-page .calc .term span { font-size: 0.68rem; }
+.work-page .calc .term.res { background: var(--work-accent-soft); border-color: var(--work-accent); }
+.work-page .calc .op { font-family: 'JetBrains Mono', monospace; font-size: 1rem; font-weight: 600; }
+
+.work-page .flowline { counter-reset: step; display: grid; gap: 0.5rem; grid-template-columns: repeat(4, minmax(0, 1fr)); }
+.work-page .flowline li { border: 1px solid var(--portfolio-border); border-radius: 0.5rem; color: var(--portfolio-ink); counter-increment: step; display: grid; font-size: 0.78rem; font-weight: 600; gap: 0.15rem; padding: 0.6rem 0.75rem; }
+.work-page .flowline li::before { color: var(--work-accent); content: counter(step); font-family: 'JetBrains Mono', monospace; font-size: 0.68rem; }
+.work-page .flowline li span { color: var(--portfolio-muted); font-size: 0.7rem; font-weight: 400; line-height: 1.45; }
+
+/* ---------------------------------------------------------------- impact */
+
+.work-page .work-impact { display: grid; gap: 1rem; grid-template-columns: repeat(3, minmax(0, 1fr)); }
+.work-page .work-impact div { background: var(--work-accent-soft); border: 1px solid var(--work-accent); border-radius: 0.75rem; display: flex; flex-direction: column-reverse; justify-content: flex-end; gap: 0.5rem; padding: 1.25rem 1.4rem; }
+.work-page .work-impact dd { color: var(--portfolio-ink); font-family: 'Manrope', sans-serif; font-size: 1.8rem; font-weight: 700; letter-spacing: -0.02em; line-height: 1.05; margin: 0; }
+.work-page .work-impact dt { color: var(--portfolio-secondary); font-size: 0.8rem; line-height: 1.5; }
+.work-page .work-unlocks { display: grid; gap: 0.75rem; grid-template-columns: repeat(auto-fit, minmax(12rem, 1fr)); }
+.work-page .work-unlocks li { background: var(--portfolio-surface); border: 1px solid var(--portfolio-border); border-radius: 0.6rem; display: grid; gap: 0.25rem; padding: 0.9rem 1rem; }
+.work-page .work-unlocks strong { color: var(--portfolio-ink); font-size: 0.82rem; font-weight: 700; }
+.work-page .work-unlocks span { color: var(--portfolio-secondary); font-size: 0.75rem; line-height: 1.5; }
+
+.work-page .work-decisions { display: grid; gap: 0.75rem; }
+.work-page .work-decisions li { background: var(--portfolio-surface); border: 1px solid var(--portfolio-border); border-radius: 0.6rem; display: grid; gap: 0.3rem; padding: 1rem 1.2rem; }
+.work-page .work-decisions strong { color: var(--portfolio-ink); font-size: 0.9rem; font-weight: 700; }
+.work-page .work-decisions span { color: var(--portfolio-secondary); font-size: 0.82rem; line-height: 1.6; max-width: 52rem; }
+
+.work-page .work-next { align-items: baseline; border-top: 1px solid var(--portfolio-border); display: flex; flex-wrap: wrap; gap: 0.5rem 1.5rem; justify-content: space-between; margin-top: 4rem; padding: 2rem 0 5rem; }
+.work-page .work-next span { color: var(--portfolio-muted); font-family: 'JetBrains Mono', monospace; font-size: 0.75rem; text-transform: uppercase; }
+.work-page .work-next a { border: 0; font-family: 'Manrope', sans-serif; font-size: 1.3rem; font-weight: 700; }
+
+/* Hover detail for chart marks, filled in by assets/js/project.js. */
+.work-tip { background: var(--portfolio-ink); border-radius: 0.4rem; color: #FFFFFF; font: 500 0.72rem/1.45 'Inter', sans-serif; max-width: 16rem; padding: 0.4rem 0.6rem; pointer-events: none; position: fixed; z-index: 20; }
+
+@media screen and (max-width: 980px) {
+	.work-page .work-callouts { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+	.work-page .work-charts { grid-template-columns: minmax(0, 1fr); }
+}
+
+@media screen and (max-width: 700px) {
+	.work-page .work-crumb { margin-top: 2rem; }
+	.work-page .work-hero { padding: 1.5rem 0 2rem; }
+	.work-page .work-hero h1 { font-size: clamp(30px, 8.5vw, 38px); }
+	.work-page .work-lede { font-size: 1rem; }
+	.work-page .work-stats { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+	.work-page .work-stats div:nth-child(3) { border-left: 0; }
+	.work-page .work-stats div:nth-child(n+3) { border-top: 1px solid var(--portfolio-border); }
+	.work-page .work-stats dd { font-size: 1.6rem; }
+	.work-page .work-section { margin-top: 2.5rem; padding-top: 2.5rem; }
+	.work-page .work-section h2 { font-size: clamp(26px, 7.5vw, 32px); }
+	.work-page .work-callouts, .work-page .work-impact, .work-page .flowline { grid-template-columns: minmax(0, 1fr); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.work-page .work-callouts li { transition: none; }
+}
