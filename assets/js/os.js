@@ -30,7 +30,7 @@
 		{ id: 'project-amazon-compression', name: 'Perceptual compression engine', sub: 'Amazon · 60 tried, the smallest that looks right ships', icon: 'i-box', group: 'Projects', keys: 'amazon compression image quality serverless' },
 		{ id: 'project-vicino', name: 'Vicino AI Image Editor', sub: 'Product · AI', icon: 'i-box', group: 'Projects', keys: 'shopline image editing' },
 		{ id: 'project-hackamatch', name: 'HackaMatch.com', sub: 'Product · Community', icon: 'i-box', group: 'Projects', keys: 'hackathon teammates cornell' },
-		{ id: 'project-rent', name: 'Rent Calculator', sub: 'Tool · Web app', icon: 'i-box', group: 'Projects', keys: 'rent vercel' },
+		{ id: 'project-favorly', name: 'Favorly', sub: 'Product · iOS app', icon: 'i-box', group: 'Projects', keys: 'neighbors favors ios iphone app store' },
 		{ id: 'resume', name: 'Resume', sub: 'Terence_Zhang_Resume.pdf', icon: 'i-pdf', group: 'Files & links', keys: 'cv download pdf', href: '/files/Terence_Zhang_Resume.pdf', external: true },
 		{ id: 'github', name: 'GitHub', sub: 'github.com/TerenceZhang29', icon: 'i-github', group: 'Files & links', keys: 'code repos', href: 'https://github.com/TerenceZhang29', external: true },
 		{ id: 'linkedin', name: 'LinkedIn', sub: 'terence-hantian-zhang', icon: 'i-linkedin', group: 'Files & links', keys: 'profile', href: 'https://www.linkedin.com/in/terence-hantian-zhang/', external: true },

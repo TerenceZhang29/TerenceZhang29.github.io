@@ -79,8 +79,8 @@ module.exports = {
       url: 'https://apps.shopline.com/detail?appHandle=public_image_editor' },
     { name: 'HackaMatch.com', image: 'images/fulls/hackamatch.png',
       url: 'https://hackamatch.com/' },
-    { name: 'Rent Calculator', image: 'images/fulls/rent-calculator.png',
-      url: 'https://rent-calculator-gray.vercel.app/' }
+    { name: 'Favorly', image: 'images/fulls/favorly.png',
+      url: 'https://apps.apple.com/us/app/favorly-neighbor-favors/id6828673696' }
   ],
 
   links: [
